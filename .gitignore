@@ -2,7 +2,6 @@ loaddefs.el*
 backups/*
 auto-save-list
 custom.el
-*elc
 places
 url/cookies
 elpa-to-submit/jabber/jabber.info
@@ -20,3 +19,4 @@ elpa-to-submit/nxhtml/etc/schema/xhtml-loader.rnc~
 session*
 tramp
 \#*
+*.elc
