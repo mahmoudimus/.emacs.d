@@ -90,3 +90,5 @@
 (defface highlight-regexp-face
   '((t (:foreground "#B28BD6")))
   "face for highlight-regexp")
+
+(setq ns-command-modifier (quote meta))
