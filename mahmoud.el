@@ -48,6 +48,9 @@
 (global-set-key (read-kbd-macro "A-M-x")
                 'call-last-kbd-macro)
 
+;; Make command Meta instead of Alt
+(setq ns-command-modifier (quote meta))
+
 ;; Make alt be meta instead of command, so we can map command stuff to
 ;; normal cut and paste.
 ;; (setq mac-command-modifier 'alt
@@ -91,4 +94,5 @@
   '((t (:foreground "#B28BD6")))
   "face for highlight-regexp")
 
-(setq ns-command-modifier (quote meta))
+
+
