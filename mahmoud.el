@@ -19,16 +19,14 @@
 ;; meta-q in xmonad
 ;; (global-set-key [ (control x) (p) ] 'fill-paragraph)
 
+;; The value is in 1/10pt, so 100 gives us 10pt
+;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
 ;; Pretty / larger font
 (when (eq system-type 'darwin)
      (set-face-font 'default "Monaco")
-     ;; The value is in 1/10pt, so 100 gives us 10pt
-     ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
-     (set-face-attribute 'default nil :height 130))
+     (set-face-attribute 'default nil :height 110))
 (when (eq system-type 'gnu/linux)
     (set-face-font 'default "Menlo")
-    ;; The value is in 1/10pt, so 100 gives us 10pt
-    ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
     (set-face-attribute 'default nil :height 90))
 
 
@@ -87,3 +85,8 @@
 
 ;; Tab size to 4
 (setq-default tab-width 4)
+
+;; change regexp highlight face to something other than yellow
+(defface highlight-regexp-face
+  '((t (:foreground "#B28BD6")))
+  "face for highlight-regexp")
