@@ -77,8 +77,9 @@ Symbols matching the text at point are put first in the completion list."
   (set (make-local-variable 'comment-auto-fill-only-comments) t)
   (auto-fill-mode t))
 
+;; wow turn off this fucking ANNOYING FEATURE.
 (defun turn-on-hl-line-mode ()
-  (if window-system (hl-line-mode t)))
+  (if window-system (hl-line-mode  -1)))
 
 (defun turn-on-save-place-mode ()
   (setq save-place t))

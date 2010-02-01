@@ -1,0 +1,1 @@
+cmdline.entry_point(__name__, main)
