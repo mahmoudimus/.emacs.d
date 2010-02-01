@@ -94,5 +94,16 @@
   '((t (:foreground "#B28BD6")))
   "face for highlight-regexp")
 
+;; ---------------------------------------
+;; load elscreen
+;; ---------------------------------------
+(load "elscreen" "ElScreen" t)
+
+;; F9 creates a new elscreen, shift-F9 kills it
+(global-set-key (kbd "C-c t a b e"    ) 'elscreen-create)
+(global-set-key (kbd "C-c t a b d"  ) 'elscreen-kill)  
 
 
+;; Windowskey+PgUP/PgDown switches between elscreens
+(global-set-key (kbd "C-c b T") 'elscreen-previous) 
+(global-set-key (kbd "C-c b t")  'elscreen-next) 
