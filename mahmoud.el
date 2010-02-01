@@ -20,10 +20,17 @@
 ;; (global-set-key [ (control x) (p) ] 'fill-paragraph)
 
 ;; Pretty / larger font
-(set-face-font 'default "Menlo")
-;; The value is in 1/10pt, so 100 gives us 10pt
-;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
-(set-face-attribute 'default nil :height 90)
+(when (eq system-type 'darwin)
+     (set-face-font 'default "Monaco")
+     ;; The value is in 1/10pt, so 100 gives us 10pt
+     ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
+     (set-face-attribute 'default nil :height 130))
+(when (eq system-type 'gnu/linux)
+    (set-face-font 'default "Menlo")
+    ;; The value is in 1/10pt, so 100 gives us 10pt
+    ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
+    (set-face-attribute 'default nil :height 90))
+
 
 (setq show-trailing-whitespace t)
 (setq-default show-trailing-whitespace t)
