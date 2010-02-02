@@ -115,4 +115,4 @@
 ;; don't have that fucking ugly block, since we're always
 ;; in insert mode, let's just keep it like Vim's insert
 ;; mode
-(setq default-frame-alist '((cursor-type . (bar . 2))))
+;; (setq default-frame-alist '((cursor-type . (bar . 10))))
