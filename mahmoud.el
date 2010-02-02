@@ -107,3 +107,12 @@
 ;; Windowskey+PgUP/PgDown switches between elscreens
 (global-set-key (kbd "C-c b T") 'elscreen-previous) 
 (global-set-key (kbd "C-c b t")  'elscreen-next) 
+
+
+;; --------------------------------------
+;; set cursor type
+;; -------------------------------------
+;; don't have that fucking ugly block, since we're always
+;; in insert mode, let's just keep it like Vim's insert
+;; mode
+(setq default-frame-alist '((cursor-type . (bar . 2))))
