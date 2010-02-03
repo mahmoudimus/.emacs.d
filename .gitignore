@@ -20,3 +20,6 @@ session*
 tramp
 \#*
 *.elc
+*.pyc
+*.swp
+*.swo # yes i use VIM to edit emacs config files because it's fucking amazing

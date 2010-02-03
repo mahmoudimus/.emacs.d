@@ -149,3 +149,11 @@
       (setq swapping-window (selected-window))
       (message "Buffer and window marked for swapping."))))
 (global-set-key (kbd "C-c s") 'swap-buffers-in-windows)
+
+;; ------------------------------------
+;; auto-complete 
+;; ------------------------------------
+(require 'auto-complete)
+(require 'auto-complete-config)
+;; (global-auto-complete-mode t)
+
