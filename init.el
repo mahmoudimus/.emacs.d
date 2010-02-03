@@ -61,6 +61,7 @@
 (require 'starter-kit-perl)
 (require 'starter-kit-ruby)
 (require 'starter-kit-js)
+(require 'starter-kit-python)
 
 (regen-autoloads)
 (load custom-file 'noerror)
