@@ -60,10 +60,16 @@
         (set-variable 'py-continuation-offset 0)
         ;(set-variable 'py-smart-indentation nil)
         (set-variable 'indent-tabs-mode nil)
-        (define-key py-mode-map (kbd "RET") 'newline-and-indent)
+        (define-key py-mode-map (kbd "C-RET") 'newline-and-indent)
+        (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
         ;(define-key py-mode-map [tab] 'yas/expand)
         ;(setq yas/after-exit-snippet-hook 'indent-according-to-mode)
+        (smart-operator-mode-on)
       ))
+
+(defun mahmoud-force-indent (&optional arg)
+    (interactive "P")
+    (insert-tab arg))
 
 ;; pymacs
 (autoload 'pymacs-apply "pymacs")
@@ -78,15 +84,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; python auto-fill comments
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun python-auto-fill-comments-only ()
-  (auto-fill-mode 1)
-  (set (make-local-variable 'fill-nobreak-predicate)
-       (lambda ()
-         (not (python-in-string/comment)))))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (python-auto-fill-comments-only)))
+;; on by defualt?
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Auto-completion
 ;;;  Integrates:
@@ -140,12 +138,12 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-        (auto-complete-mode t)
+        (auto-complete-mode t)))
         ;(set (make-local-variable 'ac-sources)
         ;(append ac-sources '(ac-source-rope)))
-        (set (make-local-variable 'ac-find-function) 'ac-python-find)
-        (set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)
-        (set (make-local-variable 'ac-auto-start) nil)))
+        ;(set (make-local-variable 'ac-find-function) 'ac-python-find)
+        ;(set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)
+        ;(set (make-local-variable 'ac-auto-start) nil)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tab completions

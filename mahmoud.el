@@ -69,7 +69,7 @@
 ;; (global-set-key [?\A-n] 'new-frame)
 
 ;; No tabs damnit.
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 
 ;; Make tabs stand out
 (defface extra-whitespace-face
@@ -155,5 +155,13 @@
 ;; ------------------------------------
 (require 'auto-complete)
 (require 'auto-complete-config)
-;; (global-auto-complete-mode t)
+(setq ac-auto-start 2)
+(setq ac-dwim t)
+(define-key ac-mode-map (kbd "<C-tab>") 'auto-complete)
+(define-key ac-completing-map (kbd "C-n") 'ac-next)
+(define-key ac-completing-map (kbd "C-p") 'ac-previous)
+;; ------------------------------------
+;; smart-operator
+;; ------------------------------------
+(require 'smart-operator)
 

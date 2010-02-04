@@ -1,1 +1,3 @@
-Write file: ~/.emacs.d/
+TODO:
+    add better indentation support for python
+    enable the auto-complete-start function
