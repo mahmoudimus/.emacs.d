@@ -64,7 +64,7 @@
         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
         ;(define-key py-mode-map [tab] 'yas/expand)
         ;(setq yas/after-exit-snippet-hook 'indent-according-to-mode)
-        (smart-operator-mode-on)
+        ;(smart-operator-mode-on)
       ))
 
 (defun mahmoud-force-indent (&optional arg)
