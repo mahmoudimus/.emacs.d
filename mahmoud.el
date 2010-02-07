@@ -164,4 +164,7 @@
 ;; smart-operator
 ;; ------------------------------------
 (require 'smart-operator)
-
+;; ------------------------------------
+;; desktop/emacs session saves
+;; note: vim, i love you:(
+;; ------------------------------------
