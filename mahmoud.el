@@ -168,3 +168,4 @@
 ;; desktop/emacs session saves
 ;; note: vim, i love you:(
 ;; ------------------------------------
+(require 'slick-desktop)
