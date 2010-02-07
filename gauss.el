@@ -15,3 +15,10 @@
                ;'("\\.py\\'" flymake-pylint-init)))
 
 ;(add-hook 'python-mode-hook (lambda() (flymake-mode t)))
+
+;; The value is in 1/10pt, so 100 gives us 10pt
+;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
+;; Pretty / larger font
+(when (eq system-type 'gnu/linux)
+    (set-face-font 'default "Menlo")
+    (set-face-attribute 'default nil :height 90))
