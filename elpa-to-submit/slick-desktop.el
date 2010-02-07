@@ -31,15 +31,21 @@
 ;;; TODO:
 ;;  - handle named desktops
 ;;  - handle elscreen buffers **
-
+;;  - don't hardcode ~/.emacs.d, use platform independent directories
 
 ;;; REFERENCES:
+;; ------------------------
 ;; 1. http://www.emacswiki.org/emacs/desktop-menu.el
 ;; 2. http://www.emacswiki.org/emacs/DeskTop
+;; 3. http://emacs-session.sourceforge.net/
+;; 4. http://stackoverflow.com/questions/847962/what-alternate-session-managers-are-available-for-emacs/849180#849180
+;; 5. http://scottfrazersblog.blogspot.com/2009/12/emacs-named-desktop-sessions.html
+
 
 ;;; Code:
 
 ;;; slick-desktop minor mode
+
 (setq desktop-path '("~/.emacs.d/sessions"))
 (setq desktop-dirname "~/.emacs.d/sessions")
 (setq desktop-base-file-name "emacs.session")
