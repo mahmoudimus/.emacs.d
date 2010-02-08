@@ -39,6 +39,13 @@
 (global-set-key (read-kbd-macro "A-M-x")
                 'call-last-kbd-macro)
 
+;; Bind keys to allow for getting to the start of the next word
+;; sort of like vi's 'w' in command-mode
+(global-set-key (kbd "M-F") '(lambda ()
+                               (interactive)
+                               (forward-word 2)
+                               (backward-word 1)))
+
 ;; Make command Meta instead of Alt
 (setq ns-command-modifier (quote meta))
 
