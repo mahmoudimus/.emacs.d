@@ -5,6 +5,11 @@
 ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
 ;; Pretty / larger font
 (when (eq system-type 'darwin)
-     (set-face-font 'default "Monaco")
-     (set-face-attribute 'default nil :height 110))
+     (set-face-font 'default "Menlo")
+     (set-face-attribute 'default nil :height 100))
 
+;; disable flymake-mode on the mac for now until I can get the script/linters running
+(setq flymake-mode nil)
+
+;; on a mac, remove the visibile-bell stuff
+(setq visible-bell nil)
