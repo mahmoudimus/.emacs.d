@@ -8,8 +8,8 @@
 (setq python-files-dir (concat dotfiles-dir "python/"))
 
 ;; let's set the python path correctly as well
-(setenv "PYTHONPATH" (concat python-files-dir 
-                             (concat path-separator 
+(setenv "PYTHONPATH" (concat python-files-dir
+                             (concat path-separator
                                      (getenv "PYTHONPATH"))))
 
 ;; load the python subdirectory
@@ -22,7 +22,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python mode customizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- 
+
 ;There are TWO python modes
 ; 1) Tim Peter's python-mode.el -- this is the standard/legacy way
 ; 2) Dave Love's python.el -- this is when Dave Love got frustrated
@@ -52,7 +52,7 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
 
-;; python indentation hooks 
+;; python indentation hooks
 ;; TODO: clean this up a bit by hooking into a dispatcher function
 (add-hook 'python-mode-hook
       (lambda ()
@@ -159,7 +159,7 @@
 ;(define-key py-mode-map (kbd "TAB") 'yas/expand)
 ;(add-hook 'python-mode-hook
       ;(lambda ()
-        ;(set (make-local-variable 'yas/trigger-fallback) 
+        ;(set (make-local-variable 'yas/trigger-fallback)
              ;'ryan-python-expand-after-yasnippet)))
 
 ;(defun ryan-indent ()
@@ -191,7 +191,7 @@
         ;;;6) Try autocomplete at the end of a word
         ;(if (string-match "\\W" (buffer-substring (point) (+ (point) 1)))
             ;(ac-start)))))
- 
+
 ;;; End Tab completion
 
 ;;Workaround so that Autocomplete is by default is only invoked explicitly,

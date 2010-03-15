@@ -39,20 +39,20 @@
      (highlight ((t (:background "darkolivegreen"))))
      (italic ((t (:italic t))))
      (modeline ((t (:background "#A5BAF1" :foreground "black"))))
-     (modeline-buffer-id ((t (:background "#A5BAF1" :foreground 
+     (modeline-buffer-id ((t (:background "#A5BAF1" :foreground
                                           "black"))))
-     (modeline-mousable ((t (:background "#A5BAF1" :foreground 
+     (modeline-mousable ((t (:background "#A5BAF1" :foreground
                                          "black"))))
      (modeline-mousable-minor-mode ((t (:background
                                         "#A5BAF1" :foreground "black"))))
      (region ((t (:background "#555577"))))
      (primary-selection ((t (:background "#555577"))))
      (isearch ((t (:background "#555555"))))
-     (zmacs-region ((t (:background "#555577")))) 
-     (secondary-selection ((t (:background "darkslateblue")))) 
-     (flymake-errline ((t (:background "LightSalmon" :foreground 
-                                       "black")))) 
-     (flymake-warnline ((t (:background "LightSteelBlue" :foreground 
+     (zmacs-region ((t (:background "#555577"))))
+     (secondary-selection ((t (:background "darkslateblue"))))
+     (flymake-errline ((t (:background "LightSalmon" :foreground
+                                       "black"))))
+     (flymake-warnline ((t (:background "LightSteelBlue" :foreground
                                         "black"))))
-     (underline ((t (:underline t)))) 
+     (underline ((t (:underline t))))
      (minibuffer-prompt ((t (:bold t :foreground "#FF6600")))))))
