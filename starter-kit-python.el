@@ -196,10 +196,10 @@
 
 ;;Workaround so that Autocomplete is by default is only invoked explicitly,
 ;;but still automatically updates as you type while attempting to complete.
-(defadvice ac-start (before advice-turn-on-auto-start activate)
-  (set (make-local-variable 'ac-auto-start) t))
-(defadvice ac-cleanup (after advice-turn-off-auto-start activate)
-  (set (make-local-variable 'ac-auto-start) nil))
+;(defadvice ac-start (before advice-turn-on-auto-start activate)
+;  (set (make-local-variable 'ac-auto-start) t))
+;(defadvice ac-cleanup (after advice-turn-off-auto-start activate)
+;  (set (make-local-variable 'ac-auto-start) nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; End Auto Completion

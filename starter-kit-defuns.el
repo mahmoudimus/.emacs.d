@@ -232,5 +232,27 @@ Symbols matching the text at point are put first in the completion list."
   (let ((name (file-relative-name file)))
     (vc-git-command buf 0 name "blame" "-w" rev)))
 
+;; A try except macro that allows you to do whatever you
+;; want within an exception handled environment, for a
+;; big body of code though, not a single line
+(defmacro try-this (&rest body)
+  `(unwind-protect
+       (let (retval (gensym))
+         (condition-case ex
+             (setq retval (progn ,@body))
+           ('error
+            (message (format "Caught exception: [%s]" ex))
+            (setq retval (cons 'exception (list ex)))))
+         retval)))
+
+;; Independently executes and tries statements
+(defmacro try-independently (&rest body)
+  (let (retval (gensym))
+    (dolist (x body retval) ()
+        (push `(try-this ,x) retval))
+    (setq retval (reverse retval))
+    (push 'progn retval)))
+
 (provide 'starter-kit-defuns)
 ;;; starter-kit-defuns.el ends here
+

@@ -149,13 +149,15 @@
 (global-set-key (kbd "C-c s") 'swap-buffers-in-windows)
 
 ;; ------------------------------------
-;; auto-complete 
+;; auto-complete
 ;; ------------------------------------
 (require 'auto-complete)
 (require 'auto-complete-config)
 (setq ac-auto-start 2)
 (setq ac-dwim t)
+(global-auto-complete-mode t)
 (define-key ac-mode-map (kbd "<C-tab>") 'auto-complete)
+;; (define-key ac-mode-map (kbd "M-") 'auto-complete)
 (define-key ac-completing-map (kbd "C-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-p") 'ac-previous)
 ;; ------------------------------------

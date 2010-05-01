@@ -6,3 +6,8 @@ to write/finish:
 * submit ruby fixes to flymake
 
 which-func-mode in ruby?
+
+Fix python-mode
+Upgrade auto-complete.el, figure out how to make it apply to certain contexts
+Upgrade and integrate ropemacs
+Write a yasnippet for #!...

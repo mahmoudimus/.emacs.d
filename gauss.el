@@ -16,9 +16,20 @@
 
 ;(add-hook 'python-mode-hook (lambda() (flymake-mode t)))
 
+;; (setq default-frame-alist
+;;       (append
+;;        '((font
+;;           . "-misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1"))
+;;        default-frame-alist))
+
+;; (set-face-font 'default "-misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1")
+
+
 ;; The value is in 1/10pt, so 100 gives us 10pt
 ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
 ;; Pretty / larger font
+
 (when (eq system-type 'gnu/linux)
     (set-face-font 'default "Menlo")
-    (set-face-attribute 'default nil :height 90))
+    (set-face-attribute 'default nil :height 125 :width 'condensed))
+
