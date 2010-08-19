@@ -1,0 +1,260 @@
+;; Object become/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "become/"
+  :tables (list 
+   (semanticdb-table "persister.py"
+    :major-mode 'python-mode
+    :tags nil
+    :file "persister.py"
+    :pointmax 2176
+    :fsize 2175
+    :lastmodtime '(19484 1354)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "__init__.py"
+    :major-mode 'python-mode
+    :tags nil
+    :file "__init__.py"
+    :pointmax 1
+    :fsize 0
+    :lastmodtime '(19382 51299)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "become_mapper.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("logging" include nil nil [19 33])
+            ("cPickle" include nil nil [34 58])
+            ("sys" include nil nil [59 69])
+            ("collections" include nil nil [70 105])
+            ("cStringIO" include nil nil [106 136])
+            ("milo.utils.eanutils" include nil nil [138 200])
+            ("zillion.utils.unicode_csv_reader" include nil nil [201 264])
+            ("zillion.utils.unicode_csv_writer" include nil nil [265 316])
+            ("zillion.utils.ostruct" include nil nil [317 361])
+            ("logger" variable nil nil [364 400])
+            ("BecomeRow" type
+               (:superclasses ("object")
+                :members 
+                  ( ("__init__" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [446 450]))                      ) (reparse-symbol indented_block_body) [433 845])
+                    ("update_row" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [865 869])
+                        ("merchant_id" variable nil (reparse-symbol function_parameters) [890 901])
+                        ("manufacturer" variable nil (reparse-symbol function_parameters) [903 915])
+                        ("name" variable nil (reparse-symbol function_parameters) [917 921])
+                        ("affiliate_url" variable nil (reparse-symbol function_parameters) [923 936])
+                        ("upc" variable nil (reparse-symbol function_parameters) [957 960])
+                        ("category" variable nil (reparse-symbol function_parameters) [962 970])
+                        ("isbn" variable nil (reparse-symbol function_parameters) [972 976])
+                        ("mfr_part_no" variable nil (reparse-symbol function_parameters) [978 989])
+                        ("asin" variable nil (reparse-symbol function_parameters) [991 995])
+                        ("price" variable nil (reparse-symbol function_parameters) [997 1002])
+                        ("product_url" variable nil (reparse-symbol function_parameters) [1023 1034])
+                        ("image_url" variable nil (reparse-symbol function_parameters) [1036 1045]))                      ) (reparse-symbol indented_block_body) [850 1265])
+                    ("__repr_helper" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1288 1292]))                      ) (reparse-symbol indented_block_body) [1270 1361])
+                    ("as_list" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1378 1382]))                      ) (reparse-symbol indented_block_body) [1366 1427])
+                    ("as_dict" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1444 1448]))                      ) (reparse-symbol indented_block_body) [1432 1526])
+                    ("to_pickle" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1545 1549]))                      ) (reparse-symbol indented_block_body) [1531 1690])
+                    ("classmethod" code nil (reparse-symbol indented_block_body) [1696 1707])
+                    ("from_pickle" function (:arguments 
+                      ( ("cls" variable nil (reparse-symbol function_parameters) [1728 1731])
+                        ("pickled" variable nil (reparse-symbol function_parameters) [1733 1740]))                      ) (reparse-symbol indented_block_body) [1712 1924])
+                    ("get_writer" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1944 1948])
+                        ("string_buffer" variable nil (reparse-symbol function_parameters) [1950 1963]))                      ) (reparse-symbol indented_block_body) [1929 2120])
+                    ("__repr__" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [2138 2142]))                      ) (reparse-symbol indented_block_body) [2125 2390]))                  
+                :type "class")
+                nil [403 2390])
+            ("build_ostruct_from_dictionary" function (:arguments 
+              ( ("row" variable nil (reparse-symbol function_parameters) [2426 2429]))              ) nil [2392 2545])
+            ("build_offer_list" function (:arguments 
+              ( ("offer_list" variable nil (reparse-symbol function_parameters) [2568 2578]))              ) nil [2547 3385])
+            ("mapper_logic" function (:arguments 
+              ( ("OFFERS" variable nil (reparse-symbol function_parameters) [3404 3410])
+                ("csv_row" variable nil (reparse-symbol function_parameters) [3412 3419]))              ) nil [3387 4110]))          
+    :file "become_mapper.py"
+    :pointmax 4110
+    :fsize 4109
+    :lastmodtime '(19483 20844)
+    :unmatched-syntax '((punctuation 1695 . 1696))
+    )
+   (semanticdb-table "feed.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("os" include nil nil [23 32])
+            ("csv" include nil nil [33 43])
+            ("logging" include nil nil [44 58])
+            ("zillion.utils.unicode_csv_reader" include nil nil [60 111])
+            ("zillion.utils.ostruct" include nil nil [112 156])
+            ("milo.feeds" include nil nil [158 213])
+            ("milo.feeds.pricegrabber.feed" include nil nil [214 291])
+            ("milo.feeds.utils.aux" include nil nil [292 347])
+            ("milo.feeds.become.persister" include nil nil [348 398])
+            ("milo.feeds.become.become_mapper" include nil nil [399 470])
+            ("milo.feeds.become.become_reducer" include nil nil [471 531])
+            ("milo.feeds.become.subprocess_workers" include nil nil [532 596])
+            ("csv" code nil nil [599 630])
+            ("logger" variable nil nil [631 667])
+            ("BecomeFeedLoader" type
+               (:superclasses ("DistributedQueueDrivenFeedLoader")
+                :members 
+                  ( ("pre_arg_parse" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [751 755])
+                        ("parser" variable nil (reparse-symbol function_parameters) [757 763]))                      ) (reparse-symbol indented_block_body) [733 973])
+                    ("_parse_dependencies" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1002 1006]))                      ) (reparse-symbol indented_block_body) [978 1109])
+                    ("build_file_reader" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1136 1140]))                      ) (reparse-symbol indented_block_body) [1114 1697]))                  
+                :type "class")
+                nil [670 1697])
+            ("main" function nil nil [1699 2062]))          
+    :file "feed.py"
+    :pointmax 2062
+    :fsize 2061
+    :lastmodtime '(19483 20844)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "url_resolver.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("gzip" include nil nil [23 34])
+            ("csv" include nil nil [35 45])
+            ("logging" include nil nil [46 60])
+            ("eventlet" include nil nil [61 76])
+            ("optparse" include nil nil [77 92])
+            ("multiprocessing" include nil nil [93 115])
+            ("Queue" include nil nil [116 128])
+            ("codecs" include nil nil [129 157])
+            ("csv" include nil nil [158 184])
+            ("eventlet.green" include nil nil [186 220])
+            ("milo.utils.progressbar" include nil nil [222 268])
+            ("zillion.utils" include nil nil [269 302])
+            ("zillion.utils.unicode_csv_reader" include nil nil [303 358])
+            ("zillion.utils.unicodeutils" include nil nil [359 420])
+            ("csv" code nil nil [423 454])
+            ("logger" variable nil nil [455 491])
+            ("get_options" function nil nil [494 942])
+            ("resolver_algorithm" function (:arguments 
+              ( ("csv_row" variable nil (reparse-symbol function_parameters) [967 974]))              ) nil [944 1292])
+            ("Writer" type
+               (:superclasses ("multiprocessing.Process")
+                :members 
+                  ( ("STOP_KEY" variable nil (reparse-symbol indented_block_body) [1338 1366])
+                    ("__init__" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1385 1389])
+                        ("queue" variable nil (reparse-symbol function_parameters) [1391 1396])
+                        ("writer" variable nil (reparse-symbol function_parameters) [1398 1404])
+                        ("opts" variable nil (reparse-symbol function_parameters) [1406 1410])
+                        ("args" variable nil (reparse-symbol function_parameters) [1412 1416]))                      ) (reparse-symbol indented_block_body) [1372 1564])
+                    ("run" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1577 1581]))                      ) (reparse-symbol indented_block_body) [1569 2730]))                  
+                :type "class")
+                nil [1294 2730])
+            ("Resolver" type
+               (:superclasses ("multiprocessing.Process")
+                :members 
+                  ( ("STOP_KEY" variable nil (reparse-symbol indented_block_body) [2778 2808])
+                    ("__init__" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [2827 2831])
+                        ("opts" variable nil (reparse-symbol function_parameters) [2833 2837])
+                        ("args" variable nil (reparse-symbol function_parameters) [2839 2843]))                      ) (reparse-symbol indented_block_body) [2814 3030])
+                    ("run" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [3043 3047]))                      ) (reparse-symbol indented_block_body) [3035 3860]))                  
+                :type "class")
+                nil [2732 3860])
+            ("main" function nil nil [3862 3982])
+            ("cmdline" code nil nil [3984 4019]))          
+    :file "url_resolver.py"
+    :pointmax 4021
+    :fsize 4020
+    :lastmodtime '(19426 1020)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "subprocess_workers.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("os" include nil nil [23 32])
+            ("csv" include nil nil [33 43])
+            ("milo.feeds.distributed.processors" include nil nil [45 108])
+            ("milo.feeds.distributed.processors" include nil nil [109 173])
+            ("milo.feeds.become.become_mapper" include nil nil [174 230])
+            ("milo.feeds.become.become_reducer" include nil nil [231 289])
+            ("milo.net.magicbeanstalk" include nil nil [290 332])
+            ("zillion.utils.unicode_csv_writer" include nil nil [333 388])
+            ("Mapper" type
+               (:superclasses ("QueueDrivenMapper")
+                :members 
+                  ( ("initialize" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [443 447])
+                        ("local_offers" variable nil (reparse-symbol function_parameters) [449 461])
+                        ("results_dir" variable nil (reparse-symbol function_parameters) [463 474]))                      ) (reparse-symbol indented_block_body) [428 554])
+                    ("_inner_logic" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [576 580])
+                        ("data" variable nil (reparse-symbol function_parameters) [582 586]))                      ) (reparse-symbol indented_block_body) [559 911]))                  
+                :type "class")
+                nil [391 911])
+            ("Reducer" type
+               (:superclasses ("QueueDrivenReducer")
+                :members 
+                  ( ("initialize" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [967 971])
+                        ("local_offers" variable nil (reparse-symbol function_parameters) [973 985])
+                        ("results_dir" variable nil (reparse-symbol function_parameters) [987 998])
+                        ("persistent_queue" variable nil (reparse-symbol function_parameters) [1000 1016]))                      ) (reparse-symbol indented_block_body) [952 1180])
+                    ("_get_csv_writer" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1284 1288])
+                        ("directory" variable nil (reparse-symbol function_parameters) [1290 1299]))                      ) (reparse-symbol indented_block_body) [1264 1742])
+                    ("process_local_import" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1772 1776]))                      ) (reparse-symbol indented_block_body) [1747 1848])
+                    ("_inner_logic" function (:arguments 
+                      ( ("self" variable nil (reparse-symbol function_parameters) [1870 1874])
+                        ("data" variable nil (reparse-symbol function_parameters) [1876 1880]))                      ) (reparse-symbol indented_block_body) [1853 2252]))                  
+                :type "class")
+                nil [913 2252]))          
+    :file "subprocess_workers.py"
+    :pointmax 2253
+    :fsize 2252
+    :lastmodtime '(19483 20844)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "become_reducer.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("urllib" include nil nil [19 47])
+            ("cPickle" include nil nil [48 72])
+            ("urllib2" include nil nil [73 87])
+            ("sys" include nil nil [88 98])
+            ("os" include nil nil [99 108])
+            ("logging" include nil nil [109 123])
+            ("zillion.utils.unicode_csv_reader" include nil nil [125 188])
+            ("zillion.utils.unicode_csv_writer" include nil nil [189 240])
+            ("milo.feeds.become.become_mapper" include nil nil [241 294])
+            ("milo.feeds.become.become_mapper" include nil nil [295 355])
+            ("logger" variable nil nil [358 394])
+            ("ReduceBecomeRow" type
+               (:superclasses ("BecomeRow")
+                :members 
+                  ( ("pass" code nil (reparse-symbol indented_block_body) [435 439]))                  
+                :type "class")
+                nil [397 440])
+            ("reducer_logic" function (:arguments 
+              ( ("OFFERS" variable nil (reparse-symbol function_parameters) [460 466])
+                ("csv_row" variable nil (reparse-symbol function_parameters) [468 475])
+                ("row_writer" variable nil (reparse-symbol function_parameters) [477 487]))              ) nil [442 654]))          
+    :file "become_reducer.py"
+    :pointmax 654
+    :fsize 653
+    :lastmodtime '(19483 20844)
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "!home!mahmoud!code!pycloud!milo!feeds!become!semantic.cache"
+  :semantic-tag-version "2.0pre7"
+  :semanticdb-version "2.0pre7"
+  )

@@ -1,0 +1,1 @@
+from zillion.utils.ostruct import OpenStruct

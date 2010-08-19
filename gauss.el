@@ -31,5 +31,16 @@
 
 (when (eq system-type 'gnu/linux)
     (set-face-font 'default "Menlo")
-    (set-face-attribute 'default nil :height 125 :width 'condensed))
+    (set-face-attribute 'default nil :height 90 :width 'condensed))
 
+
+;; configuring cedet
+;; (require 'cedet)
+;; (require 'semantic/sb)
+;; (global-ede-mode t)
+;; (semantic-mode t)
+
+;; semantic stuff
+;; (semantic-add-system-include "/pluto/local/lib/python2.6" 'python-mode)
+;; (semantic-add-system-include "/pluto/pluto" 'python-mode)
+;; (semantic-add-system-include "/pluto/pycloud" 'python-mode)

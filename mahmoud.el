@@ -14,6 +14,11 @@
 (load-file "~/.emacs.d/vendor/emacs-textmate/textmate.el")
 (textmate-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
 
+;; Scroll down with the cursor,move down the buffer one
+;; line at a time, instead of in larger amounts.
+;; god this is fucking annoying!!
+(setq scroll-step 1)
+
 
 ;; Remap ctrl-x ctrl-p to fill-paragraph so it doesn't conflict with
 ;; meta-q in xmonad
@@ -98,13 +103,13 @@
 (load "elscreen" "ElScreen" t)
 
 ;; F9 creates a new elscreen, shift-F9 kills it
-(global-set-key (kbd "C-c t a b e"    ) 'elscreen-create)
-(global-set-key (kbd "C-c t a b d"  ) 'elscreen-kill)  
+(global-set-key (kbd "C-c t a b e") 'elscreen-create)
+(global-set-key (kbd "C-c t a b d") 'elscreen-kill)
 
 
 ;; Windowskey+PgUP/PgDown switches between elscreens
-(global-set-key (kbd "C-c b T") 'elscreen-previous) 
-(global-set-key (kbd "C-c b t")  'elscreen-next) 
+(global-set-key (kbd "C-M-_") 'elscreen-previous)
+(global-set-key (kbd "C-M-+") 'elscreen-next)
 
 
 ;; --------------------------------------

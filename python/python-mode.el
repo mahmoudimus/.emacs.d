@@ -3956,7 +3956,6 @@ If point is inside a string, narrow to that string and fill.
         (fill-paragraph justify))))))
 
 
-
 (provide 'python-mode)
 ;;; python-mode.el ends here
 
