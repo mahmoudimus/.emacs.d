@@ -38,6 +38,8 @@
 (require 'uniquify)
 (require 'ansi-color)
 (require 'recentf)
+;; add org mode
+(require 'org-install)
 
 ;; backport some functionality to Emacs 22 if needed
 (require 'dominating-file)

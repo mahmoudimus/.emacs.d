@@ -174,3 +174,15 @@
 ;; note: vim, i love you:(
 ;; ------------------------------------
 (require 'slick-desktop)
+
+;; Get rid of the stupid <2> and <3> filename uniqification
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+;; ------------------------------------
+;; org mode stuff
+;; ------------------------------------
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
