@@ -24,3 +24,4 @@ tramp
 # yes i use VIM to edit emacs config files because it's fucking amazing
 *.swp
 *.swo
+history
