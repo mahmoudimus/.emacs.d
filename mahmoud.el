@@ -1,12 +1,25 @@
-;; Pretty colors
+;;;;;;;;;;;;;;;;;;; Pretty colors ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (load "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-library.el")
-(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-railscasts.el")
-(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-twilight.el")
-(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zenburn.el")
-(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
-(color-theme-zen-and-art)
 
+;; zen and art
+;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
+;  (color-theme-zen-and-art)
+
+;; railscasts
+;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-railscasts.el")
+;; (color-theme-railscasts)
+
+;; twilight color theme
+;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-twilight.el")
+;; (color-theme-twilight)
+
+;; zenburn
+(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zenburn.el")
+(color-theme-zenburn)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippets
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
@@ -189,3 +202,21 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+
+;; ------------------------------------
+;; revert all buffers
+;; ------------------------------------
+;; From http://blog.plover.com/prog/revert-all.html
+(defun revert-all-buffers ()
+  "Refreshes all open buffers from their respective files"
+  (interactive)
+  (let* ((list (buffer-list))
+         (buffer (car list)))
+    (while buffer
+      (when (and (buffer-file-name buffer)
+                 (not (buffer-modified-p buffer)))
+        (set-buffer buffer)
+        (revert-buffer t t t))
+      (setq list (cdr list))
+      (setq buffer (car list))))
+  (message "Refreshed open files"))
