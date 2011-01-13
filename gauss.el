@@ -30,8 +30,8 @@
 ;; Pretty / larger font
 
 (when (eq system-type 'gnu/linux)
-    (set-face-font 'default "Menlo")
-    (set-face-attribute 'default nil :height 90 :width 'condensed))
+    (set-face-font 'default "Monofur")
+    (set-face-attribute 'default nil :height 105 :width 'condensed))
 
 
 ;; configuring cedet
