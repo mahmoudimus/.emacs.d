@@ -3,7 +3,8 @@
 (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-railscasts.el")
 (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-twilight.el")
 (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zenburn.el")
-(color-theme-twilight)
+(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
+(color-theme-zen-and-art)
 
 ;; yasnippets
 (add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
