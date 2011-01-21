@@ -24,6 +24,7 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
+(yas/load-directory "~/.emacs.d/python/django-mode/snippets")
 
 ;; emacs-textmate
 ;; (adds better ", ], \) etc pairing).

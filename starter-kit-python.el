@@ -223,4 +223,12 @@
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
+
+;;; django mode
+;; load django mode
+(add-to-list 'load-path (concat python-files-dir "django-mode/"))
+(require 'django-html-mode)
+(require 'django-mode)
+
+
 (provide 'starter-kit-python)
