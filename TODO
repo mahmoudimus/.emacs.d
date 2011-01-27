@@ -1,13 +1,20 @@
 TODO:
 
-Submit the packages in elpa-to-submit to ELPA.
+* Integrate best practices referenced here: http://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 
-to write/finish:
-* submit ruby fixes to flymake
+* Re-write lintrunner to use many different interfaces for maximum code coverage
+  https://bitbucket.org/tavisrudd/pylint_etc_wrapper.py/src/tip/pylint_etc_wrapper.py
+  https://bitbucket.org/jek/sandbox/src/tip/pycheckers
+  Make sure the scripts are pip upgradable for maintainability
 
-which-func-mode in ruby?
+* Integrate virtualenv.el for python-mode
+  https://github.com/aculich/virtualenv.el/blob/master/virtualenv.el
+  http://jesselegg.com/archives/2010/03/14/emacs-python-programmers-2-virtualenv-ipython-daemon-mode/
 
-Fix python-mode
-Upgrade auto-complete.el, figure out how to make it apply to certain contexts
-Upgrade and integrate ropemacs
-Write a yasnippet for #!...
+* Figure out how to integrate CEDET
+
+* Upgrade yasnippet to the most recent versions
+
+* Enable either pysmell or etag support
+
+* Integrate ipython.el

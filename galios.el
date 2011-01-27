@@ -31,9 +31,10 @@
 ;; (when (eq system-type 'gnu/linux)
 ;;    (set-face-font 'default "Menlo")
 ;;    (set-face-attribute 'default nil :height 90 :width 'condensed))
+
 (when (eq system-type 'gnu/linux)
-    (set-face-font 'default "Monofur")
-    (set-face-attribute 'default nil :height 110 :width 'condensed :weight 'light))
+  (set-face-font 'default "Monofur")
+  (set-face-attribute 'default nil :height 110 :width 'condensed :weight 'light))
 
 
 ;; configuring cedet
