@@ -25,14 +25,9 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/libs/yasnippet/snippets")
 
-;; textmate-pairing.el
-;; (adds better ", ], \) etc pairing).
-(load-file "~/.emacs.d/libs/textmate-pairing.el/textmate-pairing.el")
-(textmate-pairs-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
-
 ;; textmate mode
 (load-file "~/.emacs.d/libs/textmate.el/textmate.el")
-(textmate-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
+(textmate-mode)
 
 ;; Scroll down with the cursor,move down the buffer one
 ;; line at a time, instead of in larger amounts.
