@@ -18,3 +18,5 @@ TODO:
 * Enable either pysmell or etag support
 
 * Integrate ipython.el
+
+* Save all buffers

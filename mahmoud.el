@@ -1,34 +1,33 @@
 ;;;;;;;;;;;;;;;;;;; Pretty colors ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-library.el")
+(load "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-library.el")
 
 ;; zen and art
-;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
+;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
 ;  (color-theme-zen-and-art)
 
 ;; railscasts
-;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-railscasts.el")
+;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-railscasts.el")
 ;; (color-theme-railscasts)
 
 ;; twilight color theme
-;; (load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-twilight.el")
+;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-twilight.el")
 ;; (color-theme-twilight)
 
 ;; zenburn
-(load-file "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-zenburn.el")
+(load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-zenburn.el")
 (color-theme-zenburn)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
+(add-to-list 'load-path "~/.emacs.d/libs/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/load-directory "~/.emacs.d/python/django-mode/snippets")
+(yas/load-directory "~/.emacs.d/libs/yasnippet/snippets")
 
 ;; emacs-textmate
 ;; (adds better ", ], \) etc pairing).
-(load-file "~/.emacs.d/vendor/emacs-textmate/textmate.el")
+(load-file "~/.emacs.d/libs/textmate-mode/textmate.el")
 (textmate-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
 
 ;; Scroll down with the cursor,move down the buffer one
@@ -117,6 +116,8 @@
 ;; ---------------------------------------
 ;; load elscreen
 ;; ---------------------------------------
+(add-to-list 'load-path (concat dotfiles-dir "/libs/apel"))
+(add-to-list 'load-path (concat dotfiles-dir "/libs/elscreen"))
 (load "elscreen" "ElScreen" t)
 
 ;; F9 creates a new elscreen, shift-F9 kills it
@@ -173,6 +174,7 @@
 ;; ------------------------------------
 ;; auto-complete
 ;; ------------------------------------
+;; this is actually loaded from python start up stuff
 (require 'auto-complete)
 (require 'auto-complete-config)
 (setq ac-auto-start 2)
@@ -185,11 +187,13 @@
 ;; ------------------------------------
 ;; smart-operator
 ;; ------------------------------------
+(add-to-list 'load-path (concat dotfiles-dir "/libs/smart-operator"))
 (require 'smart-operator)
 ;; ------------------------------------
 ;; desktop/emacs session saves
 ;; note: vim, i love you:(
 ;; ------------------------------------
+(add-to-list 'load-path (concat dotfiles-dir "/libs/slick-desktop"))
 (require 'slick-desktop)
 
 ;; Get rid of the stupid <2> and <3> filename uniqification

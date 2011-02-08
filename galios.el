@@ -21,7 +21,7 @@
 ;;           . "-misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1"))
 ;;        default-frame-alist))
 
-;; (set-face-font 'default "-misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1")
+;; (set-face-font 'default "-misc-fixed-medium-r-normal--14-*-*-*-m-70-iso8859-1")
 
 
 ;; The value is in 1/10pt, so 100 gives us 10pt
@@ -30,11 +30,19 @@
 
 ;; (when (eq system-type 'gnu/linux)
 ;;    (set-face-font 'default "Menlo")
-;;    (set-face-attribute 'default nil :height 90 :width 'condensed))
+;;    (set-face-attribute 'default nil :height 79 :width 'condensed))
 
 (when (eq system-type 'gnu/linux)
-  (set-face-font 'default "Monofur")
-  (set-face-attribute 'default nil :height 110 :width 'condensed :weight 'light))
+   (set-face-font 'default "FixedSCDZ")
+   (set-face-attribute 'default nil :height 100 :width 'normal))
+
+;; (when (eq system-type 'gnu/linux)
+;;    (set-face-font 'default "Monaco")
+;;    (set-face-attribute 'default nil :height 100 :width 'condensed))
+
+;; (when (eq system-type 'gnu/linux)
+;;   (set-face-font 'default "Monofur")
+;;   (set-face-attribute 'default nil :height 110 :width 'condensed :weight 'light))
 
 
 ;; configuring cedet

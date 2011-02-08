@@ -2,11 +2,11 @@
 ;;; stolen from: https://github.com/yeevgen/emacs-starter-kit/raw/master/starter-kit-php.el
 ;;; modified by mahmoud abdelkader (mahmoud@linux.com)
 
-;; load the python directory files
+;; load the php directory files
 ;; and set the variable
-(setq php-files-dir (concat dotfiles-dir "php/"))
+(setq php-files-dir (concat dotfiles-dir "languages/php/"))
 
-;; load the python subdirectory
+;; load the php subdirectory
 (add-to-list 'load-path php-files-dir)
 
 (require 'php-mode)

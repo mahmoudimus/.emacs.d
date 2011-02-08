@@ -5,7 +5,7 @@
 
 ;; load the python directory files
 ;; and set the variable
-(setq python-files-dir (concat dotfiles-dir "python/"))
+(setq python-files-dir (concat dotfiles-dir "languages/python/"))
 
 ;; let's set the python path correctly as well
 (setenv "PYTHONPATH" (concat python-files-dir
@@ -223,12 +223,10 @@
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
-
 ;;; django mode
 ;; load django mode
 (add-to-list 'load-path (concat python-files-dir "django-mode/"))
-(require 'django-html-mode)
-(require 'django-mode)
-
+;;(require 'django-html-mode)
+;;(require 'django-mode)
 
 (provide 'starter-kit-python)
