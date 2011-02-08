@@ -24,13 +24,11 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(provide 'textmate-mode)
-
-(define-minor-mode textmate-mode
-       "Toggle Textmate mode.
-     With no argument, this command toggles the mode.
-     Non-null prefix argument turns on the mode.
-     Null prefix argument turns off the mode.
+(define-minor-mode textmate-pairs-mode
+  "Toggle textmate-pairs mode.
+     With no argument, this command toggles the mode.  Non-null
+     prefix argument turns on the mode.  Null prefix argument
+     turns off the mode.
 "
       ;; The initial value.
       nil
@@ -47,12 +45,6 @@
         ("[" . skeleton-pair-insert-maybe)
         ("(" . skeleton-pair-insert-maybe)
         ("{" . skeleton-pair-insert-maybe)
-    ;; Duplicate TextMate's auto-indent
-    ([return] . newline-and-indent)
-    ;; Duplicate TextMate's command-return
-    ("\M-\r" . open-next-line)
-    ;; Duplicate TextMate's goto line
-    ("\M-l" . goto-line)
         )
       :group 'textmate
       (progn
@@ -60,12 +52,6 @@
       )
 
 ;;implementation stuff
-
-;; Function to open and goto indented next line
-(defun open-next-line()
-  (interactive)
-  (move-end-of-line nil)
-  (newline-and-indent))
 
 (setq textmate-pairs '( ( ?\( . ?\) )
   (  ?\' . ?\' )
@@ -88,7 +74,7 @@
      (delete-char 1)
    )
  )
-(delete-backward-char 1)
+(python-backspace 1)
 )
 
 (setq pushovers
@@ -122,5 +108,3 @@
 (defun move-over-square ()  (interactive)(move-over ?\] ))
 (defun move-over-quote ()  (interactive)(move-over ?\' ))
 (defun move-over-dbl-quote ()  (interactive)(move-over ?\" ))
-
-

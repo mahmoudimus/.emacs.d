@@ -25,9 +25,13 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/libs/yasnippet/snippets")
 
-;; emacs-textmate
+;; textmate-pairing.el
 ;; (adds better ", ], \) etc pairing).
-(load-file "~/.emacs.d/libs/textmate-mode/textmate.el")
+(load-file "~/.emacs.d/libs/textmate-pairing.el/textmate-pairing.el")
+(textmate-pairs-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
+
+;; textmate mode
+(load-file "~/.emacs.d/libs/textmate.el/textmate.el")
 (textmate-mode) ;; TODO: Should I add hooks? Nah, I want it on almost always...
 
 ;; Scroll down with the cursor,move down the buffer one
@@ -193,8 +197,35 @@
 ;; desktop/emacs session saves
 ;; note: vim, i love you:(
 ;; ------------------------------------
-(add-to-list 'load-path (concat dotfiles-dir "/libs/slick-desktop"))
-(require 'slick-desktop)
+;;(add-to-list 'load-path (concat dotfiles-dir "/libs/slick-desktop"))
+;;(require 'slick-desktop)
+;;
+;; Execute "M-x desktop-save" once and it will update whenever auto-save
+;; occurs (and on every exit?)
+(require 'desktop)
+(setq desktop-path '("~/.emacs.d/sessions"))
+(setq desktop-dirname "~/.emacs.d/sessions")
+(setq desktop-base-file-name "emacs.session")
+(desktop-save-mode 1)
+(add-hook 'auto-save-hook
+          (lambda () (desktop-save-in-desktop-dir)))
+
+;; Save a bunch of variables to the desktop file for lists specify the
+;; len of the maximal saved data also
+(setq desktop-globals-to-save
+      (append '((extended-command-history . 30)
+                (file-name-history        . 100)
+                (grep-history             . 30)
+                (compile-history          . 30)
+                (minibuffer-history       . 50)
+                (query-replace-history    . 60)
+                (read-expression-history  . 60)
+                (regexp-history           . 60)
+                (regexp-search-ring       . 20)
+                (search-ring              . 20)
+                (shell-command-history    . 50)
+                tags-file-name
+                register-alist)))
 
 ;; Get rid of the stupid <2> and <3> filename uniqification
 (require 'uniquify)

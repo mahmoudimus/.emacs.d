@@ -44,6 +44,7 @@
 (setq pymacs-load-path (append (list (concat python-files-dir "rope/")
                                      (concat python-files-dir "ropemode/")
                                      (concat python-files-dir "Pymacs/")
+                                     (concat python-files-dir "pycomplete/")
                                      (concat python-files-dir "ropemacs/"))
                                 nil))
 ;;enable pymacs
@@ -62,6 +63,7 @@
         (set-variable 'indent-tabs-mode nil)
         (define-key py-mode-map (kbd "C-RET") 'newline-and-indent)
         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
+        (require 'pycomplete)
         ;(define-key py-mode-map [tab] 'yas/expand)
         ;(setq yas/after-exit-snippet-hook 'indent-according-to-mode)
         ;(smart-operator-mode-on)
@@ -228,5 +230,9 @@
 (add-to-list 'load-path (concat python-files-dir "django-mode/"))
 ;;(require 'django-html-mode)
 ;;(require 'django-mode)
+
+;; load virtualenv
+(add-to-list 'load-path (concat dotfiles-dir "/libs/virtualenv.el"))
+
 
 (provide 'starter-kit-python)

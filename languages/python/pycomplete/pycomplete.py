@@ -51,11 +51,11 @@ def pycomplete(s, fname=None, imports=None, debug=False):
             msg = ''
 
             counter = 0
-            for completion in completions :
+            for completion in completions:
                 if len(completion) < COLWIDTH:
                     msg += completion + white[len(completion):]
                     counter += 1
-                else :
+                else:
                     msg += completion + white[len(completion) - COLWIDTH:]
                     counter += 2
 
@@ -68,7 +68,7 @@ def pycomplete(s, fname=None, imports=None, debug=False):
             print msg
         else:
             lisp.message(msg)
-    return result       
+    return result
 
 
 def pyhelp(s, imports=None, debug=False):
@@ -79,7 +79,7 @@ def pyhelp(s, imports=None, debug=False):
     except Exception, ex:
         return '%s' % ex
     return doc
-        
+
 
 def pysignature(s):
     '''Return info about function parameters'''
@@ -98,7 +98,7 @@ def pysignature(s):
         # bit of a hack for methods - turn it into a function
         # but we drop the "self" param.
         obj = obj.im_func
-   
+
     if type(obj) in [types.FunctionType, types.LambdaType]:
         (args, varargs, varkw, defaults) = inspect.getargspec(obj)
         sig = ('%s: %s' % (obj.__name__,
@@ -123,7 +123,7 @@ def _load_symbol(s, dglobals, dlocals):
         except Exception:
             pass
     else:
-        for i in range(1, len(dots)+1):
+        for i in range(1, len(dots) + 1):
             s = '.'.join(dots[:i])
             if not s:
                 continue
@@ -162,7 +162,7 @@ def _import_modules(imports, dglobals):
             try:
                 exec stmt in dglobals
             except TypeError:
-                raise TypeError, 'invalid type: %s' % stmt
+                raise TypeError('invalid type: %s' % stmt)
             except Exception, ex:
                 continue
 
@@ -173,7 +173,7 @@ def _get_all_completions(s, fname=None, imports=None):
     dlocals = {}
     _import_modules(imports, globals())
 
-    dots = s.split('.') 
+    dots = s.split('.')
     if not s or len(dots) == 1:
         keys = set()
         keys.update(dlocals.keys())
@@ -199,8 +199,8 @@ def _get_all_completions(s, fname=None, imports=None):
                 sym = __import__(s, globals(), dlocals, [])
             except ImportError:
                 return []
-    if sym is not None:  
-        s = dots[-1]     
+    if sym is not None:
+        s = dots[-1]
         return [k for k in dir(sym) if k.startswith(s)]
 
 
@@ -212,7 +212,8 @@ def _find_constructor(class_ob):
     except AttributeError:
         for base in class_ob.__bases__:
             rc = _find_constructor(base)
-            if rc is not None: return rc
+            if rc is not None:
+                return rc
     return None
 
 
@@ -256,7 +257,7 @@ def _test_complete():
     print 'settr (plat in context) ->',
     print pycomplete('settr', imports=['from sys import settrace'], debug=True)
     print 'foo. ->', pycomplete('foo.', debug=True)
-    print 'Enc (email * imported) ->', 
+    print 'Enc (email * imported) ->',
     print pycomplete('Enc', imports=['from email import *'], debug=True)
     print 'E (email * imported) ->',
     print pycomplete('E', imports=['from email import *'], debug=True)
@@ -268,5 +269,3 @@ if __name__ == "__main__":
     _test_complete()
     _test_help()
     _test_signature()
-    
-
