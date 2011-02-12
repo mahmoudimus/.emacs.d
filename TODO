@@ -5,6 +5,7 @@ TODO:
 * Re-write lintrunner to use many different interfaces for maximum code coverage
   https://bitbucket.org/tavisrudd/pylint_etc_wrapper.py/src/tip/pylint_etc_wrapper.py
   https://bitbucket.org/jek/sandbox/src/tip/pycheckers
+  https://github.com/rassie/flymake-python
   Make sure the scripts are pip upgradable for maintainability
 
 * Integrate virtualenv.el for python-mode
@@ -13,10 +14,6 @@ TODO:
 
 * Figure out how to integrate CEDET
 
-* Upgrade yasnippet to the most recent versions
-
 * Enable either pysmell or etag support
 
 * Integrate ipython.el
-
-* Save all buffers
