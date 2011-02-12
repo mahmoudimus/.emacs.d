@@ -13,3 +13,7 @@
 
 ;; on a mac, remove the visibile-bell stuff
 (setq visible-bell nil)
+
+;; path setup
+(setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
+(setq exec-path (append exec-path '("/usr/local/git/bin")))
