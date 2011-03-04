@@ -1,0 +1,15 @@
+from __future__ import unicode_literals
+
+
+from pound.tests import PoundDBTestCase
+
+
+class $1(PoundDBTestCase):
+
+    def setUp(self):
+        super($1, self).setUp()
+
+    def tearDown(self):
+        super($1, self).tearDown()
+
+    $2

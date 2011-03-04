@@ -1,6 +1,29 @@
 ;; macbook pro
 ;; 15"
 
+;; Make command Meta instead of Alt
+;; (setq ns-command-modifier (quote meta))
+;; Make option Super instead of Alt
+;; (setq ns-alternate-modifier (quote meta))
+(setq ns-function-modifier (quote alt))
+
+;; Make alt be meta instead of command, so we can map command stuff to
+;; normal cut and paste.
+;; (setq mac-command-modifier 'alt
+;;       mac-option-modifier 'meta)
+
+;; Map command-x,c,v to cut, copy, paste
+;; (global-set-key [?\A-x] 'clipboard-kill-region)
+;; (global-set-key [?\A-c] 'clipboard-kill-ring-save)
+;; (global-set-key [?\A-v] 'clipboard-yank)
+
+;; More mac shortcuts.
+;; (global-set-key [?\A-a] 'mark-whole-buffer)
+;; (global-set-key [?\A-z] 'undo)
+;; (global-set-key [?\A-l] 'goto-line)
+;; (global-set-key [?\A-m] 'iconify-frame)
+;; (global-set-key [?\A-n] 'new-frame)
+
 ;; The value is in 1/10pt, so 100 gives us 10pt
 ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
 ;; Pretty / larger font
@@ -17,3 +40,6 @@
 ;; path setup
 (setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
 (setq exec-path (append exec-path '("/usr/local/git/bin")))
+
+;; flymake fucking hangs mac os x 
+(setq flymake-gui-warnings-enabled t)

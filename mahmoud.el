@@ -61,30 +61,18 @@
 
 ;; Bind keys to allow for getting to the start of the next word
 ;; sort of like vi's 'w' in command-mode
-(global-set-key (kbd "M-F") '(lambda ()
+(global-set-key (kbd "s-F") '(lambda ()
                                (interactive)
                                (forward-word 2)
                                (backward-word 1)))
 
-;; Make command Meta instead of Alt
-(setq ns-command-modifier (quote meta))
+;; make C-N forward-paragraph and C-P backward-paragraph
+(global-set-key (kbd "s-N") 'forward-paragraph)
+(global-set-key (kbd "s-P") 'backward-paragraph)
 
-;; Make alt be meta instead of command, so we can map command stuff to
-;; normal cut and paste.
-;; (setq mac-command-modifier 'alt
-;;       mac-option-modifier 'meta)
+(global-set-key (kbd "s-f") 'forward-word)
+(global-set-key (kbd "s-b") 'backward-word)
 
-;; Map command-x,c,v to cut, copy, paste
-;; (global-set-key [?\A-x] 'clipboard-kill-region)
-;; (global-set-key [?\A-c] 'clipboard-kill-ring-save)
-;; (global-set-key [?\A-v] 'clipboard-yank)
-
-;; More mac shortcuts.
-;; (global-set-key [?\A-a] 'mark-whole-buffer)
-;; (global-set-key [?\A-z] 'undo)
-;; (global-set-key [?\A-l] 'goto-line)
-;; (global-set-key [?\A-m] 'iconify-frame)
-;; (global-set-key [?\A-n] 'new-frame)
 
 ;; No tabs damnit.
 (setq-default indent-tabs-mode nil)
@@ -125,8 +113,8 @@
 
 
 ;; Windowskey+PgUP/PgDown switches between elscreens
-(global-set-key (kbd "C-M-_") 'elscreen-previous)
-(global-set-key (kbd "C-M-+") 'elscreen-next)
+(global-set-key (kbd "s-{") 'elscreen-previous)
+(global-set-key (kbd "s-}") 'elscreen-next)
 
 
 ;; --------------------------------------
@@ -251,3 +239,8 @@
       (setq list (cdr list))
       (setq buffer (car list))))
   (message "Refreshed open files"))
+
+;; ------------------------------------
+;; require magit mode
+;; ------------------------------------
+(require 'magit)

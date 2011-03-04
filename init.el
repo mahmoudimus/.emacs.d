@@ -16,7 +16,7 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; Load path etc.
-
+(setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
 
@@ -37,6 +37,9 @@
   (add-to-list 'package-archives source t))
 (package-initialize)
 (require 'starter-kit-elpa)
+
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(require 'el-get)
 
 ;; These should be loaded on startup rather than autoloaded on demand
 ;; since they are likely to be used in every session
@@ -66,6 +69,8 @@
 (require 'starter-kit-js)
 (require 'starter-kit-python)
 (require 'starter-kit-php)
+
+(require 'starter-kit-el-get)
 
 (regen-autoloads)
 (load custom-file 'noerror)

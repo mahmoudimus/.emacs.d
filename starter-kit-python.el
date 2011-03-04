@@ -19,6 +19,9 @@
 ;; load python/rope
 (add-to-list 'load-path (concat python-files-dir "rope/"))
 
+;; We never want to edit python bytecode
+(add-to-list 'completion-ignored-extensions ".pyc")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python mode customizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -207,18 +210,39 @@
 ;;; End Auto Completion
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; load virtualenv
+(add-to-list 'load-path (concat dotfiles-dir "/libs/virtualenv.el"))
+(require 'virtualenv)
+
 ;; load flymake lint runner
 (when (load "flymake" t)
-  (defun flymake-pylint-init ()
+  (defun flymake-python-lint-init (&optional trigger-type)
+    ;; (print virtualenv-workon (get-buffer "*Messages*"))
+    ;; (print virtualenv-root (get-buffer "*Messages*"))
+    ;; (print buffer-file-name (get-buffer "*Messages*"))
+    ;; (print file-local-variables-alist (get-buffer "*Messages*"))
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-inplace))
            (local-file (file-relative-name
                         temp-file
-                        (file-name-directory buffer-file-name))))
-      (list (concat (getenv "HOME") "/bin/lintrunner.py") (list local-file))))
+                        (file-name-directory buffer-file-name)))
+           (venv-path (concat virtualenv-root "/" virtualenv-workon))
+           (options (when trigger-type (list "--trigger-type" trigger-type))))
+      (if (and virtualenv-workon (not (string= virtualenv-workon " Virtualenv")))
+          (if (listp options)
+              (progn (push (concat "--virtualenv=" venv-path) options))
+            (let (options (list (concat "--virtualenv=" venv-path))))))
+      (list (concat (getenv "HOME") "/bin/flymake-python/pyflymake.py") (append options (list local-file)))))
 
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+  (add-to-list 'flymake-allowed-file-name-masks '("\\.py\\'" flymake-python-lint-init)))
+
+;; (defadvice flymake-python-lint-init (around flymake-python-lint-init-around)
+;;   "Sets the virtual environment if applicable :)"
+;;   (progn (print virtualenv-mode-name (get-buffer "*Messages*"))
+;;          (print buffer-file-name (get-buffer "*Messages*"))
+;;          (print file-local-variables-alist (get-buffer "*Messages*"))
+;;          ;;(print (buffer-local-variables) (get-buffer "*Messages*"))
+;;          ad-do-it))
 
 ;; add python hook when in python to activate flymake lint
 (add-hook 'python-mode-hook (lambda() (flymake-mode t)))
@@ -230,9 +254,5 @@
 (add-to-list 'load-path (concat python-files-dir "django-mode/"))
 ;;(require 'django-html-mode)
 ;;(require 'django-mode)
-
-;; load virtualenv
-(add-to-list 'load-path (concat dotfiles-dir "/libs/virtualenv.el"))
-
 
 (provide 'starter-kit-python)

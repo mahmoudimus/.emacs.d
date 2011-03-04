@@ -1,3 +1,6 @@
 [submodule "python/django-mode"]
 	path = python/django-mode
 	url = https://github.com/myfreeweb/django-mode.git
+[submodule "libs/virtualenv.el"]
+	path = libs/virtualenv.el
+	url = https://github.com/aculich/virtualenv.el.git

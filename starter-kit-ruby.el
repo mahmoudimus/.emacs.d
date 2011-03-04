@@ -1,7 +1,6 @@
 ;;; starter-kit-ruby.el --- Some helpful Ruby code
 ;;
 ;; Part of the Emacs Starter Kit
-
 (eval-after-load 'ruby-mode
   '(progn
      ;; work around possible elpa bug
@@ -11,6 +10,9 @@
      (define-key ruby-mode-map (kbd "RET") 'reindent-then-newline-and-indent)
      (define-key ruby-mode-map (kbd "C-M-h") 'backward-kill-word)
      (define-key ruby-mode-map (kbd "C-c l") "lambda")))
+
+(add-to-list 'load-path "~/.emacs.d/el-get/rhtml")
+(require 'rhtml-mode)
 
 (global-set-key (kbd "C-h r") 'ri)
 
@@ -96,6 +98,14 @@ exec-to-string command, but it works and seems fast"
 (setq rinari-major-modes
       (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
             'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
+
+
+(defun rhtml-mode-hook ()
+  (autoload 'rhtml-mode "rhtml-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . rhtml-mode))
+  (add-to-list 'auto-mode-alist '("\\.rjs\\'" . rhtml-mode))
+  (add-hook 'rhtml-mode '(lambda ()
+                           (define-key rhtml-mode-map (kbd "M-s") 'save-buffer))))
 
 ;; TODO: set up ri
 ;; TODO: electric
