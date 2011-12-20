@@ -1,0 +1,2 @@
+* Integrate emacs-for-python support for rope/pymacs
+* Integrate autocomplete support

@@ -1,0 +1,6 @@
+[submodule "vendor/virtualenv.el"]
+	path = vendor/virtualenv.el
+	url = https://github.com/aculich/virtualenv.el.git
+[submodule "vendor/auto-complete.el"]
+	path = vendor/auto-complete.el
+	url = https://github.com/tkf/auto-complete.git
