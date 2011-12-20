@@ -42,7 +42,7 @@
 (require 'python-mode)
 ;; python mode settings
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
+;; (setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
 ;; We never want to edit python bytecode
 (add-to-list 'completion-ignored-extensions ".pyc")
@@ -60,7 +60,6 @@
 
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
-  (message (shell-command-to-string "python -c 'import sys; print sys.path'"))
   (core-setup-python-env)
   (pymacs-load "ropemacs" "rope-")
 
@@ -176,6 +175,7 @@
 ;;         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
 ;;         (auto-complete-mode t)
 ;;       ))
+
 
 
 (provide 'core-python)

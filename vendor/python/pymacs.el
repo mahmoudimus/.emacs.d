@@ -551,9 +551,7 @@ The timer is used only if `post-gc-hook' is not available.")
                       "-c" (concat "import sys;"
                                    " from Pymacs.pymacs import main;"
                                    " main(*sys.argv[1:])")
-                      (append
-                       (and (>= emacs-major-version 24) '("-f"))
-                       (mapcar 'expand-file-name pymacs-load-path)))))
+                       (mapcar 'expand-file-name pymacs-load-path))))
           (pymacs-kill-without-query process)
           ;; Receive the synchronising reply.
           (while (progn
