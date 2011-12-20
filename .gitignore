@@ -1,7 +1,6 @@
 loaddefs.el*
 backups/*
 auto-save-list
-custom.el
 places
 url/cookies
 elpa-to-submit/jabber/jabber.info
@@ -24,3 +23,4 @@ tramp
 # yes i use VIM to edit emacs config files because it's fucking amazing
 *.swp
 *.swo
+history
