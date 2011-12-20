@@ -1,2 +1,6 @@
 * Integrate emacs-for-python support for rope/pymacs
+  https://github.com/gabrielelanaro/emacs-for-python
 * Integrate autocomplete support
+* Support escreen
+  http://blog.nguyenvq.com/2011/03/07/escreen-instead-of-elscreen-for-screen-like-features-in-emacs/
+  http://tapoueh.org/blog/2009/09/22-escreen-integration.html
