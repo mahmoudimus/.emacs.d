@@ -34,11 +34,12 @@
 ;;; Code:
 
 ;; set your custom file so you don't clutter up your init.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
+(setq expanded-user-emacs-directory (expand-file-name user-emacs-directory))
+(setq custom-file (concat expanded-user-emacs-directory "custom.el"))
 
-(defvar core-modules-dir (concat user-emacs-directory "modules/")
+(defvar core-modules-dir (concat expanded-user-emacs-directory "modules/")
   "This directory houses all of my modules. Modify at your own risk.")
-(defvar core-vendor-dir (concat user-emacs-directory "vendor/")
+(defvar core-vendor-dir (concat expanded-user-emacs-directory "vendor/")
   "This directory house Emacs Lisp packages that are not yet available in
 ELPA (or Marmalade).")
 

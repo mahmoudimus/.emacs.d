@@ -88,7 +88,7 @@
 
 (defun core-prog-mode-hook ()
   "Default coding hook, useful with any programming language."
-  (flyspell-prog-mode)
+  ;; (flyspell-prog-mode)
   ;; keep the whitespace decent all the time
   (add-hook 'before-save-hook 'whitespace-cleanup nil t))
 
