@@ -1,3 +1,5 @@
+# expand-env: ((yas/indent-line 'nil))
+# --
 from __future__ import unicode_literals
 
 from sqlalchemy import *
@@ -20,3 +22,5 @@ def upgrade(migrate_engine):
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
     Base.metadata.bind = migrate_engine
+
+$0

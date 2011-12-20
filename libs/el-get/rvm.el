@@ -1,0 +1,1 @@
+(:name rvm :type git :url "http://github.com/djwhitt/rvm.el.git" :load "rvm.el" :compile ("rvm.el") :after (lambda nil (rvm-use-default)))

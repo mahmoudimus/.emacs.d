@@ -185,30 +185,30 @@
 ;;
 ;; Execute "M-x desktop-save" once and it will update whenever auto-save
 ;; occurs (and on every exit?)
-(require 'desktop)
-(setq desktop-path '("~/.emacs.d/sessions"))
-(setq desktop-dirname "~/.emacs.d/sessions")
-(setq desktop-base-file-name "emacs.session")
-(desktop-save-mode 1)
-(add-hook 'auto-save-hook
-          (lambda () (desktop-save-in-desktop-dir)))
+;; (require 'desktop)
+;; (setq desktop-path '("~/.emacs.d/sessions"))
+;; (setq desktop-dirname "~/.emacs.d/sessions")
+;; (setq desktop-base-file-name "emacs.session")
+;; (desktop-save-mode 1)
+;; (add-hook 'auto-save-hook
+;;           (lambda () (desktop-save-in-desktop-dir)))
 
-;; Save a bunch of variables to the desktop file for lists specify the
-;; len of the maximal saved data also
-(setq desktop-globals-to-save
-      (append '((extended-command-history . 30)
-                (file-name-history        . 100)
-                (grep-history             . 30)
-                (compile-history          . 30)
-                (minibuffer-history       . 50)
-                (query-replace-history    . 60)
-                (read-expression-history  . 60)
-                (regexp-history           . 60)
-                (regexp-search-ring       . 20)
-                (search-ring              . 20)
-                (shell-command-history    . 50)
-                tags-file-name
-                register-alist)))
+;; ;; Save a bunch of variables to the desktop file for lists specify the
+;; ;; len of the maximal saved data also
+;; (setq desktop-globals-to-save
+;;       (append '((extended-command-history . 30)
+;;                 (file-name-history        . 100)
+;;                 (grep-history             . 30)
+;;                 (compile-history          . 30)
+;;                 (minibuffer-history       . 50)
+;;                 (query-replace-history    . 60)
+;;                 (read-expression-history  . 60)
+;;                 (regexp-history           . 60)
+;;                 (regexp-search-ring       . 20)
+;;                 (search-ring              . 20)
+;;                 (shell-command-history    . 50)
+;;                 tags-file-name
+;;                 register-alist)))
 
 ;; Get rid of the stupid <2> and <3> filename uniqification
 (require 'uniquify)
@@ -244,3 +244,10 @@
 ;; require magit mode
 ;; ------------------------------------
 (require 'magit)
+
+;; ------------------------------------
+;; require browse-kill-ring
+;; ------------------------------------
+(add-to-list 'load-path "~/.emacs.d/libs/browse-kill-ring.el")
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)

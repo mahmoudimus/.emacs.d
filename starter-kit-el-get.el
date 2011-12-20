@@ -14,8 +14,14 @@
         (:name rhtml
                :type git
                :url "https://github.com/eschulte/rhtml.git"
-               :features rhtml-mode
-               :after (lambda () (rhtml-mode-hook)))))
+               :features rhtml-mode)
+        (:name mmm-mode)
+        (:name mmm-mako
+               :type hg
+               :url "https://bitbucket.org/pjenvey/mmm-mako"
+               :compile ("mmm-mako.el"))
+        (:name nxhtml-mode)
+        ))
 
 (el-get 'sync)
 

@@ -9,9 +9,16 @@
 ;; and brighter; it simply makes everything else vanish."
 ;; -Neal Stephenson, "In the Beginning was the Command Line"
 
+;; HOW TO DEBUG:
+;;
+;; I enjoy *scratch*, C-x C-e, M-x ielm, and C-h f for exploring the
+;; APIs. The built-in docs, links between items and dives into the
+;; (also linked) code itself are all great sources of well written
+;; documentation.
+
 ;; Turn off mouse interface early in startup to avoid momentary display
 ;; You really don't need these; trust me.
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
@@ -24,8 +31,8 @@
 
 (add-to-list 'load-path dotfiles-dir)
 
-(add-to-list 'load-path (concat dotfiles-dir "/elpa-to-submit"))
-(add-to-list 'load-path (concat dotfiles-dir "/libs/auto-complete"))
+(add-to-list 'load-path (concat dotfiles-dir "elpa-to-submit"))
+(add-to-list 'load-path (concat dotfiles-dir "libs/auto-complete"))
 
 (setq autoload-file (concat dotfiles-dir "loaddefs.el"))
 (setq package-user-dir (concat dotfiles-dir "elpa"))
@@ -38,7 +45,8 @@
 (package-initialize)
 (require 'starter-kit-elpa)
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; el-get
+(add-to-list 'load-path (concat dotfiles-dir "el-get/el-get"))
 (require 'el-get)
 
 ;; These should be loaded on startup rather than autoloaded on demand
@@ -57,11 +65,21 @@
 (require 'dominating-file)
 
 ;; Load up starter kit customizations
-
 (require 'starter-kit-defuns)
 (require 'starter-kit-bindings)
 (require 'starter-kit-misc)
 (require 'starter-kit-registers)
+
+;; always load el-get first before specific language
+;; stuff.
+(require 'starter-kit-el-get)
+;; ------------------------------------
+;; require multi-major-mode
+;; TODO: explore http://www.loveshack.ukfsn.org/emacs/multi-mode.el instead?
+;; ------------------------------------
+(require 'mmm-auto)
+(setq mmm-global-mode 'maybe)  ; set mmm-mode to load when necessary
+
 (require 'starter-kit-eshell)
 (require 'starter-kit-lisp)
 (require 'starter-kit-perl)
@@ -69,8 +87,8 @@
 (require 'starter-kit-js)
 (require 'starter-kit-python)
 (require 'starter-kit-php)
-
-(require 'starter-kit-el-get)
+(require 'starter-kit-coffee)
+(require 'starter-kit-www)
 
 (regen-autoloads)
 (load custom-file 'noerror)
@@ -87,3 +105,4 @@
   (mapc #'load (directory-files user-specific-dir nil ".*el$")))
 
 ;;; init.el ends here
+(put 'upcase-region 'disabled nil)

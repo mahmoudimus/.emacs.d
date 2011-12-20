@@ -777,6 +777,21 @@ static char *gnus-pointer[] = {
           ;; (makefile-shell ((t (:background "#4f4f4f"
           ;;                           :box (:line-width 2 :color "#4f4f4f")))))
 
+          ;; muamo
+          ;; '(mumamo-background-chunk-major ((t (:background, zenburn-bg))))
+          ;; '(mumamo-background-chunk-submode1 ((t (:background, zenburn-bg+1))))
+          ;; '(mumamo-background-chunk-submode2 ((t (:inherit mumamo-background-chunk-submode1))))
+          ;; '(mumamo-background-chunk-submode3 ((t (:inherit mumamo-background-chunk-submode2))))
+          ;; '(mumamo-background-chunk-submode4 ((t (:inherit mumamo-background-chunk-submode3))))
+
+          ;; multi-major-mode
+          '(mmm-cleanup-submode-face ((t (:background, zenburn-bg))))
+          '(mmm-code-submode-face ((t (:inherit zenburn-primary-1))))
+          '(mmm-declaration-submode-face ((t (:inhert zenburn-orange))))
+          '(mmm-default-submode-face ((t (:foreground "#acbc90"))))
+          '(mmm-init-submode-face ((t (:foreground "#acbc90" :background "#1e2320"))))
+          '(mmm-special-submode-face ((t (:inherit zenburn-primary-5))))
+
           '(nxml-delimited-data ((t (:inherit font-lock-string))))
           '(nxml-name ((t (:inherit zenburn-primary-1))))
           '(nxml-ref ((t (:inherit zenburn-primary-5))))

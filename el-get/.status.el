@@ -1,1 +1,1 @@
-(:rvm "installed" :rhtml "required")
+(:rvm "installed" :rhtml "installed" :mmm-mode "installed" :mmm-mako "installed" :nxhtml "installed")

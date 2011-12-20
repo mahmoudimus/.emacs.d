@@ -1,0 +1,5 @@
+#contributor : Mahmoud Abdelkader
+#name : col.class
+# --
+<col class="$1">
+$0

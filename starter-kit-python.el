@@ -66,7 +66,7 @@
         (set-variable 'indent-tabs-mode nil)
         (define-key py-mode-map (kbd "C-RET") 'newline-and-indent)
         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
-        (require 'pycomplete)
+        ;(require 'pycomplete)
         ;(define-key py-mode-map [tab] 'yas/expand)
         ;(setq yas/after-exit-snippet-hook 'indent-according-to-mode)
         ;(smart-operator-mode-on)
@@ -76,6 +76,14 @@
     (interactive "P")
     (insert-tab arg))
 
+
+(defun reload-pymacs ()
+    (interactive)
+    (pymacs-terminate-services)
+    (setenv "PYMACS_PYTHON"  (concat virtualenv-root "/" virtualenv-workon "/bin/python"))
+    (pymacs-load "ropemacs" "rope-")
+    (setq ropemacs-enable-autoimport 't))
+
 ;; pymacs
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
@@ -84,7 +92,7 @@
 (autoload 'pymacs-load "pymacs" nil t)
 
 (pymacs-load "ropemacs" "rope-")
-(setq ropemacs-enable-autoimport t)
+(setq ropemacs-enable-autoimport 't)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; python auto-fill comments
@@ -234,7 +242,8 @@
             (let (options (list (concat "--virtualenv=" venv-path))))))
       (list (concat (getenv "HOME") "/bin/flymake-python/pyflymake.py") (append options (list local-file)))))
 
-  (add-to-list 'flymake-allowed-file-name-masks '("\\.py\\'" flymake-python-lint-init)))
+  (add-to-list 'flymake-allowed-file-name-masks '("\\.py\\'" flymake-python-lint-init))
+  (add-to-list 'flymake-allowed-file-name-masks '("\\.wsgi\\'" flymake-python-lint-init)))
 
 ;; (defadvice flymake-python-lint-init (around flymake-python-lint-init-around)
 ;;   "Sets the virtual environment if applicable :)"
@@ -254,5 +263,11 @@
 (add-to-list 'load-path (concat python-files-dir "django-mode/"))
 ;;(require 'django-html-mode)
 ;;(require 'django-mode)
+
+;; mako mode
+(require 'mmm-mako)
+(add-to-list 'auto-mode-alist '("\\.mako\\'" . html-mode))
+(mmm-add-mode-ext-class 'html-mode "\\.mako\\'" 'mako)
+
 
 (provide 'starter-kit-python)
