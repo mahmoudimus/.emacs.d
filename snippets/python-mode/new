@@ -1,0 +1,6 @@
+from __future__ import unicode_literals
+import logging
+
+$1
+
+LOGGER = logging.getLogger(__name__)

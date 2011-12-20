@@ -1,0 +1,26 @@
+# expand-env: ((yas/indent-line 'nil))
+# --
+from __future__ import unicode_literals
+
+from sqlalchemy import *
+from sqlalchemy.ext.declarative import declarative_base
+from migrate import *
+
+
+Base = declarative_base()
+
+
+$1
+
+
+def upgrade(migrate_engine):
+    # Upgrade operations go here. Don't create your own engine; bind
+    # migrate_engine to your metadata
+    Base.metadata.bind = migrate_engine
+
+
+def downgrade(migrate_engine):
+    # Operations to reverse the above upgrade go here.
+    Base.metadata.bind = migrate_engine
+
+$0

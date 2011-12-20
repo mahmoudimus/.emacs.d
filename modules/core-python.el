@@ -1,4 +1,4 @@
-;;; init.el
+;;; core-python.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
 ;;
@@ -33,28 +33,4 @@
 
 ;;; Code:
 
-;; set your custom file so you don't clutter up your init.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
-
-(defvar core-modules-dir (concat user-emacs-directory "modules/")
-  "This directory houses all of my modules. Modify at your own risk.")
-(defvar core-vendor-dir (concat user-emacs-directory "vendor/")
-  "This directory house Emacs Lisp packages that are not yet available in
-ELPA (or Marmalade).")
-
-(add-to-list 'load-path core-modules-dir)
-(add-to-list 'load-path core-vendor-dir)
-
-;; core modules
-(require 'core-packages)
-(require 'core-el-get)
-(require 'core-ui)
-(require 'core-editor)
-(require 'core-keybindings)
-
-;; language support
-(require 'core-programming)
-(require 'core-python)
-
-;; load the custom file
-(load custom-file 'noerror)
+(provide 'core-python)

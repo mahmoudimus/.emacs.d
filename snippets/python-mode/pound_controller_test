@@ -1,0 +1,68 @@
+# name: Pound ControllerTestCase
+# expand-env: ((yas/indent-line 'nil))
+# --
+from __future__ import unicode_literals
+
+import mock
+
+from pound.tests.controller_test import ControllerTestCase
+from pound.tests.fixtures import *
+
+
+class $1TestCase(ControllerTestCase):
+
+    def setUp(self):
+        super($1TestCase, self).setUp()
+        self.url = '/silver/$2/'
+
+    def tearDown(self):
+        super($1TestCase, self).tearDown()
+
+
+class Test$1sIndex($1TestCase):
+
+    def setUp(self):
+        super(Test$1sIndex, self).setUp()
+
+    def tearDown(self):
+        super(Test$1sIndex, self).tearDown()
+
+    $3
+
+
+class Test$1sShow($1TestCase):
+
+    def setUp(self):
+        super(Test$1sShow, self).setUp()
+
+    def tearDown(self):
+        super(Test$1sShow, self).tearDown()
+
+
+class Test$1sCreate($1TestCase):
+
+    def setUp(self):
+        super(Test$1sCreate, self).setUp()
+
+    def tearDown(self):
+        super(Test$1sCreate, self).tearDown()
+
+
+class Test$1sUpdate($1TestCase):
+
+    def setUp(self):
+        super(Test$1sUpdate, self).setUp()
+
+    def tearDown(self):
+        super(Test$1sUpdate, self).tearDown()
+
+
+class Test$1sDelete($1TestCase):
+
+    def setUp(self):
+        super(Test$1sDelete, self).setUp()
+
+    def tearDown(self):
+        super(Test$1sDelete, self).tearDown()
+
+$0

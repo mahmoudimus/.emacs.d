@@ -1,22 +1,3 @@
-;;;;;;;;;;;;;;;;;;; Pretty colors ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-library.el")
-
-;; zen and art
-;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-zen-and-art.el")
-;  (color-theme-zen-and-art)
-
-;; railscasts
-;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-railscasts.el")
-;; (color-theme-railscasts)
-
-;; twilight color theme
-;; (load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-twilight.el")
-;; (color-theme-twilight)
-
-;; zenburn
-(load-file "~/.emacs.d/libs/color-theme-6.6.0/themes/color-theme-zenburn.el")
-(color-theme-zenburn)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ya - snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;

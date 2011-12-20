@@ -1,4 +1,4 @@
-;;; init.el
+;;; core-packages.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
 ;;
@@ -32,29 +32,22 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(require 'package)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/") t)
+(package-initialize)
 
-;; set your custom file so you don't clutter up your init.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
+;; install the emacs packages above if they're not installed
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-(defvar core-modules-dir (concat user-emacs-directory "modules/")
-  "This directory houses all of my modules. Modify at your own risk.")
-(defvar core-vendor-dir (concat user-emacs-directory "vendor/")
-  "This directory house Emacs Lisp packages that are not yet available in
-ELPA (or Marmalade).")
+(defvar required-packages 
+  '(starter-kit starter-kit-lisp starter-kit-bindings)
+  "A list of packages to ensure are installed at launch.")
 
-(add-to-list 'load-path core-modules-dir)
-(add-to-list 'load-path core-vendor-dir)
+(dolist (p required-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
-;; core modules
-(require 'core-packages)
-(require 'core-el-get)
-(require 'core-ui)
-(require 'core-editor)
-(require 'core-keybindings)
 
-;; language support
-(require 'core-programming)
-(require 'core-python)
-
-;; load the custom file
-(load custom-file 'noerror)
+(provide 'core-packages)

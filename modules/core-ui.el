@@ -1,4 +1,4 @@
-;;; init.el
+;;; core-ui.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
 ;;
@@ -33,28 +33,26 @@
 
 ;;; Code:
 
-;; set your custom file so you don't clutter up your init.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
+;; removing the menu under OS X doesn't make much sense
+;; since esk already removes it for us
+(when (eq system-type 'darwin)
+  (menu-bar-mode t))
 
-(defvar core-modules-dir (concat user-emacs-directory "modules/")
-  "This directory houses all of my modules. Modify at your own risk.")
-(defvar core-vendor-dir (concat user-emacs-directory "vendor/")
-  "This directory house Emacs Lisp packages that are not yet available in
-ELPA (or Marmalade).")
+;; nice scrolling
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
 
-(add-to-list 'load-path core-modules-dir)
-(add-to-list 'load-path core-vendor-dir)
+;; Scroll down with the cursor,move down the buffer one
+;; line at a time, instead of in larger amounts.
+;; god this is fucking annoying!!
+(setq scroll-step 1)
 
-;; core modules
-(require 'core-packages)
-(require 'core-el-get)
-(require 'core-ui)
-(require 'core-editor)
-(require 'core-keybindings)
+;; add the theme path for theme lookup
+(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
+;; I want to customize my theme.
+;; it's safe, so use the NO-CONFIRM flag
+;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
+(load-theme 'zenburn t)
 
-;; language support
-(require 'core-programming)
-(require 'core-python)
-
-;; load the custom file
-(load custom-file 'noerror)
+(provide 'core-ui)
