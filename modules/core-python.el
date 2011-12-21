@@ -42,7 +42,6 @@
 (require 'python-mode)
 ;; python mode settings
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-;; (setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
 ;; We never want to edit python bytecode
 (add-to-list 'completion-ignored-extensions ".pyc")
@@ -165,13 +164,21 @@
      ;; load pycomplete
      (require 'pycomplete)
      ;; add python hook when in python to activate flymake lint
-     (add-hook 'python-mode-hook
-               (lambda()
-                 (flymake-mode t)
-                 ;; Not on all modes, please
-                 (flymake-find-file-hook)
-                 ))
-
+     (add-hook
+      'python-mode-hook
+      (lambda()
+        (flymake-mode t)
+        ;; Not on all modes, please
+        (flymake-find-file-hook)
+        ;; move text up and down
+        (define-key python-mode-map (kbd "M-<right>")
+          'balle-python-shift-right)
+        (define-key python-mode-map (kbd "M-<left>")
+          'balle-python-shift-left)
+        (define-key python-mode-map "\C-ci" 'rope-auto-import)
+        (define-key python-mode-map "\C-c\C-d" 'rope-show-calltip)
+        )
+      )
      )
   )
 ;; (add-hook 'python-mode-hook

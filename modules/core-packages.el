@@ -34,15 +34,14 @@
 ;;; Code:
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/") t)
 (package-initialize)
 
 ;; install the emacs packages above if they're not installed
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar required-packages 
-  '(starter-kit starter-kit-lisp starter-kit-bindings)
+(defvar required-packages
+  '(starter-kit starter-kit-lisp starter-kit-bindings browse-kill-ring)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p required-packages)

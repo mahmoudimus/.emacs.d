@@ -33,4 +33,67 @@
 
 ;;; Code:
 
+;; Escreen keybindings
+;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
+;; easier keybindings if you like mouse support:
+;; http://tapoueh.org/blog/2009/09/22-escreen-integration.html
+;; Custom escreen keys
+;;
+(setq escreen-prefix-char (kbd "C-z"))
+(global-set-key escreen-prefix-char 'escreen-prefix)
+(global-set-key (kbd "C-\\ l") 'escreen-get-active-screen-numbers-with-emphasis)
+(define-key escreen-map escreen-prefix-char 'escreen-goto-last-screen)
+
+(global-set-key (kbd "s-{") 'escreen-goto-prev-screen)
+(global-set-key (kbd "s-}") 'escreen-goto-next-screen)
+
+;; add support for C-\ from terms
+(require 'term)
+(define-key term-raw-map escreen-prefix-char escreen-map)
+(define-key term-raw-map (kbd "M-[") 'escreen-goto-prev-screen)
+(define-key term-raw-map (kbd "M-]") 'escreen-goto-next-screen)
+
+;; easier direct access to screens
+(progn                  ; easier to C-M-x the block
+  (global-set-key (kbd "C-M-0") 'escreen-goto-screen-0)
+  (global-set-key (kbd "C-M-1") 'escreen-goto-screen-1)
+  (global-set-key (kbd "C-M-2") 'escreen-goto-screen-2)
+  (global-set-key (kbd "C-M-3") 'escreen-goto-screen-3)
+  (global-set-key (kbd "C-M-4") 'escreen-goto-screen-4)
+  (global-set-key (kbd "C-M-5") 'escreen-goto-screen-5)
+  (global-set-key (kbd "C-M-6") 'escreen-goto-screen-6)
+  (global-set-key (kbd "C-M-7") 'escreen-goto-screen-7)
+  (global-set-key (kbd "C-M-8") 'escreen-goto-screen-8)
+  (global-set-key (kbd "C-M-9") 'escreen-goto-screen-9))
+
+
+;; auto-complete keybindings
+(define-key ac-mode-map (kbd "<C-tab>") 'auto-complete)
+;; (define-key ac-mode-map (kbd "M-") 'auto-complete)
+(define-key ac-completing-map (kbd "C-n") 'ac-next)
+(define-key ac-completing-map (kbd "C-p") 'ac-previous)
+
+
+;; text keybindings
+
+;; text moving
+(global-set-key (kbd "M-<up>") 'move-text-up)
+(global-set-key (kbd "M-<down>") 'move-text-down)
+
+;; text marking
+(global-set-key (kbd "C-c l") 'mark-line)
+
+;; duplicate a line
+(global-set-key (kbd "C-c y") 'djcb-duplicate-line)
+
+;; duplicate a line and comment the first
+(global-set-key (kbd "C-c c")(lambda()(interactive)(djcb-duplicate-line t)))
+
+;; yes i know..inverse of vi but i'm so used to it.
+(global-set-key (kbd "C-O") 'open-next-line)
+(global-set-key (kbd "C-o") 'open-previous-line)
+
+;; browse-kill-ring
+(browse-kill-ring-default-keybindings)
+
 (provide 'core-keybindings)

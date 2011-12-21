@@ -55,4 +55,61 @@
 ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
 (load-theme 'zenburn t)
 
+;; Escreen support
+;; escreen is simpler than elscreen...but elscreen spawns new 0-9
+;; set of screens for a new frame whereas escreen does not
+;; it is better than elscreen because:
+;;     elscreen has issues when using with emacsclient -c
+;;     (does not always create new frame, messes up existing frame);
+;; in escreen, each screen has its own ring of recently visited files (good!)
+;; http://blog.tapoueh.org/news.dim.html#%20Escreen%20integration
+;; http://www.splode.com/~friedman/software/emacs-lisp/#ui
+(load "escreen")
+(escreen-install)
+
+;; add C-\ l to list screens with emphase for current one
+(defun escreen-get-active-screen-numbers-with-emphasis ()
+  "what the name says"
+  (interactive)
+  (let ((escreens (escreen-get-active-screen-numbers))
+    (emphased ""))
+
+    (dolist (s escreens)
+      (setq emphased
+        (concat emphased (if (= escreen-current-screen-number s)
+                 (propertize (number-to-string s)
+                         ;;'face 'custom-variable-tag) " ")
+                         ;; 'face 'info-title-3)
+                         'face 'font-lock-warning-face)
+                   (number-to-string s))
+            " ")))
+    (message "escreen: active screens: %s" emphased)))
+
+;;
+;; We want the last/prev/next escreen function to show the list with
+;; emphasis
+;;
+(defadvice escreen-goto-last-screen
+  (after escreen-goto-last-screen activate)
+  "Show the escreen list each time we go to last screen."
+  (escreen-get-active-screen-numbers-with-emphasis))
+
+(defadvice escreen-goto-prev-screen
+  (after escreen-goto-prev-screen activate)
+  "Show the escreen list each time we go to previous screen."
+  (escreen-get-active-screen-numbers-with-emphasis))
+
+(defadvice escreen-goto-next-screen
+  (after escreen-goto-next-screen activate)
+  "Show the escreen list each time we go to next screen."
+  (escreen-get-active-screen-numbers-with-emphasis))
+
+(defadvice escreen-create-screen
+  (after escreen-create-screen activate)
+  "Show the escreen list each time we create a new screen."
+  (escreen-get-active-screen-numbers-with-emphasis))
+
+(add-hook 'escreen-goto-screen-hook 'escreen-get-active-screen-numbers-with-emphasis)
+
+
 (provide 'core-ui)
