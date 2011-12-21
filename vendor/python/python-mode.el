@@ -1405,7 +1405,7 @@ When indent is set back manually, this is honoured in following lines. "
           (newline)
           (setq erg (indent-to-column (py-compute-indentation))))
       (beginning-of-line)
-      (newline) 
+      (newline)
       (setq erg (move-to-column (py-compute-indentation))))
     (when (and (looking-at "[ \t]+")
                (nth 1 (if (featurep 'xemacs)
@@ -1452,7 +1452,7 @@ With optional argument GLOBAL change the global value of `py-indent-offset'. "
             (setq py-indent-offset (default-value 'py-indent-offset))
           (let* ((firstindent (progn
                             (while (and (<= lastindent (current-indentation))
-                                            (not (bobp)) 
+                                            (not (bobp))
                                         (py-beginning-of-statement)))
                                  (current-indentation)))
              (guessed (- lastindent firstindent)))
@@ -3738,7 +3738,7 @@ http://docs.python.org/reference/compound_stmts.html
            ((and (bolp) (not (empty-line-p)))
             (end-of-line)
             (skip-chars-backward " \t\r\n\f" (line-beginning-position))
-            (py-beginning-of-comment) 
+            (py-beginning-of-comment)
             (setq done t)
             (py-end-of-statement orig origline done))
            ((looking-at "\\.\\([A-Za-z_][A-Za-z_0-9]*\\)")
@@ -7544,7 +7544,7 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
     (window-configuration-to-register 213465879)
     (unless (get-process (py-process-name))
       (let ((oldbuf  (current-buffer)))
-        (save-excursion 
+        (save-excursion
         (py-shell)
           (set-buffer oldbuf))))
     (jump-to-register 213465879))

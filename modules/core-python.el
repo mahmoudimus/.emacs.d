@@ -34,9 +34,9 @@
 ;;; Code:
 
 ;; set the python file path and add a few things to the load path.
-(setq python-files-dir (concat core-vendor-dir "python/"))
+(setq python-files-dir (concat core-vendor-dir "python"))
 (add-to-list 'load-path python-files-dir)
-(add-to-list 'load-path (concat python-files-dir "virtualenv.el/"))
+(add-to-list 'load-path (concat python-files-dir "/virtualenv.el"))
 
 ;; python mode from launchpad.net (the one by python.org)
 (require 'python-mode)
@@ -48,14 +48,13 @@
 (add-to-list 'completion-ignored-extensions ".pyc")
 
 ;; pymacs
-(require 'pymacs (concat python-files-dir "pymacs.el"))
+(require 'pymacs (concat python-files-dir "/pymacs.el"))
 
 (eval-after-load "pymacs"
   '(progn
      ;;(message (shell-command-to-string "python -c 'import sys; print sys.path'"))
      (message "Pymacs has been loaded, now adding to the path...")
      (add-to-list 'pymacs-load-path python-files-dir)
-     (message " the final load path: %s" pymacs-load-path)
      ))
 
 (defun setup-ropemacs ()
@@ -145,6 +144,10 @@
 ;;          ;;(print (buffer-local-variables) (get-buffer "*Messages*"))
 ;;          ad-do-it))
 
+;; python mode settings.
+(set-variable 'py-install-directory python-files-dir)
+
+
 (eval-after-load 'python-mode
   '(progn
      ;;==================================================
@@ -156,6 +159,11 @@
      ;;==================================================
      ;; load virtualenv
      (require 'virtualenv)
+     ;;==================================================
+     ;; Pycomplete
+     ;;==================================================
+     ;; load virtualenv
+     (require 'pycomplete)
      ;; add python hook when in python to activate flymake lint
      (add-hook 'python-mode-hook
                (lambda()
@@ -163,6 +171,7 @@
                  ;; Not on all modes, please
                  (flymake-find-file-hook)
                  ))
+
      )
   )
 ;; (add-hook 'python-mode-hook
