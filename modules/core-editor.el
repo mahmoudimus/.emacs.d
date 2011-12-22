@@ -60,13 +60,16 @@
 (global-auto-complete-mode t)
 (ac-config-default)
 
-;; load yasnippet
-(require 'yasnippet)
-(yas/initialize)
-(setq core-custom-snippets (concat expanded-user-emacs-directory "snippets/"))
-(add-to-list 'yas/snippet-dirs core-custom-snippets)
-;; load all snippets yo
+;; yasnippet
+;; load all el files in the snippets directory, they're usually lisp
+;; helpers that help with snippet expansions.
+(setq core-custom-snippets (concat expanded-user-emacs-directory "snippets"))
 (mapc 'load (directory-files core-custom-snippets t "^[^#].*el$"))
+(require 'yasnippet)
+(push core-custom-snippets yas/root-directory)
+;; Load the snippets
+(mapc 'yas/load-directory yas/root-directory)
+(yas/global-mode t)
 
 ;; code borrowed from http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)

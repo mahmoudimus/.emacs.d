@@ -1,4 +1,7 @@
-# name: Pound ControllerTestCase
+# -*- coding: utf-8 -*-
+# name: pound-controller-testcase
+# contributor: Mahmoud Abdelkader
+# key: pound_controller_test
 # expand-env: ((yas/indent-line 'nil))
 # --
 from __future__ import unicode_literals

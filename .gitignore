@@ -25,3 +25,4 @@ elpa/
 .smex-items
 el-get/
 ac-comphist.dat
+.desktop/

@@ -1,1 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: pdb
+# contributor: Mahmoud Abdelkader
+# key: pdb
+# expand-env: ((yas/indent-line 'nil))
+# --
 import ipdb; ipdb.set_trace()

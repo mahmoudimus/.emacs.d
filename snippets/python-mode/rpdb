@@ -1,2 +1,8 @@
-$1from sterling.utils.rpdb import set_trace
-$1set_trace()
+# -*- coding: utf-8 -*-
+# name: rpdb
+# contributor: Mahmoud Abdelkader
+# key: rpdb
+# expand-env: ((yas/indent-line 'nil))
+# --
+from sterling.utils.rpdb import set_trace
+set_trace()

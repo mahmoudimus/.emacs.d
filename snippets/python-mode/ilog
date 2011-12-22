@@ -1,1 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: ilog
+# contributor: Mahmoud Abdelkader
+# key: ilog
+# expand-env: ((yas/indent-line 'nil))
+# --
 import logging

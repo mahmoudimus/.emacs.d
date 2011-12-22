@@ -170,14 +170,7 @@
         (flymake-mode t)
         ;; Not on all modes, please
         (flymake-find-file-hook)
-        ;; move text up and down
-        (define-key python-mode-map (kbd "M-<right>")
-          'balle-python-shift-right)
-        (define-key python-mode-map (kbd "M-<left>")
-          'balle-python-shift-left)
-        (define-key python-mode-map "\C-ci" 'rope-auto-import)
-        (define-key python-mode-map "\C-c\C-d" 'rope-show-calltip)
-        )
+       )
       )
      )
   )

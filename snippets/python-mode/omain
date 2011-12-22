@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+# name: omain
+# contributor: Mahmoud Abdelkader
+# key: omain
+# expand-env: ((yas/indent-line 'nil))
+# --
 import optparse
 
 
 def main():
 	parser = optparse.OptionParser()
 	options, args = parser.parse_args()
-
-	

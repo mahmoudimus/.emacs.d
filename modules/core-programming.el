@@ -83,8 +83,8 @@
           (add-to-list 'name-and-pos (cons name position))))))))
 
 ;; show the name of the current function definition in the modeline
-(require 'which-func)
-(which-func-mode t)
+;;(require 'which-func)
+;;(which-func-mode t)
 
 (defun core-prog-mode-hook ()
   "Default coding hook, useful with any programming language."
