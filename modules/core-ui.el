@@ -55,6 +55,9 @@
 ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
 (load-theme 'zenburn t)
 
+;; global hl mode
+(global-hl-line-mode 1)
+
 ;; Escreen support
 ;; escreen is simpler than elscreen...but elscreen spawns new 0-9
 ;; set of screens for a new frame whereas escreen does not
