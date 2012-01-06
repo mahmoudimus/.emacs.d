@@ -40,6 +40,9 @@
 
 ;; python mode from launchpad.net (the one by python.org)
 (require 'python-mode)
+;; creating and displaying an index menu of functions and global
+;; variables is a huge performance problem.
+(setq imenu-create-index-p nil)
 ;; python mode settings
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
