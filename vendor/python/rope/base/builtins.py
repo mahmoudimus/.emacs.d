@@ -110,6 +110,9 @@ class BuiltinUnknown(_BuiltinElement, pyobjects.PyObject):
         self.builtin = builtin
         self.type = pyobjects.get_unknown()
 
+    def get_name(self):
+        return getattr(type(self.builtin), '__name__', None)
+
     @utils.saveit
     def get_attributes(self):
         return _object_attributes(self.builtin, self)
@@ -120,7 +123,12 @@ def _object_attributes(obj, parent):
     for name in dir(obj):
         if name == 'None':
             continue
-        child = getattr(obj, name)
+        try:
+            child = getattr(obj, name)
+        except AttributeError:
+            # descriptors are allowed to raise AttributeError
+            # even if they are in dir()
+            continue
         pyobject = None
         if inspect.isclass(child):
             pyobject = BuiltinClass(child, {}, parent=parent)
@@ -657,8 +665,10 @@ def _infer_sequence_for_pyname(pyname):
     seq = pyname.get_object()
     args = arguments.ObjectArguments([pyname])
     if '__iter__' in seq:
-        iter = seq['__iter__'].get_object().\
-               get_returned_object(args)
+        obj = seq['__iter__'].get_object()
+        if not isinstance(obj, pyobjects.AbstractFunction):
+            return None
+        iter = obj.get_returned_object(args)
         if iter is not None and 'next' in iter:
             holding = iter['next'].get_object().\
                       get_returned_object(args)

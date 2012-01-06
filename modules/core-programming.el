@@ -90,7 +90,9 @@
   "Default coding hook, useful with any programming language."
   ;; (flyspell-prog-mode)
   ;; keep the whitespace decent all the time
-  (add-hook 'before-save-hook 'whitespace-cleanup nil t))
+  (add-hook 'before-save-hook 'whitespace-cleanup nil t)
+  (setq column-number-mode t)
+  )
 
 ;; in Emacs 24 programming major modes generally derive
 ;; from a common mode named prog-mode

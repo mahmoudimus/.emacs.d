@@ -1,4 +1,5 @@
 import bisect
+import keyword
 
 import rope.base.simplify
 
@@ -204,7 +205,9 @@ class _RealFinder(object):
             offset = self._find_last_non_space_char(last_atom - 1)
         if offset >= 0 and (self.code[offset] in '"\'})]' or
                             self._is_id_char(offset)):
-            return self._find_atom_start(offset)
+            atom_start = self._find_atom_start(offset)
+            if not keyword.iskeyword(self.code[atom_start:offset + 1]):
+                return atom_start
         return last_atom
 
     def _find_primary_start(self, offset):
@@ -334,7 +337,10 @@ class _RealFinder(object):
 
     def is_a_name_after_from_import(self, offset):
         try:
-            line_start = self._get_line_start(offset)
+            if len(self.code) > offset and  self.code[offset] == '\n':
+                line_start = self._get_line_start(offset - 1)
+            else:
+                line_start = self._get_line_start(offset)
             last_from = self.code.rindex('from ', line_start, offset)
             from_import = self.code.index(' import ', last_from)
             from_names = from_import + 8
