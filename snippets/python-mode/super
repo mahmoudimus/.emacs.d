@@ -3,5 +3,5 @@
 # contributor: Gabriele Lanaro <gabriele.lanaro@gmail.com>
 # key: super
 # --
-super(${1:`(prev-class-name)`},self).${2:`(prev-def-name)`}(${3:`(prev-def-args)`})
+super(${1:`(prev-class-name)`}, self).${2:`(prev-def-name)`}(${3:`(prev-def-args)`})
     $0
