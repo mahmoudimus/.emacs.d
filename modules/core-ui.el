@@ -58,6 +58,11 @@
 ;; global hl mode
 (global-hl-line-mode 1)
 
+;; flymake cursor support so i don't have to use my mouse
+;; to get the error message.
+(require 'flymake-cursor)
+
+
 ;; Escreen support
 ;; escreen is simpler than elscreen...but elscreen spawns new 0-9
 ;; set of screens for a new frame whereas escreen does not

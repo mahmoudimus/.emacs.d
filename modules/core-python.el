@@ -59,6 +59,12 @@
      (add-to-list 'pymacs-load-path python-files-dir)
      ))
 
+
+(defun setup-nose ()
+  "Sets up nosetests"
+  (require 'nose)
+  )
+
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
   (core-setup-python-env)
@@ -166,6 +172,10 @@
      ;;==================================================
      ;; load pycomplete
      (require 'pycomplete)
+     ;;==================================================
+     ;; Nose Tests
+     ;;==================================================
+     (setup-nose)
      ;; add python hook when in python to activate flymake lint
      (add-hook
       'python-mode-hook
