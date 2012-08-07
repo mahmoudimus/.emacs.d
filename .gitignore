@@ -26,3 +26,4 @@ elpa/
 el-get/
 ac-comphist.dat
 .desktop/
+custom.el

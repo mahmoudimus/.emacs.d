@@ -53,8 +53,8 @@
 ;; I want to customize my theme.
 ;; it's safe, so use the NO-CONFIRM flag
 ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
-(load-theme 'zenburn t)
-
+;; (load-theme 'zenburn t)
+(load-theme 'twilight t)
 ;; global hl mode
 (global-hl-line-mode 1)
 

@@ -34,9 +34,9 @@
 ;; all the faces you'd like to customize
 
 ;; default font
-;; (set-face-font 'default "Monaco")
-;; (set-face-attribute 'default nil :height 110)
-(set-face-font 'default "Helvetica Monospaced Pro-12")
+(set-face-font 'default "Monaco 10")
+;;(set-face-attribute 'default nil :height 100)
+;;(set-face-font 'default "Helvetica Monospaced Pro-12")
 ;; font-face for the mode-line
 (set-face-font 'mode-line "FixedSCDZ")
 (set-face-font 'mode-line-buffer-id "FixedSCDZ")
