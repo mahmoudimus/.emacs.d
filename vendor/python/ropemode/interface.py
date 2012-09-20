@@ -154,6 +154,10 @@ class RopeMode(object):
             self.env.message('Cannot find the definition!')
 
     @decorators.local_command()
+    def pop_mark(self):
+        self.env.pop_mark()
+
+    @decorators.local_command()
     def definition_location(self):
         definition = self._base_definition_location()
         if definition:
@@ -176,10 +180,10 @@ class RopeMode(object):
     @decorators.local_command('a d', 'P', 'C-c d')
     def show_doc(self, prefix):
         self._check_project()
-        self._base_show_doc(prefix, codeassist.get_doc)
+        self._base_show_doc(prefix, self._base_get_doc(codeassist.get_doc))
 
-    @decorators.local_command('a c', 'P')
-    def show_calltip(self, prefix):
+    @decorators.local_command()
+    def get_calltip(self):
         self._check_project()
         def _get_doc(project, text, offset, *args, **kwds):
             try:
@@ -187,10 +191,13 @@ class RopeMode(object):
             except ValueError:
                 return None
             return codeassist.get_calltip(project, text, offset, *args, **kwds)
-        self._base_show_doc(prefix, _get_doc)
+        return self._base_get_doc(_get_doc)
 
-    def _base_show_doc(self, prefix, get_doc):
-        docs = self._base_get_doc(get_doc)
+    @decorators.local_command('a c', 'P')
+    def show_calltip(self, prefix):
+        self._base_show_doc(prefix, self.get_calltip())
+
+    def _base_show_doc(self, prefix, docs):
         if docs:
             self.env.show_doc(docs, prefix)
         else:
@@ -451,6 +458,13 @@ class RopeMode(object):
         if resource and resource.exists():
             return resource
 
+    @decorators.global_command()
+    def get_project_root(self):
+        if self.project is not None:
+            return self.project.root.real_path
+        else:
+            return None
+
     def _check_project(self):
         if self.project is None:
             if self.env.get('guess_project'):
@@ -550,7 +564,7 @@ class _CodeAssist(object):
         if prefix is not None:
             arg = self.env.prefix_value(prefix)
             if arg == 0:
-                arg = len(names)
+                arg = len(proposals)
             common_start = self._calculate_prefix(proposals[:arg])
             self.env.insert(common_start[self.offset - self.starting_offset:])
             self._starting = common_start
@@ -617,7 +631,8 @@ class _CodeAssist(object):
         proposals = codeassist.code_assist(
             self.interface.project, self.source, self.offset,
             resource, maxfixes=maxfixes)
-        proposals = codeassist.sorted_proposals(proposals)
+        if self.env.get('sorted_completions', True):
+            proposals = codeassist.sorted_proposals(proposals)
         if self.autoimport is not None:
             if self.starting.strip() and '.' not in self.expression:
                 import_assists = self.autoimport.import_assist(self.starting)

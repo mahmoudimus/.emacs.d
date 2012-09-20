@@ -36,15 +36,12 @@
 ;; set the python file path and add a few things to the load path.
 (setq python-mode-dir (concat core-vendor-dir "python-mode"))
 (setq python-files-dir (concat core-vendor-dir "python"))
-(add-to-list 'load-path python-mode-dir)
+
+(add-to-list 'load-path (concat python-files-dir "/virtualenv.el"))
+
 (setq py-install-directory python-mode-dir)
 (add-to-list 'load-path py-install-directory)
 ;; python mode from launchpad.net (the one by python.org)
-
-;; pymacs
-(setq py-load-pymacs-p t)
-
-(require 'python-mode)
 
 ;; creating and displaying an index menu of functions and global
 ;; variables is a huge performance problem.
@@ -202,5 +199,11 @@
 ;;       ))
 
 
+
+;; pymacs
+(setq py-load-pymacs-p t)
+
+;; require python
+(require 'python-mode)
 
 (provide 'core-python)

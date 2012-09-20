@@ -173,11 +173,16 @@ class LispUtils(ropemode.environment.Environment):
                     lisp.switch_to_buffer_other_window(new_buffer)
                 lisp.goto_char(lisp.point_min())
             elif window == 'other':
-                new_window = lisp.display_buffer(new_buffer)
-                lisp.set_window_point(new_window, lisp.point_min())
-                if fit_lines and lisp.fboundp(lisp['fit-window-to-buffer']):
-                    lisp.fit_window_to_buffer(new_window, fit_lines)
-                    lisp.bury_buffer(new_buffer)
+                if self.get("use_pop_to_buffer"):
+                    lisp.pop_to_buffer(new_buffer)
+                    lisp.goto_char(lisp.point_min())
+                else:
+                    new_window = lisp.display_buffer(new_buffer)
+                    lisp.set_window_point(new_window, lisp.point_min())
+                    if (fit_lines
+                        and lisp.fboundp(lisp['fit-window-to-buffer'])):
+                        lisp.fit_window_to_buffer(new_window, fit_lines)
+                        lisp.bury_buffer(new_buffer)
         return new_buffer
 
     def _hide_buffer(self, name, delete=True):
@@ -206,7 +211,29 @@ class LispUtils(ropemode.environment.Environment):
         return lisp.current_word()
 
     def push_mark(self):
-        lisp.push_mark()
+        marker_ring = self.get('marker_ring')
+        marker = lisp.point_marker()
+        lisp.ring_insert(marker_ring, marker)
+
+    def pop_mark(self):
+        marker_ring = self.get('marker_ring')
+        if lisp.ring_empty_p(marker_ring):
+            self.message("There are no more marked buffers in \
+the rope-marker-ring")
+        else:
+            oldbuf = lisp.current_buffer()
+            marker = lisp.ring_remove(marker_ring, 0)
+            marker_buffer = lisp.marker_buffer(marker)
+            if marker_buffer is None:
+                lisp.message("The marked buffer has been deleted")
+                return
+            marker_point  = lisp.marker_position(marker)
+            lisp.set_buffer(marker_buffer)
+            lisp.goto_char(marker_point)
+            #Kill that marker so it doesn't slow down editing.
+            lisp.set_marker(marker, None, None)
+            if not lisp.eq(oldbuf, marker_buffer):
+                lisp.switch_to_buffer(marker_buffer)
 
     def prefix_value(self, prefix):
         return lisp.prefix_numeric_value(prefix)
@@ -388,6 +415,11 @@ How many errors to fix, at most, when proposing code completions.")
 (defcustom ropemacs-max-doc-buffer-height 22
   "The maximum buffer height for `rope-show-doc'.")
 
+(defcustom ropemacs-use-pop-to-buffer nil
+  "Use native `pop-to-buffer' to show new buffer.
+
+This affect all ropemacs function including `rope-show-doc'.")
+
 (defcustom ropemacs-enable-autoimport 'nil
   "Specifies whether autoimport should be enabled.")
 (defcustom ropemacs-autoimport-modules nil
@@ -423,6 +455,12 @@ Use nil to prevent binding keys.")
 
 Use nil to prevent binding keys.")
 
+(defcustom ropemacs-marker-ring-length 16
+  "Length of the rope marker ring.")
+
+(defcustom ropemacs-marker-ring (make-ring ropemacs-marker-ring-length)
+  "Ring of markers which are locations from which goto-definition was invoked.")
+
 (defcustom ropemacs-enable-shortcuts 't
   "Shows whether to bind ropemacs shortcuts keys.
 
@@ -433,6 +471,7 @@ Key               Command
 ================  ============================
 M-/               rope-code-assist
 C-c g             rope-goto-definition
+C-c u             rope-pop-mark
 C-c d             rope-show-doc
 C-c f             rope-find-occurrences
 M-?               rope-lucky-assist
@@ -447,6 +486,7 @@ M-?               rope-lucky-assist
                     ["Code assist" rope-code-assist t]
                     ["Lucky assist" rope-lucky-assist t]
                     ["Goto definition" rope-goto-definition t]
+                    ["Pop mark" rope-pop-mark t]
                     ["Jump to global" rope-jump-to-global t]
                     ["Show documentation" rope-show-doc t]
                     ["Find Occurrences" rope-find-occurrences t]
@@ -511,6 +551,7 @@ MINOR_MODE = """\
 shortcuts = [('M-/', 'rope-code-assist'),
              ('M-?', 'rope-lucky-assist'),
              ('C-c g', 'rope-goto-definition'),
+             ('C-c u', 'rope-pop-mark'),
              ('C-c d', 'rope-show-doc'),
              ('C-c f', 'rope-find-occurrences')]
 
@@ -537,7 +578,8 @@ def _started_from_pymacs():
     while frame:
         # checking frame.f_code.co_name == 'pymacs_load_helper' might
         # be very fragile.
-        if inspect.getfile(frame).rstrip('c').endswith('pymacs.py'):
+        filename = inspect.getfile(frame).rstrip('c')
+        if filename.endswith(('Pymacs.py', 'pymacs.py')):
             return True
         frame = frame.f_back
 
