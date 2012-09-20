@@ -34,23 +34,33 @@
 ;;; Code:
 
 ;; set the python file path and add a few things to the load path.
+(setq python-mode-dir (concat core-vendor-dir "python-mode"))
 (setq python-files-dir (concat core-vendor-dir "python"))
-(add-to-list 'load-path python-files-dir)
-(add-to-list 'load-path (concat python-files-dir "/virtualenv.el"))
-
+(add-to-list 'load-path python-mode-dir)
+(setq py-install-directory python-mode-dir)
+(add-to-list 'load-path py-install-directory)
 ;; python mode from launchpad.net (the one by python.org)
+
+;; pymacs
+(setq py-load-pymacs-p t)
+
 (require 'python-mode)
+
 ;; creating and displaying an index menu of functions and global
 ;; variables is a huge performance problem.
 (setq py-imenu-create-index-p nil)
+
 ;; python mode settings
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
 ;; We never want to edit python bytecode
 (add-to-list 'completion-ignored-extensions ".pyc")
 
-;; pymacs
-(require 'pymacs (concat python-files-dir "/pymacs.el"))
+(require 'auto-complete-config)
+(ac-config-default)
+
+;; disable smart operator cuz it fucking sucks
+;; (setq py-smart-operator-mode-p nil)
 
 (eval-after-load "pymacs"
   '(progn
@@ -91,10 +101,6 @@
                     )
               ))
   )
-
-;;(add-to-list 'load-path (concat core-vendor-dir "auto-complete.el"))
-;;(require 'auto-complete)
-;;(require 'auto-complete-config)
 
 (defun mahmoud-force-indent (&optional arg)
     (interactive "P")
@@ -151,9 +157,6 @@
 ;;          (print file-local-variables-alist (get-buffer "*Messages*"))
 ;;          ;;(print (buffer-local-variables) (get-buffer "*Messages*"))
 ;;          ad-do-it))
-
-;; python mode settings.
-(set-variable 'py-install-directory python-files-dir)
 
 
 (eval-after-load 'python-mode

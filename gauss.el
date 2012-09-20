@@ -34,20 +34,22 @@
 ;; all the faces you'd like to customize
 
 ;; default font
-(set-face-font 'default "Monaco 10")
+;; (set-face-font 'default "Monaco 10")
+;; (set-face-font 'default "Menlo 12")
+(set-face-font 'default "Consolas 13")
 ;;(set-face-attribute 'default nil :height 100)
 ;;(set-face-font 'default "Helvetica Monospaced Pro-12")
 ;; font-face for the mode-line
-(set-face-font 'mode-line "FixedSCDZ")
-(set-face-font 'mode-line-buffer-id "FixedSCDZ")
-(set-face-font 'mode-line-emphasis "FixedSCDZ")
-(set-face-font 'mode-line-highlight "FixedSCDZ")
-(set-face-font 'mode-line-inactive "FixedSCDZ")
-(set-face-attribute 'mode-line nil :height 130)
-(set-face-attribute 'mode-line-buffer-id nil :height 130)
-(set-face-attribute 'mode-line-emphasis nil :height 130)
-(set-face-attribute 'mode-line-highlight nil :height 130)
-(set-face-attribute 'mode-line-inactive nil :height 130)
+;; (set-face-font 'mode-line "FixedSCDZ")
+;; (set-face-font 'mode-line-buffer-id "FixedSCDZ")
+;; (set-face-font 'mode-line-emphasis "FixedSCDZ")
+;; (set-face-font 'mode-line-highlight "FixedSCDZ")
+;; (set-face-font 'mode-line-inactive "FixedSCDZ")
+;; (set-face-attribute 'mode-line nil :height 130)
+;; (set-face-attribute 'mode-line-buffer-id nil :height 130)
+;; (set-face-attribute 'mode-line-emphasis nil :height 130)
+;; (set-face-attribute 'mode-line-highlight nil :height 130)
+;; (set-face-attribute 'mode-line-inactive nil :height 130)
 (setq line-height 1.0)
 
 ;; disable flymake-mode on the mac for now until I can get the script/linters running

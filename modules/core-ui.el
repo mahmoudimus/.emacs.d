@@ -54,7 +54,7 @@
 ;; it's safe, so use the NO-CONFIRM flag
 ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
 ;; (load-theme 'zenburn t)
-(load-theme 'twilight t)
+(load-theme 'tomorrow-night-bright t)
 ;; global hl mode
 (global-hl-line-mode 1)
 
