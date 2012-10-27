@@ -38,6 +38,8 @@
 (setq python-files-dir (concat core-vendor-dir "python"))
 
 (add-to-list 'load-path (concat python-files-dir "/virtualenv.el"))
+(add-to-list 'load-path (concat python-mode-dir "extensions"))
+(add-to-list 'load-path (concat python-mode-dir "completion"))
 
 (setq py-install-directory python-mode-dir)
 (add-to-list 'load-path py-install-directory)
@@ -172,6 +174,13 @@
      ;;==================================================
      ;; load pycomplete
      (require 'pycomplete)
+     ;;==================================================
+     ;; auto-pair
+     ;;==================================================
+     ;; load autopair
+     (require 'autopair)
+     (autopair-global-mode)
+     (setq autopair-autowrap t)
      ;;==================================================
      ;; Nose Tests
      ;;==================================================

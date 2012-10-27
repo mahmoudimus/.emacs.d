@@ -91,6 +91,9 @@
   ;; (flyspell-prog-mode)
   ;; keep the whitespace decent all the time
   (add-hook 'before-save-hook 'whitespace-cleanup nil t)
+  (add-hook 'makefile-mode-hook
+            (lambda()
+              (remove-hook 'before-save-hook 'whitespace-cleanup)))
   (setq column-number-mode t)
   )
 
