@@ -34,11 +34,39 @@
 ;; all the faces you'd like to customize
 
 ;; default font
-;; (set-face-font 'default "Monaco 10")
-;; (set-face-font 'default "Menlo 12")
-(set-face-font 'default "Consolas 13")
-;;(set-face-attribute 'default nil :height 100)
-;;(set-face-font 'default "Helvetica Monospaced Pro-12")
+
+(when (eq system-type 'darwin)
+
+  ;; anti-aliasing for fonts.
+  (setq ns-antialias-text t)
+
+  ;; default Latin font (e.g. Consolas)
+  ;; (set-face-attribute 'default nil :family "Consolas")
+  ;; (set-face-font 'default "Monaco 12")
+  ;; (set-face-font 'default "Menlo 12")
+  ;; (set-face-font 'default "Consolas 13")
+  ;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 130)
+  ;; (set-face-font 'default "FixedSCDZ")
+  (set-face-attribute 'default nil :family "Source Code Pro"
+                       :weight 'ExtraLight :height 120)
+
+  ;; (set-face-font 'default "Ubuntu Mono 12")
+  ;; (set-face-attribute 'default nil :height 120)
+  ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
+  ;; default font size (point * 10)
+  ;;
+  ;; WARNING!  Depending on the default font,
+  ;; if the size is not supported very well, the frame will be clipped
+  ;; so that the beginning of the buffer may not be visible correctly.
+  ;; (set-face-attribute 'default nil :height 120)
+  ;; use specific font for Korean charset.
+  ;; if you want to use different font size for specific charset,
+  ;; add :size POINT-SIZE in the font-spec.
+  (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+  ;; you may want to add different for other charset in this way.
+  )
+
+
 ;; font-face for the mode-line
 ;; (set-face-font 'mode-line "FixedSCDZ")
 ;; (set-face-font 'mode-line-buffer-id "FixedSCDZ")
