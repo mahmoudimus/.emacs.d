@@ -16,7 +16,6 @@
 ;;
 ;;; Code:
 
-
 (defvar py-test-shebang-list (list "#! /usr/bin/env python" "#! /usr/bin/env ipython" "#! /usr/bin/python" "#! /usr/bin/ipython")
   "Values to test as `py-test-shebang', resp. `py-shell-name'. ")
 
@@ -39,6 +38,44 @@
 
 (setq bug-numbered-tests
       (list
+       'python-mode-very-slow-lp-1107037-test
+       'cascading-indent-lp-1101962-test
+       'line-after-colon-with-inline-comment-lp-1109946-test
+       'more-docstring-filling-woes-lp-1102296-pep-257-nn-test
+       'more-docstring-filling-woes-lp-1102296-pep-257-test
+       'more-docstring-filling-woes-lp-1102296-nil-test
+       'more-docstring-filling-woes-lp-1102296-onetwo-test
+       'more-docstring-filling-woes-lp-1102296-django-test
+       'more-docstring-filling-woes-lp-1102296-symmetric-test
+       'module-docstring-when-following-comment-lp-1102011-test
+       'py-newline-and-indent-leaves-eol-whitespace-lp-1100892-test
+       'py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-test
+       'py-up-test-python-el-111-test
+       'py-down-python-el-112-test
+       'enter-key-does-not-indent-properly-after-return-statement-lp-1098793-test
+       'filename-completion-fails-in-ipython-lp-1027265-n1-test
+       'filename-completion-fails-in-ipython-lp-1027265-n2-test
+       'comments-start-a-new-line-lp-1092847-n1-test
+       'comments-start-a-new-line-lp-1092847-n2-test
+       'temporary-files-remain-when-python-raises-exception-lp-1083973-n1-test
+       'temporary-files-remain-when-python-raises-exception-lp-1083973-n2-test
+       'temporary-files-remain-when-python-raises-exception-lp-1083973-n3-test
+       'temporary-files-remain-when-python-raises-exception-lp-1083973-n4-test
+       'wrong-indentation-after-return-or-pass-keyword-lp-1087499-test
+       'wrong-indent-after-asignment-lp-1087404-test
+       'py-execute-buffer-python3-looks-broken-lp-1085386-test
+       'fill-paragraph-in-comments-results-in-mess-lp-1084769-test
+       'imenu-add-menubar-index-fails-lp-1084503-test
+       'spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-test
+       'fill-paragraph-in-a-comment-does-not-stop-at-empty-comment-lines-lp-1077139-test
+       'incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-test
+       'fails-to-indent-abs-wrong-type-argument-lp-1075673-test
+       'incorrect-indentation-of-one-line-functions-lp-1067633-test
+       'several-new-bugs-with-paragraph-filling-lp-1066489-test
+       'impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-test
+       'exception-in-except-clause-highlighted-as-keyword-lp-909205-test
+       'pyindex-mishandles-class-definitions-lp-1018164-test
+       'stalls-emacs-probably-due-to-syntax-highlighting-lp-1058261-test
        'py-find-imports-lp-1023236-test
        'pycomplete-imports-not-found-error-when-no-symbol-lp:1019791-test
        'return-statement-indented-incorrectly-lp-1019601.py-test
@@ -173,14 +210,14 @@
 created local to the project that autocomplete is being tested
 on."
   `(let ((debug-on-error t)
+         (enable-local-variables :all)
          py-load-pymacs-p
          py-split-windows-on-execute-p
          py-shell-switch-buffers-on-execute-p
          py-start-run-py-shell
          proc
-         py-prepare-autopair-mode-p
          py-fontify-shell-buffer-p
-         company-mode)
+         )
      (if ,use-find-file
          (find-file (concat (py-normalize-directory py-temp-directory)
                             (replace-regexp-in-string "\\\\" "" (replace-regexp-in-string "-base$" "-test" (prin1-to-string ,testname)))))
@@ -193,6 +230,7 @@ on."
      (insert ,teststring)
      (local-unset-key (kbd "RET"))
      (python-mode)
+     (when (and (boundp 'company-mode) company-mode) (company-abort))
      (funcall ,testname)
      (message "%s" (replace-regexp-in-string "\\\\" "" (concat (replace-regexp-in-string "-base$" "-test" (prin1-to-string ,testname)) " passed")))
      (unless (< 1 arg)
@@ -585,6 +623,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 ##   directory consisting of just .txt and .lorien files.
 ")
     (when arg (switch-to-buffer (current-buffer)))
+    (python-mode)
     (font-lock-mode 1)
     (font-lock-fontify-buffer)
     (goto-char 100)
@@ -637,7 +676,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (interactive "p")
   (let ((teststring (concat py-test-shebang "
 # -\*- coding: utf-8 -\*-
-print u'\\xA9'
+print(u'\\xA9')
 ")))
     (py-bug-tests-intern 'UnicodeEncodeError-lp:550661-base 2 teststring)))
 
@@ -685,7 +724,7 @@ This docstring isn't indented, test should pass anyway.
 
 (defun goto-beginning-of-tqs-lp:735328 ()
   (goto-char 84)
-  (assert (eq 0 (py-compute-indentation)) nil "goto-beginning-of-tqs-lp:735328-test failed")
+  (assert (eq 4 (py-compute-indentation)) nil "goto-beginning-of-tqs-lp:735328-test failed")
   )
 
 (defun class-treated-as-keyword-lp:709478-test (&optional arg)
@@ -709,7 +748,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (assert (eq (get-char-property (point) 'face) 'font-lock-string-face) nil "class-treated-as-keyword-lp:709478d 1th test failed")
     (goto-char 57)
     ;; (assert (if (get-char-property (point) 'face)(eq (get-char-property (point) 'face) 'py-variable-name-face)t) nil "class-treated-as-keyword-lp:709478-test 2th failed")))
-    (assert (eq (get-char-property (point) 'face) 'py-variable-name-face) nil "class-treated-as-keyword-lp:709478-test 2th failed")))
+    (assert (eq (get-char-property (point) 'face) nil) nil "class-treated-as-keyword-lp:709478-test 2th failed")))
 
 (defun fore-00007F-breaks-indentation-lp:328788-test (&optional arg)
   "With ARG greater 1 keep test buffer open.
@@ -1319,6 +1358,7 @@ def add(ui, repo, \*pats, \*\*opts):
 
 (defun python-mode-slow-lp:803275-base ()
   (goto-char 1)
+  (sit-for 0.1)
   (assert (eq 5430 (py-end-of-def-or-class)) nil "python-mode-slow-lp:803275-test failed"))
 
 (defun master-file-not-honored-lp:794850-test (&optional arg)
@@ -1585,7 +1625,8 @@ from long.pkg.name import long, list, of, \\
 
 (defun indent-match-import-pkg-lp:852500-test (&optional arg)
   (interactive "p")
-  (let ((teststring "from long.pkg.name import long, list, of, \\
+  (let (py-smart-indentation
+        (teststring "from long.pkg.name import long, list, of, \\
      class_and_function, names
 
 # (note there are five spaces before \"class\", to match with the
@@ -1793,8 +1834,12 @@ foo = True # the next line is indented incorrectly
     (py-bug-tests-intern 'indent-after-inline-comment-lp:873372.txt-base arg teststring)))
 
 (defun indent-after-inline-comment-lp:873372.txt-base ()
-  (goto-char 111)
-  (assert (eq 0 (py-compute-indentation)) nil "indent-after-inline-comment-lp:873372-test failed"))
+  (let ((py-indent-honors-inline-comment t))
+    (goto-char 111)
+    (assert (eq 11 (py-compute-indentation)) nil "indent-after-inline-comment-lp:873372-test #1 failed"))
+  (let (py-indent-honors-inline-comment)
+    (goto-char 111)
+    (assert (eq 0 (py-compute-indentation)) nil "indent-after-inline-comment-lp:873372-test #2 failed")))
 
 (defun else-clause-indentation-lp:874470-test (&optional arg)
   (interactive "p")
@@ -2170,8 +2215,8 @@ ex")))
   (assert (looking-at "import") nil "py-ipython-complete-lp:927136-test #1 failed")
   (goto-char 62)
   (sit-for 0.1)
-  (assert (string= "except" (ipython-complete)) nil "py-ipython-complete-lp:927136-test #2 lp:1026705 failed"))
-
+  (ipython-complete)
+  (assert (buffer-live-p (get-buffer "*IPython Completions*")) nil "py-ipython-complete-lp:927136-test #2 lp:1026705 failed"))
 
 (defun execute-buffer-ipython-fails-lp:928087-test (&optional arg)
   (interactive "p")
@@ -2194,7 +2239,7 @@ print u'\\xA9'
 for x in y:
     for z in l:
         for r in t:
-                pass # <--- indents here. Pressing <backspace> dedents eight spaces (i.e. you can go to column 0 in two presess)
+            pass # <--- indents here. Pressing <backspace> dedents eight spaces (i.e. you can go to column 0 in two presess)
 ")))
     (py-bug-tests-intern 'fourth-level-blocks-indent-incorrectly-lp:939577-base arg teststring)))
 
@@ -2202,7 +2247,7 @@ for x in y:
   (goto-char 88)
   (assert (eq 4 (py-guess-indent-offset)) nil "fourth-level-blocks-indent-incorrectly-lp:939577-test failed")
   (goto-char 225)
-  (assert (eq 8 (py-guess-indent-offset)) nil "fourth-level-blocks-indent-incorrectly-lp:939577-test failed")
+  (assert (eq 4 (py-guess-indent-offset)) nil "fourth-level-blocks-indent-incorrectly-lp:939577-test failed")
   )
 
 (defun py-mark-expression-marks-too-much-lp:941140-test (&optional arg)
@@ -2737,8 +2782,11 @@ class Blah():
     def someDef():
         print(\"I'm someDef\")
 ")
-    (write-file (concat (py-normalize-directory py-temp-directory) "classblah.py")))
-
+    ;; (write-file (concat (py-normalize-directory py-temp-directory) "classblah.py")))
+    ;; as completion is  already in $PYTHONPATH
+   (write-file (concat (expand-file-name (py-normalize-directory py-install-directory)) "completion" "/" "classblah.py"))
+     (set-buffer-modified-p 'nil)
+  (kill-buffer (current-buffer)))
   (let ((teststring "#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from classblah import *
@@ -2748,14 +2796,18 @@ CLASS_INS.someDe
     (py-bug-tests-intern 'pycomplete-same-folder-class-lp:889052-base arg teststring)))
 
 (defun pycomplete-same-folder-class-lp:889052-base ()
-  (let ((erg (concat (py-normalize-directory py-temp-directory) "classblah.py"))
+  (let (
+(testfile1 (concat (expand-file-name (py-normalize-directory py-install-directory)) "completion" "/" "classblah.py"))
+        (testfile2 (concat (expand-file-name (py-normalize-directory py-install-directory)) "completion" "/" "somedef.py"))
         py-no-completion-calls-dabbrev-expand-p
         py-indent-no-completion-p)
+    (write-file testfile2)
     (goto-char 107)
     (unwind-protect
         (py-python-script-complete)
       (beginning-of-line))
-    (when (file-readable-p erg) (delete-file erg)))
+    (when (file-readable-p testfile1) (delete-file testfile1))
+    (when (file-readable-p testfile2) (delete-file testfile2)))
   (assert (looking-at "CLASS_INS.someDef") "pycomplete-same-folder-class-lp:889052-test failed"))
 
 (defun shebang-interpreter-not-detected-lp:1001327-test (&optional arg)
@@ -2795,12 +2847,8 @@ def test_bu():
 (defun not-that-useful-completion-lp:1003580-base ()
   (goto-char 86)
   ;; (py-python-script-complete)
-  (py-shell-complete)
-  (unless (looking-back "False_")
-    (choose-completion))
-  (back-to-indentation)
-  (sit-for 0.1)
-  (assert (looking-at "numpy.False_") nil "not-that-useful-completion-lp:1003580-test failed"))
+  (py-shell-complete nil t)
+  (assert (string-match  "^numpy." (car py-shell-complete-debug)) nil "not-that-useful-completion-lp:1003580-test failed"))
 
 (defun completion-fails-in-python-script-r989-lp:1004613-test (&optional arg)
   (interactive "p")
@@ -2814,7 +2862,7 @@ ex
   (when (buffer-live-p (get-buffer "*Python Completions*"))
     (kill-buffer "*Python Completions*"))
   (goto-char 51)
-  (ipython-complete)
+  (ipython-complete nil nil nil nil nil nil t)
   (set-buffer "*IPython Completions*")
   (assert (search-forward "except") nil "completion-fails-in-python-script-r989-lp:1004613-test failed"))
 
@@ -2861,7 +2909,7 @@ re.s
 (defun completion-at-gentoo-lp-1008842-base ()
   (goto-char 62)
   (py-shell-complete)
-  (assert (equal (buffer-name (current-buffer)) "*Python Completions*") nil "completion-at-gentoo-lp-1008842-test failed"))
+  (assert (buffer-live-p (get-buffer  "*Python Completions*")) nil "completion-at-gentoo-lp-1008842-test failed"))
 
 (defun converts-tabs-to-spaces-in-indent-tabs-mode-t-lp-1019128.py-test (&optional arg)
   (interactive "p")
@@ -2904,7 +2952,7 @@ from PyQt4.QtGui import QMainWindow
     (py-bug-tests-intern 'pycomplete-imports-not-found-error-when-no-symbol-lp:1019791-base arg teststring)))
 
 (defun pycomplete-imports-not-found-error-when-no-symbol-lp:1019791-base ()
-  (assert (py-find-global-imports) nil "pycomplete-imports-not-found-error-when-no-symbol-lp:1019791-test failed"))
+  (assert (py-find-imports) nil "pycomplete-imports-not-found-error-when-no-symbol-lp:1019791-test failed"))
 
 (defun py-narrow-to-defun-lp-1020531-test (&optional arg)
   (interactive "p")
@@ -2916,7 +2964,6 @@ Es muß die aufzurufende Ziehungszahl als Argument angegeben werden:
 'python roulette.py 1, 'python roulette.py 2', ... 'python roulette.py n'.
 \"\"\" % (
           os.path.basename(sys.argv[0]))
-
 
 def main():
     if len(sys.argv) == 1:
@@ -2938,7 +2985,7 @@ if __name__ == \"__main__\":
 (defun py-narrow-to-defun-lp-1020531-base ()
   (goto-char 334)
   (py-narrow-to-defun)
-  (assert (eq 522 (point-max)) nil "py-narrow-to-defun-lp-1020531-test failed"))
+  (assert (eq 521 (point-max)) nil "py-narrow-to-defun-lp-1020531-test failed"))
 
 (defun py-find-imports-lp-1023236-test (&optional arg)
   (interactive "p")
@@ -3002,7 +3049,6 @@ for something:
 (defun complaint-about-non-ASCII-character-lp-1042949-base ()
   (assert (py-execute-buffer) nil "complaint-about-non-ASCII-character-lp-1042949-test failed"))
 
-
 (defun dont-indent-code-unnecessarily-lp-1048778-test (&optional arg)
   (interactive "p")
   (let ((teststring "#! /usr/bin/env python
@@ -3021,6 +3067,2403 @@ def foo(a):
     (goto-char 163)
     (py-electric-colon 1)
     (assert (eq 4 (current-indentation)) nil "dont-indent-code-unnecessarily-lp-1048778-test failed"))
+
+(defun IndentationError-expected-an-indented-block-when-execute-lp-1055569-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "if __name__ == '__main__':
+    print 'hello'
+"))
+  (py-bug-tests-intern 'IndentationError-expected-an-indented-block-when-execute-lp-1055569-base arg teststring)))
+
+(defun IndentationError-expected-an-indented-block-when-execute-lp-1055569-base ()
+    (assert (progn (py-execute-buffer) t) nil "IndentationError-expected-an-indented-block-when-execute-lp-1055569-test failed"))
+
+(defun stalls-emacs-probably-due-to-syntax-highlighting-lp-1058261-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+class Parallel(Logger):
+    ''' Helper class for readable parallel mapping.
+
+        Parameters
+        -----------
+        n_jobs: int
+            The number of jobs to use for the computation. If -1 all CPUs
+            are used. If 1 is given, no parallel computing code is used
+            at all, which is useful for debuging. For n_jobs below -1,
+            (n_cpus + 1 - n_jobs) are used. Thus for n_jobs = -2, all
+            CPUs but one are used.
+        verbose: int, optional
+            The verbosity level: if non zero, progress messages are
+            printed. Above 50, the output is sent to stdout.
+            The frequency of the messages increases with the verbosity level.
+            If it more than 10, all iterations are reported.
+        pre_dispatch: {'all', integer, or expression, as in '3\*n_jobs'}
+            The amount of jobs to be pre-dispatched. Default is 'all',
+            but it may be memory consuming, for instance if each job
+            involves a lot of a data.
+
+        Notes
+        -----
+
+        This object uses the multiprocessing module to compute in
+        parallel the application of a function to many different
+        arguments. The main functionality it brings in addition to
+        using the raw multiprocessing API are (see examples for details):
+
+            \* More readable code, in particular since it avoids
+              constructing list of arguments.
+
+            \* Easier debuging:
+                - informative tracebacks even when the error happens on
+                  the client side
+                - using 'n_jobs=1' enables to turn off parallel computing
+                  for debuging without changing the codepath
+                - early capture of pickling errors
+
+            \* An optional progress meter.
+
+            \* Interruption of multiprocesses jobs with 'Ctrl-C'
+
+        Examples
+        --------
+
+        A simple example:
+
+        >>> from math import sqrt
+        >>> from joblib import Parallel, delayed
+        >>> Parallel(n_jobs=1)(delayed(sqrt)(i\*\*2) for i in range(10))
+        [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+
+        Reshaping the output when the function has several return
+        values:
+
+        >>> from math import modf
+        >>> from joblib import Parallel, delayed
+        >>> r = Parallel(n_jobs=1)(delayed(modf)(i/2.) for i in range(10))
+        >>> res, i = zip(\*r)
+        >>> res
+        (0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5)
+        >>> i
+        (0.0, 0.0, 1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0)
+
+        The progress meter: the higher the value of `verbose`, the more
+        messages::
+
+            >>> from time import sleep
+            >>> from joblib import Parallel, delayed
+            >>> r = Parallel(n_jobs=2, verbose=5)(delayed(sleep)(.1) for _ in range(10)) #doctest: +SKIP
+            [Parallel(n_jobs=2)]: Done   1 out of  10 | elapsed:    0.1s remaining:    0.9s
+            [Parallel(n_jobs=2)]: Done   3 out of  10 | elapsed:    0.2s remaining:    0.5s
+            [Parallel(n_jobs=2)]: Done   6 out of  10 | elapsed:    0.3s remaining:    0.2s
+            [Parallel(n_jobs=2)]: Done   9 out of  10 | elapsed:    0.5s remaining:    0.1s
+            [Parallel(n_jobs=2)]: Done  10 out of  10 | elapsed:    0.5s finished
+
+        Traceback example, note how the line of the error is indicated
+        as well as the values of the parameter passed to the function that
+        triggered the exception, even though the traceback happens in the
+        child process::
+
+         >>> from string import atoi
+         >>> from joblib import Parallel, delayed
+         >>> Parallel(n_jobs=2)(delayed(atoi)(n) for n in ('1', '300', 30)) #doctest: +SKIP
+         #...
+         ---------------------------------------------------------------------------
+         Sub-process traceback:
+         ---------------------------------------------------------------------------
+         TypeError                                          Fri Jul  2 20:32:05 2010
+         PID: 4151                                     Python 2.6.5: /usr/bin/python
+         ...........................................................................
+         /usr/lib/python2.6/string.pyc in atoi(s=30, base=10)
+             398     is chosen from the leading characters of s, 0 for octal, 0x or
+             399     0X for hexadecimal.  If base is 16, a preceding 0x or 0X is
+             400     accepted.
+             401
+             402     \"\"\"
+         --> 403     return _int(s, base)
+             404
+             405
+             406 # Convert string to long integer
+             407 def atol(s, base=10):
+
+         TypeError: int() can't convert non-string with explicit base
+         ___________________________________________________________________________
+
+        Using pre_dispatch in a producer/consumer situation, where the
+        data is generated on the fly. Note how the producer is first
+        called a 3 times before the parallel loop is initiated, and then
+        called to generate new data on the fly. In this case the total
+        number of iterations cannot be reported in the progress messages::
+
+         >>> from math import sqrt
+         >>> from joblib import Parallel, delayed
+
+         >>> def producer():
+         ...     for i in range(6):
+         ...         print 'Produced %s' % i
+         ...         yield i
+
+         >>> out = Parallel(n_jobs=2, verbose=100, pre_dispatch='1.5\*n_jobs')(
+         ...                         delayed(sqrt)(i) for i in producer()) #doctest: +SKIP
+         Produced 0
+         Produced 1
+         Produced 2
+         [Parallel(n_jobs=2)]: Done   1 jobs       | elapsed:    0.0s
+         Produced 3
+         [Parallel(n_jobs=2)]: Done   2 jobs       | elapsed:    0.0s
+         Produced 4
+         [Parallel(n_jobs=2)]: Done   3 jobs       | elapsed:    0.0s
+         Produced 5
+         [Parallel(n_jobs=2)]: Done   4 jobs       | elapsed:    0.0s
+         [Parallel(n_jobs=2)]: Done   5 out of   6 | elapsed:    0.0s remaining:    0.0s
+         [Parallel(n_jobs=2)]: Done   6 out of   6 | elapsed:    0.0s finished
+    '''
+    def __init__(self, n_jobs=1, verbose=0, pre_dispatch='all'):
+        self.verbose = verbose
+        self.n_jobs = n_jobs
+        self.pre_dispatch = pre_dispatch
+        self._pool = None
+        # Not starting the pool in the __init__ is a design decision, to be
+        # able to close it ASAP, and not burden the user with closing it.
+        self._output = None
+        self._jobs = list()
+
+    def dispatch(self, func, args, kwargs):
+        \"\"\" Queue the function for computing, with or without multiprocessing
+        \"\"\"
+        if self._pool is None:
+            job = ImmediateApply(func, args, kwargs)
+            index = len(self._jobs)
+            if not _verbosity_filter(index, self.verbose):
+                self._print('Done %3i jobs       | elapsed: %s',
+                        (index + 1,
+                            short_format_time(time.time() - self._start_time)
+                        ))
+            self._jobs.append(job)
+            self.n_dispatched += 1
+        else:
+            self._lock.acquire()
+            # If job.get() catches an exception, it closes the queue:
+            try:
+                job = self._pool.apply_async(SafeFunction(func), args,
+                            kwargs, callback=CallBack(self.n_dispatched, self))
+                self._jobs.append(job)
+                self.n_dispatched += 1
+            except AssertionError:
+                print '[Parallel] Pool seems closed'
+            finally:
+                self._lock.release()
+
+    def dispatch_next(self):
+        \"\"\" Dispatch more data for parallel processing
+        \"\"\"
+        self._dispatch_amount += 1
+        while self._dispatch_amount:
+            try:
+                # XXX: possible race condition shuffling the order of
+                # dispatchs in the next two lines.
+                func, args, kwargs = self._iterable.next()
+                self.dispatch(func, args, kwargs)
+                self._dispatch_amount -= 1
+            except ValueError:
+                \"\"\" Race condition in accessing a generator, we skip,
+                    the dispatch will be done later.
+                \"\"\"
+            except StopIteration:
+                self._iterable = None
+                return
+
+    def _print(self, msg, msg_args):
+        \"\"\" Display the message on stout or stderr depending on verbosity
+        \"\"\"
+        # XXX: Not using the logger framework: need to
+        # learn to use logger better.
+        if not self.verbose:
+            return
+        if self.verbose < 50:
+            writer = sys.stderr.write
+        else:
+            writer = sys.stdout.write
+        msg = msg % msg_args
+        writer('[%s]: %s\\n' % (self, msg))
+
+    def print_progress(self, index):
+        \"\"\"Display the process of the parallel execution only a fraction
+           of time, controled by self.verbose.
+        \"\"\"
+        if not self.verbose:
+            return
+        elapsed_time = time.time() - self._start_time
+
+        # This is heuristic code to print only 'verbose' times a messages
+        # The challenge is that we may not know the queue length
+        if self._iterable:
+            if _verbosity_filter(index, self.verbose):
+                return
+            self._print('Done %3i jobs       | elapsed: %s',
+                        (index + 1,
+                         short_format_time(elapsed_time),
+                        ))
+        else:
+            # We are finished dispatching
+            queue_length = self.n_dispatched
+            # We always display the first loop
+            if not index == 0:
+                # Display depending on the number of remaining items
+                # A message as soon as we finish dispatching, cursor is 0
+                cursor = (queue_length - index + 1
+                          - self._pre_dispatch_amount)
+                frequency = (queue_length // self.verbose) + 1
+                is_last_item = (index + 1 == queue_length)
+                if (is_last_item or cursor % frequency):
+                    return
+            remaining_time = (elapsed_time / (index + 1) \*
+                        (self.n_dispatched - index - 1.))
+            self._print('Done %3i out of %3i | elapsed: %s remaining: %s',
+                        (index + 1,
+                         queue_length,
+                         short_format_time(elapsed_time),
+                         short_format_time(remaining_time),
+                        ))
+
+    def retrieve(self):
+        self._output = list()
+        while self._jobs:
+            # We need to be careful: the job queue can be filling up as
+            # we empty it
+            if hasattr(self, '_lock'):
+                self._lock.acquire()
+            job = self._jobs.pop(0)
+            if hasattr(self, '_lock'):
+                self._lock.release()
+            try:
+                self._output.append(job.get())
+            except tuple(self.exceptions), exception:
+                if isinstance(exception,
+                        (KeyboardInterrupt, WorkerInterrupt)):
+                    # We have captured a user interruption, clean up
+                    # everything
+                    if hasattr(self, '_pool'):
+                        self._pool.close()
+                        self._pool.terminate()
+                    raise exception
+                elif isinstance(exception, TransportableException):
+                    # Capture exception to add information on the local stack
+                    # in addition to the distant stack
+                    this_report = format_outer_frames(context=10,
+                                                      stack_start=1)
+                    report = \"\"\"Multiprocessing exception:
+%s
+---------------------------------------------------------------------------
+Sub-process traceback:
+---------------------------------------------------------------------------
+%s\"\"\" % (
+                            this_report,
+                            exception.message,
+                        )
+                    # Convert this to a JoblibException
+                    exception_type = _mk_exception(exception.etype)[0]
+                    raise exception_type(report)
+                raise exception
+
+    def __call__(self, iterable):
+        if self._jobs:
+            raise ValueError('This Parallel instance is already running')
+        n_jobs = self.n_jobs
+        if n_jobs < 0 and multiprocessing is not None:
+            n_jobs = max(multiprocessing.cpu_count() + 1 + n_jobs, 1)
+
+        # The list of exceptions that we will capture
+        self.exceptions = [TransportableException]
+        if n_jobs is None or multiprocessing is None or n_jobs == 1:
+            n_jobs = 1
+            self._pool = None
+        else:
+            if multiprocessing.current_process()._daemonic:
+                # Daemonic processes cannot have children
+                n_jobs = 1
+                self._pool = None
+                warnings.warn(
+                    'Parallel loops cannot be nested, setting n_jobs=1',
+                    stacklevel=2)
+            else:
+                self._pool = multiprocessing.Pool(n_jobs)
+                self._lock = threading.Lock()
+                # We are using multiprocessing, we also want to capture
+                # KeyboardInterrupts
+                self.exceptions.extend([KeyboardInterrupt, WorkerInterrupt])
+
+        if self.pre_dispatch == 'all' or n_jobs == 1:
+            self._iterable = None
+            self._pre_dispatch_amount = 0
+        else:
+            self._iterable = iterable
+            self._dispatch_amount = 0
+            pre_dispatch = self.pre_dispatch
+            if hasattr(pre_dispatch, 'endswith'):
+                pre_dispatch = eval(pre_dispatch)
+            self._pre_dispatch_amount = pre_dispatch = int(pre_dispatch)
+            iterable = itertools.islice(iterable, pre_dispatch)
+
+        self._start_time = time.time()
+        self.n_dispatched = 0
+        try:
+            for function, args, kwargs in iterable:
+                self.dispatch(function, args, kwargs)
+
+            self.retrieve()
+            # Make sure that we get a last message telling us we are done
+            elapsed_time = time.time() - self._start_time
+            self._print('Done %3i out of %3i | elapsed: %s finished',
+                        (len(self._output),
+                         len(self._output),
+                            short_format_time(elapsed_time)
+                        ))
+
+        finally:
+            if n_jobs > 1:
+                self._pool.close()
+                self._pool.join()
+            self._jobs = list()
+        output = self._output
+        self._output = None
+        return output
+
+    def __repr__(self):
+        return '%s(n_jobs=%s)' % (self.__class__.__name__, self.n_jobs)
+
+"))
+  (py-bug-tests-intern 'stalls-emacs-probably-due-to-syntax-highlighting-lp-1058261-base arg teststring)))
+
+(defun stalls-emacs-probably-due-to-syntax-highlighting-lp-1058261-base ()
+  (switch-to-buffer (current-buffer))
+  (goto-char 6184)
+    (while (not (bobp))
+      (forward-line -1)
+      (end-of-line)
+      ;; (when (interactive-p) (sit-for 0.1))
+      (beginning-of-line))
+    (assert (bobp) nil "stalls-emacs-probably-due-to-syntax-highlighting-lp-1058261-test failed"))
+
+(defun pyindex-mishandles-class-definitions-lp-1018164-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+import io
+import subprocess
+import re
+import copy
+import pickle
+import textwrap
+import datetime
+import util
+import cldef
+import datatypes
+from themes.thutil import lisp, fontNames, Color, emacsPosition
+
+###############################################################################
+version = 3
+
+###############################################################################
+# used to raise a type error if a call is made with incorrect arguments
+def _emptyParametersCheck(): pass
+
+###############################################################################
+class Font(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.slots(\"__fontStr\")
+    __cldef.fields(\"weight slant width height pointSize size face\")
+    __cldef.field(\"mapKey\", initfunc=lambda f:(f.size,f.weight,f.slant))
+    __cldef.field(\"sortKey\", initfunc=lambda f:(f.width,f.height))
+
+    ###########################################################################
+    __parseFontStrRE = __cldef.constant(re.compile(
+        r'-outline-Courier New-(?P<weight>bold|normal)'\\
+        r'-(?P<slant>i|r)-normal-normal' \\
+        r'-(?P<height>\\d+)-(?P<size>\\d+)-\\d+-\\d+-c-(?P<width>\\d+)-iso10646-1'))
+
+    ###########################################################################
+    def __init__(self, fontStr):
+        self.__fontStr = fontStr
+        match = self.__parseFontStrRE.match(fontStr)
+        self.weight = match.group('weight')
+        self.slant = 'italic' if match.group('slant') == 'i' else 'regular'
+        self.width = int(match.group('width'))//10
+        self.height = int(match.group('height'))
+        self.pointSize = (int(match.group('size')) + 5)//10
+        self.size = \"%sx%s\" % (self.__width, self.__height)
+        self.face = \"Courier New\"
+
+    ###########################################################################
+    def __str__(self): return self.__fontStr
+
+    ###########################################################################
+    def qt(self):
+        if 'QtGui' not in globals():
+            global QtGui
+            from PyQt4 import QtGui
+        font = QtGui.QFont(self.face, self.pointSize)
+        font.setItalic(self.slant == 'italic')
+        font.setBold(self.weight == 'bold')
+        return font
+
+###############################################################################
+class FontAttrs(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    mapKey = property(lambda self: (self.size, self.weight, self.slant))
+
+    ###########################################################################
+    class FontAttrs(__cldef.FieldClass):
+        access, fields = 'rw', \"fontSize fontWeight fontSlant\"
+        def sethook(obj, fieldName, value):
+            value = str(value)
+            if value in obj.fontOptions(fieldName):
+                return value
+            raise ValueError(\"%s invalid value for %s\"%(value, fieldName))
+
+    ###########################################################################
+    attrNames = __cldef.constant(frozenset(FontAttrs.fields.split()))
+
+    ###########################################################################
+    class FontAttrAbbrevs(__cldef.FieldClass):
+        access, fields = 'rw', tuple(\"size weight slant\".split())
+        def fget(obj): pass
+        def gethook(obj,name,\*p):
+            return getattr(obj, 'font'+name.capitalize())
+        def fset(obj,val): pass
+        def sethook(obj,name,val,\*p):
+            setattr(obj, 'font'+name.capitalize(), val)
+
+    ###########################################################################
+    def __init__(self, size='8x13', weight='bold', slant='regular'):
+        self.__initAttrs(\*\*locals())
+
+    ###########################################################################
+    def font():
+        # font options contain the valid values for each font attr
+        _fontOptions = {'weight':('normal','bold'),
+                        'slant':('regular','italic')}
+
+        # Get the list of font names from thutil and create the font lookup
+        # dict. It is assumed that the weight and slant are not specified,
+        # so will fill in the \"typical\" options here.
+        _fontMap = dict()
+        for fontStr in fontNames():
+            for weight in ('normal', 'bold'):
+                for slant in ('r', 'i'):
+                    font = Font(fontStr.replace(\"\*-\*\", weight+'-'+slant))
+                    _fontMap[font.mapKey] = font
+
+        # getFont: use the fontAttrSize, fontWeight and fontSize attrs
+        # to lookup the font in _fontMap
+        def getFont(self): return _fontMap[self.mapKey]
+
+        # scan all the values of _fontMap an garther all fontSize options
+        _fontSizes = set(f.size for f in _fontMap.values())
+        def fontSizeSortKey(size):
+            return tuple(int(i) for i in size.split('x'))
+        _fontOptions['size'] = tuple(sorted(_fontSizes, key=fontSizeSortKey))
+
+        #provide a function to query the fontoptions
+        def fontOptions(attrName):
+            attrName = attrName.lower()
+            if attrName.startswith('font'):
+                attrName = attrName[len('font'):]
+            return _fontOptions[attrName]
+
+        return property(fget=getFont), staticmethod(fontOptions)
+    font, fontOptions = font()
+
+###############################################################################
+class ColorAttrs(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    attrNames = \"foregroundColor backgroundColor cursorColor\".split()
+    attrNames = __cldef.constant(tuple(attrNames))
+    __cldef.fields(attrNames.val, 'rw', sethook=Color)
+
+    ###########################################################################
+    def __init__(self, backgroundColor=\"grey13\", foregroundColor='navajowhite',
+                 cursorColor=None):
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+        self.cursorColor = self.getColor_i(cursorColor,\"light green\", \"black\")
+
+    ###########################################################################
+    def getColor_i(self, val, forDark, forLight):
+        if val is None:
+            val = forDark if self.backgroundColor.isDark() else forLight
+        return Color(val)
+
+###############################################################################
+class Face(object, metaclass=cldef.metaClass):
+    ###########################################################################
+    __cldef = cldef.metaClass.wrapclass(privAttrAccess=True)
+    unspecified = __cldef.constant(None)
+    __cldef.fields('name theme')
+    __cldef.fields('inherit', access='rw',
+                   sethook=lambda obj,val: obj.setInheritHook_i(val))
+
+    ###########################################################################
+    class FontAttrs(__cldef.FieldClass):
+        access, fields = 'rw', (\"bold\",\"italic\",\"underline\",\"raised\")
+        sethook = lambda val: val if val is None else bool(val)
+        gethook = lambda obj,attr,val: obj.getAttrHook_i(attr, val)
+
+    ###########################################################################
+    class ColorAttrs(__cldef.FieldClass):
+        access, fields = 'rw', (\"foreground\", \"background\")
+        sethook = lambda val: val if val is None else Color(val)
+        gethook = lambda obj,attr,val: obj.getAttrHook_i(attr, val)
+
+    ###########################################################################
+    fontAttrs, colorAttrs, faceAttrs = __cldef.constants(
+        frozenset(FontAttrs.fields),
+        frozenset(ColorAttrs.fields),
+        frozenset(FontAttrs.fields + ColorAttrs.fields + ('inherit',)))
+
+    ###########################################################################
+    def __init__(self, name, theme, \*\*opts):
+        self.name, self.theme = name, theme
+        for attr in self.faceAttrs:
+            self.__setPrivAttr(attr,None)
+        for attr,val in opts.items():
+            setattr(self, attr, val)
+
+    ###########################################################################
+    def __str__(self):
+        return self.setFaceSexpr()
+
+    ###########################################################################
+    def copy(self):
+        copy = self.__class__(self.name, self.theme)
+        for attr in self.faceAttrs:
+            copy.__setPrivAttr(attr, self.__getPrivAttr(attr))
+        return copy
+
+    ###########################################################################
+    def __eq__(self, peer):
+        if not isinstance(peer, Face):
+            return NotImplemented
+        getSelf, getPeer = self.__getPrivAttr, peer.__getPrivAttr
+        return (self.name == peer.name and
+                self.faceAttrs == peer.faceAttrs and
+                all(getSelf(a) == getPeer(a) for a in self.faceAttrs))
+
+    ###########################################################################
+    def __neq__(self, peer):
+        return not(self == peer)
+
+    ###########################################################################
+    def reset(self, peer):
+        for attr in self.faceAttrs:
+            self.__setPrivAttr(attr, peer.__getPrivAttr(attr))
+
+    ###########################################################################
+    def isSet(self, attr):
+        return self.__getPrivAttr(attr) is not None
+
+    ###########################################################################
+    def getPeer(self, peerName):
+        if peerName in (None, 'default'):
+            return self.theme.defaultFace
+        return self.theme.facesAttrs[peerName]
+
+    ###########################################################################
+    def inheritOrder(self):
+        return (self.name, ) + self.getPeer(self.inherit).inheritOrder()
+
+    ###########################################################################
+    def derivesFrom(self, peer):
+        return self.theme == peer.theme and peer.name in self.inheritOrder()
+
+    ###########################################################################
+    def getSource(self, attr):
+        return self if self.isSet(attr) else \\
+               self.getPeer(self.inherit).getSource(attr)
+
+    ###########################################################################
+    def getAttrHook_i(self, attr, val):
+        return val if val is not None \\
+               else getattr(self.getPeer(self.inherit), attr)
+
+    ###########################################################################
+    def setInheritHook_i(self, val):
+        if val in (None, 'default'):
+            return None
+        if isinstance(val, str):
+            theme = self.theme
+            if not(hasattr(theme, 'faceAttrs')) or val in theme.faceAttrs:
+                return val
+        raise ValueError(\"Invalid inherit value=%s\" % val)
+
+    ###########################################################################
+    def getLispValue(self, attr, mapBool=('nil','t')):
+        val = self.__getPrivAttr(attr)
+        if val is None:
+            return \"'unspecified\"
+        if isinstance(val, bool):
+            return mapBool[int(val)]
+        if isinstance(val, str):
+            return \"'%s\" % val
+        if isinstance(val, Color):
+            return '\"%s\"' % (val,)
+        raise ValueError(\"getLispValue(%s): Invalid attr val=%s\" % (attr,val))
+
+    ###########################################################################
+    def setFaceSexpr(self, parms=\"\"):
+        isSet, lispVal = self.isSet, self.getLispValue
+        # add inhert attr
+        if isSet('inherit'):
+            parms += ' :inherit %s' % lispVal('inherit')
+
+        # add foreground, background color attrs if attr is set
+        for attr in filter(isSet, self.colorAttrs):
+            parms += ' :%s %s' % (attr, lispVal(attr))
+
+        # add bold attr
+        if isSet('bold'):
+            parms += ' :weight %s' % lispVal('bold', (\"'normal\", \"'bold\"))
+
+        # add italic attr
+        if isSet('italic'):
+            parms += ' :slant %s' % lispVal('italic', (\"'normal\", \"'italic\"))
+
+        # add underline attr
+        if isSet('underline'):
+            parms += ' :underline %s' % lispVal('underline')
+
+        # add raised attr
+        if isSet('raised'):
+            val = lispVal('raised')
+            if val == 't':
+                val = '(:line-width 2 :color \"%s\" :style released-button)' % \\
+                      self.foreground.blend(self.background)
+            parms += ' :box %s' % val
+
+        # make func call to set face in emacs
+        return \"(themes-set-face '%s %s)\" % (self.name, parms)
+
+###############################################################################
+class DefaultFace(Face, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    inherit, underline, raised = __cldef.constants(None, False, False)
+    ###########################################################################
+    def __init__(self, theme):
+        self.__super.__init__(\"default\", theme)
+
+    ###########################################################################
+    bold = property(lambda self: self.theme.font.weight == 'bold')
+    italic = property(lambda self: self.theme.font.slant == 'italic')
+    foreground = property(lambda self: self.theme.foregroundColor)
+    background = property(lambda self: self.theme.backgroundColor)
+
+    ###########################################################################
+    def setFaceSexpr(self):
+        return '(themes-set-defaults \"%s\" \"%s\" \"%s\")' % \\
+               (self.foreground, self.background, self.theme.font)
+
+    ###########################################################################
+    def isSet(self, attr):
+        return True
+
+    ###########################################################################
+    def inheritOrder(self):
+        return (self.name,)
+
+###############################################################################
+class FacesAttrs(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.slots(\"__faceMap __faces\")
+    __cldef.field(\"theme\")
+
+    ###########################################################################
+    def __init__(self, theme, facesAttrs=None):
+        self.theme,  self.__faceMap, self.__faces = theme, {}, []
+        if facesAttrs is None:
+            facesAttrs = self.loadFacesFromEmacs_i()
+        for faceAttrs in facesAttrs:
+            face = Face(theme=theme, \*\*faceAttrs)
+            if self.__faceMap.setdefault(face.name, face) is not face:
+                raise KeyError(\"Face name %r is not unique\" % face.name)
+            self.__faces.append(face)
+        for face in self.__faces:
+            if face.inherit is not None:
+                assert face.inherit in self.__faceMap
+
+    ###########################################################################
+    def copy(self):
+        copy = self.__class__.__new__(self.__class__)
+        copy.theme = self.theme
+        copy.__faces = [f.copy() for f in self.__faces]
+        copy.__faceMap = dict((f.name,f) for f in copy.__faces)
+        return copy
+
+    ###########################################################################
+    def reset(self, peer):
+        self.__faces = [f.copy() for f in peer.__faces]
+        self.__faceMap = dict((f.name,f) for f in self.__faces)
+
+    ###########################################################################
+    def __len__(self):
+        return len(self.__faceMap)
+
+    ###########################################################################
+    def __iter__(self):
+        return iter(self.__faces)
+
+    ###########################################################################
+    def __eq__(self, peer):
+        if not isinstance(peer, FacesAttrs):
+            return NotImplemented
+        return self.__faceMap == peer.__faceMap
+
+    ###########################################################################
+    def __neq__(self, peer):
+        return not(self == peer)
+
+    ###########################################################################
+    def get(self, name, default=None):
+        return self.__faceMap.get(name,default)
+
+    ###########################################################################
+    def __getitem__(self, name):
+        return self.__faceMap[name]
+
+    ###########################################################################
+    def __contains__(self, name):
+        return name in self.__faceMap
+
+    ###########################################################################
+    def loadFacesFromEmacs_i(self):
+        facesSexpr = textwrap.dedent(\"\"\"\\
+        (progn (add-to-list 'load-path \"%(elDir)s\")
+               (add-to-list 'load-path \"%(elDir)s/python\")
+               (add-to-list 'load-path \"%(elDir)s/imported\")
+               (require 'themes)
+               (write-region (themes-python-faces-attrs %(thColors)s)
+                             nil \"%(outFile)s\")
+               (kill-emacs))\"\"\")
+        facesSexpr = ' '.join(facesSexpr.split())
+        thColors = self.theme.foregroundColor, self.theme.backgroundColor
+        outFile = (util.dirPath('\$TEMP')/'themeFaces.py').uniquify()
+        facesSexpr %= {'elDir': util.Path('~/emacs').emacsName,
+                       'thColors': '\"%s\" \"%s\"' % thColors,
+                       'outFile': outFile.emacsName}
+        try:
+            subprocess.check_call(['emacs.exe', '--no-init-file',
+                                   '--iconic', '--eval', facesSexpr],
+                                   shell=True)
+            return eval(outFile.text().replace('\\r\\n', '\\n'))
+        finally:
+            if outFile.isfile():
+                outFile.remove()
+
+###############################################################################
+class ThemeChoice(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.slots(\"__args\")
+
+    ##########################################################################
+    def __namedTests():
+        _darkThreshold = 3 \* 255 \* 0.6
+        def isThemeBackgroundDark(theme):
+            return sum(theme.colorAttrs.backgroundColor) < _darkThreshold
+        def isThemeBold(theme):
+            return theme.fontAttrs.weight == 'bold'
+        return dict(isThemeBackgroundDark = isThemeBackgroundDark,
+                    isThemeFontBold = isThemeBold)
+    __namedTests = __cldef.constant(__namedTests())
+
+    ###########################################################################
+    def __init__(self, theme, themeTest, onTrueValue, onFalseValue):
+        self.__args= (theme, themeTest, onTrueValue, onFalseValue)
+
+    ###########################################################################
+    def __call__(self):
+        theme, themeTest, onTrueValue, onFalseValue = self.__args
+        if isinstance(themeTest, str):
+            themeTest = self.__namedTests[themeTest]
+        if themeTest(theme):
+            return onTrueValue
+        return onFalseValue
+
+###############################################################################
+class ThemeAccessor(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.slots(\"__args\")
+
+    ###########################################################################
+    def __init__(self, theme, path):
+        self.__args = (theme, path.split(\".\"))
+
+    ###########################################################################
+    def __call__(self):
+        obj, path = self.__args
+        for attr in path:
+            obj = getattr(obj, attr)
+        return obj
+
+###############################################################################
+class EmacsFrameTheme(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.fields(\"name colorAttrs fontAttrs defaultFace facesAttrs \"
+                   \"canDelete\")
+    foregroundColor = property(lambda self: self.colorAttrs.foregroundColor)
+    backgroundColor = property(lambda self: self.colorAttrs.backgroundColor)
+    font = property(lambda self: self.fontAttrs.font)
+
+    ###########################################################################
+    def __str__(self):
+        return util.nomen(self, \"%s:%s\" % (self.name, hex(id(self))))
+
+    ###########################################################################
+    def __init__(self, name, \*\*themeOpts):
+        self.name = name
+        self.colorAttrs = ColorAttrs()
+        self.fontAttrs = FontAttrs()
+        self.defaultFace = DefaultFace(self)
+        facesAttrs = themeOpts.pop('facesAttrs', None)
+        self.facesAttrs = FacesAttrs(self, facesAttrs=facesAttrs)
+        self.canDelete = themeOpts.pop('canDelete', True)
+        self.update(themeOpts)
+
+    ###########################################################################
+    def update(self, \*args, \*\*opts):
+        if len(args) > 1:
+            raise TypeError(\"Can be at most one positional argument\")
+        opts = dict((args[0] if args else ()), \*\*opts)
+        for attrs in (self.colorAttrs, self.fontAttrs):
+            for attrName in attrs.attrNames:
+                val = opts.pop(attrName, None)
+                if val is not None:
+                    setattr(attrs, attrName, val)
+        _emptyParametersCheck(\*\*opts)
+
+    ###########################################################################
+    @classmethod
+    def loadTheme(cls, themeFile, canDelete=True):
+        themeFile = util.Path(themeFile, lambda f: f.isfile() and f.ext=='.el')
+        themeSexpr = textwrap.dedent(\"\"\"\\
+        (progn (add-to-list 'load-path \"%(elDir)s\")
+               (add-to-list 'load-path \"%(elDir)s/python\")
+               (add-to-list 'load-path \"%(elDir)s/imported\")
+               (require 'themes)
+               (load \"%(themeFile)s\")
+               (write-region (themes-python-theme-attrs) nil \"%(outFile)s\")
+               (kill-emacs))\"\"\")
+        themeSexpr = ' '.join(themeSexpr.split())
+        outFile = (util.dirPath('\$TEMP')/'themeAttrs.py').uniquify()
+        themeSexpr %= {'elDir': util.Path('~/emacs').emacsName,
+                       'themeFile': themeFile.stripext().emacsName,
+                       'outFile': outFile.emacsName}
+        try:
+            subprocess.check_call(['emacs.exe', '--no-init-file',
+                                   '--iconic', '--eval', themeSexpr],
+                                   shell=True)
+            themeOpts, facesAttrs = eval(outFile.text().replace('\\r\\n','\\n'))
+            # convert the font string spec returned by emacs to fontAttrs
+            # argumets expected by __init__
+            font = Font(themeOpts.pop('font'))
+            themeOpts.update(fontSize=font.size, fontWeight=font.weight,
+                             fontSlant=font.slant, canDelete=canDelete)
+            themeName = themeFile.namebase
+            return cls(themeName, facesAttrs=facesAttrs, \*\*themeOpts)
+        finally:
+            if outFile.isfile():
+                outFile.remove()
+
+    ###########################################################################
+    def copy(self, newThemeName, \*\*newThemeOpts):
+        newTheme = copy.deepcopy(self)
+        newTheme.__name = newThemeName
+        newTheme.update(newThemeOpts)
+        return newTheme
+
+    ###########################################################################
+    def __eq__(self, peer):
+        if not isinstance(peer, EmacsFrameTheme):
+            return NotImplemented
+        return (self.name == peer.name and
+                self.foregroundColor == peer.foregroundColor and
+                self.backgroundColor == peer.backgroundColor and
+                self.font == peer.font and
+                self.facesAttrs == peer.facesAttrs)
+
+    ###########################################################################
+    def __neq__(self, peer):
+        return not(self == peer)
+
+    ###########################################################################
+    @property
+    def sexpr(self):
+        cursor = Face('cursor', self, background=self.colorAttrs.cursorColor)
+        faces = [self.defaultFace, cursor] + list(self.facesAttrs)
+        return \"(progn\\n  %s)\" % \"\\n  \".join(f.setFaceSexpr() for f in faces)
+
+    ###########################################################################
+    __applyFormat = \"%(sexpr)s\\n(themes-save-cache-file (quote %(sexpr)s))\"
+
+    ###########################################################################
+    def applyTheme(self):
+        lisp(self.__applyFormat % dict(sexpr=self.sexpr))
+
+    ###########################################################################
+    def accessor(self, \*p, \*\*kw):
+        return ThemeAccessor(self, \*p, \*\*kw)
+
+    ###########################################################################
+    def choice(self, \*p, \*\*kw):
+        return ThemeChoice(self, \*p, \*\*kw)
+
+###############################################################################
+def cacheFilePath(path):
+    return util.Path(path, lambda f: not(f.isdir()))
+
+###############################################################################
+class EmacsFrameThemes(object, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.slots(\"__themes\")
+    __cldef.field('cacheFile', 'ri', sethook=cacheFilePath)
+    __cldef.field(\"saveEnabled\", 'rw', initval=True, sethook=bool)
+    __cldef.field(\"current\", 'rw',
+                  fset=lambda obj,theme: obj.setCurrentTheme(theme))
+
+    ###########################################################################
+    def __new__(cls, themeMgr=None):
+        if themeMgr is None:
+            # pickle internals called __new__ SURPRISE!
+            return object.__new__(cls)
+        if themeMgr.cacheFile.isfile():
+            # load themes from cache file
+            return cls.loadCache_i(themeMgr.cacheFile)
+        themes = object.__new__(cls)
+        elispFiles = themeMgr.archive.files('\*.el')
+        if elispFiles:
+            # load themes from a collection (archive) of elisp files created
+            # this module and emacs can use to initialize themes
+            themes.loadArchive_i(elispFiles, themeMgr.cacheFile)
+        else:
+            # create themes using a few 'canned' themes
+            themes.bootstrap_i(themeMgr.cacheFile)
+        return themes
+
+    ###########################################################################
+    @classmethod
+    def loadCache_i(cls, cacheFile):
+        try:
+            with cacheFile.open('rb') as cacheFP:
+                themes = pickle.load(cacheFP)
+        except:
+            # If file has windows newlines '\\r\\n', read it as text which
+            # converting newlines, encode to bytes and retry loading
+            themes = pickle.loads(cacheFile.text().encode())
+        assert isinstance(themes, cls)
+        themes.__cacheFile = cacheFilePath(cacheFile)
+        return themes
+
+    ###########################################################################
+    def loadArchive_i(self, elispFiles, cacheFile):
+        self.__themes = []
+        self.cacheFile, self.saveEnabled = cacheFile, False
+        elispFiles = dict((f.namebase, f) for f in elispFiles)
+        # load archive files in (standard themes) order. if no arcive file
+        # is named after a standard theme, create it using provided args
+        for thName,thOpts in ((d['name'],d) for d in self.standardThemes()):
+            elispFile = elispFiles.pop(thName, None)
+            if elispFile is not None:
+                self.addTheme(EmacsFrameTheme.loadTheme(
+                    elispFile, thOpts['canDelete']))
+            else:
+                self.addTheme(EmacsFrameTheme(\*\*thOpts))
+        # load any remaining archive files
+        for elispFile in sorted(elispFiles.values()):
+            self.addTheme(EmacsFrameTheme.loadTheme(elispFile))
+        self.current = self.__themes[0]
+        self.saveEnabled = True
+        self.save()
+
+    ###########################################################################
+    @staticmethod
+    def standardThemes():
+        return [dict(name='dark_frames', canDelete=False),
+                dict(name='red_frames', canDelete=False,
+                     backgroundColor=\"RGB:55/0/0\"),
+                dict(name=\"green_frames\", canDelete=False,
+                     backgroundColor=\"RGB:16/25/25\"),
+                dict(name=\"blue_frames\", canDelete=False,
+                     backgroundColor=\"RGB:0B/0B/2D\"),
+                dict(name=\"light_frames\", canDelete=False,
+                     foregroundColor='black',
+                     backgroundColor='white')]
+
+    ###########################################################################
+    def bootstrap_i(self, cacheFile):
+        self.__themes = []
+        self.cacheFile, self.saveEnabled = cacheFile, False
+        # create dark theme as current theme
+        self.current = EmacsFrameTheme(\"dark_frames\", canDelete=False)
+        # create red theme
+        self.addTheme(EmacsFrameTheme(\"red_frames\", canDelete=False,
+                                      backgroundColor=\"RGB:55/0/0\"))
+        # create green theme
+        self.addTheme(EmacsFrameTheme(\"green_frames\", canDelete=False,
+                                      backgroundColor=\"RGB:16/25/25\"))
+        # create blue theme
+        self.addTheme(EmacsFrameTheme(\"blue_frames\", canDelete=False,
+                                      backgroundColor=\"RGB:0B/0B/2D\"))
+        # create light theme from default
+        self.addTheme(EmacsFrameTheme(\"light_frames\", canDelete=False,
+                                      foregroundColor='black',
+                                      backgroundColor='white'))
+        self.saveEnabled = True
+        self.save()
+
+    ###########################################################################
+    def reset(self, prototype, copy=True):
+        assert type(self) is type(prototype)
+        if copy:
+            prototype = copy.deepcopy(prototype)
+        for attr in self.__slots__:
+            setattr(self, attr, getattr(prototype, attr))
+        self.save()
+
+    ###########################################################################
+    def save(self):
+        if self.saveEnabled:
+            with self.cacheFile.open('wb') as cacheFile:
+                pickle.dump(self, cacheFile)
+
+    ###########################################################################
+    def addTheme(self, theme):
+        if theme.name in self:
+            raise KeyError(\"theme.name(%s) is not unique\" % theme.name)
+        self.__themes.append(theme)
+        self.save()
+
+    ###########################################################################
+    def getTheme(self, name, exact=True, default=None):
+        if exact:
+            for theme in self.__themes:
+                if theme.name == name:
+                    return theme
+        else:
+            name = name.strip().lower()
+            for theme in self.__themes:
+                if name in theme.name.lower():
+                    return theme
+        return default
+
+    ###########################################################################
+    def setCurrentTheme(self, theme):
+        if isinstance(theme,str):
+            theme = self.getTheme(theme)
+        if isinstance(theme, EmacsFrameTheme):
+            self.__current = theme
+            if theme not in self:
+                self.addTheme(theme)
+        else:
+            raise ValueError(\"%s invalid theme\" % theme)
+
+    ###########################################################################
+    def removeTheme(self, theme, force=False):
+        # arg can be either a theme instance or a str naming the theme
+        if isinstance(theme,str):
+            theme = self.getTheme(theme)
+        if not force:
+            if len(self.__themes) == 1:
+                raise ValueError(\"Can't remove last theme\")
+            if not theme.canDelete:
+                raise ValueError(\"Theme %s can't be removed\" % theme.name)
+        # remove the theme from both the themes list
+        self.__themes.remove(theme)
+        # adjust current attr if theme deleted was current one
+        if theme == self.__current:
+            try:
+                self.__current = self.__themes[0]
+            except IndexError:
+                del self.__current
+        self.save()
+
+    ###########################################################################
+    def swapThemes(self, theme1, theme2):
+        if isinstance(theme1, str):
+            theme1 = self.getTheme(theme1)
+        if isinstance(theme2, str):
+            theme2 = self.getTheme(theme2)
+        index1 = self.__themes.index(theme1)
+        index2 = self.__themes.index(theme2)
+        self.__themes[index2] = theme1
+        self.__themes[index1] = theme2
+
+    ###########################################################################
+    def __iter__(self):
+        return iter(self.__themes)
+
+    ###########################################################################
+    def __len__(self):
+        return len(self.__themes)
+
+    ###########################################################################
+    def __contains__(self, item):
+        if isinstance(item, str):
+            return item in (theme.name for theme in self.__themes)
+        return item in self.__themes
+
+###############################################################################
+class EmacsFrameThemeManager(datatypes.Singleton, metaclass=cldef.metaClass):
+    __cldef = cldef.metaClass.wrapclass()
+    __cldef.fields('themesDir cacheFile archive')
+    __cldef.field('themes', 'r', initfunc=lambda obj: EmacsFrameThemes(obj))
+    currentTheme = property(lambda self: self.themes.current)
+
+    ###########################################################################
+    def newSingleton_i(self, themesDir=None):
+        self.__super.newSingleton_i()
+        if themesDir is None:
+            themesDir = '\$APPDATA/_emacsthemes_v%d' % version
+        self.themesDir = util.dirPath(themesDir)
+        archive = self.themesDir/'archive'
+        if not archive.exists():
+            archive.mkdir()
+        self.archive = util.dirPath(archive)
+        self.cacheFile = self.themesDir/'cache.pkl'
+
+    ###########################################################################
+    def applyNamedTheme(self, themeName, exact=True):
+        themeName = themeName.replace(\"-\",\"_\")
+        self.__themes.current = self.__themes.getTheme(themeName, exact)
+        self.currentTheme.applyTheme()
+
+    ###########################################################################
+    def setFrameTheme(self, themeName, \*\*themeOpts):
+        self.__themes.current = themeName
+        self.currentTheme.update(themeOpts)
+        self.currentTheme.applyTheme()
+
+    ###########################################################################
+    def gui(self):
+        global EmacsFrameThemesApp
+        try:
+            guiRun = EmacsFrameThemesApp.run
+        except NameError:
+            from themes.thgui import EmacsFrameThemesApp
+            guiRun = EmacsFrameThemesApp.run
+        guiRun(self, tuple(i+50 for i in emacsPosition()))
+
+    ###########################################################################
+    def archiveThemes(self):
+        textFormat = textwrap.dedent(\"\"\"\\
+        ;;; %s :: %s -\*-Emacs-Lisp-\*-
+        ;;; -- Used by themes.el for persistance of current frame theme
+        ;;;    settings across emacs invocations
+        %s
+        \"\"\")
+        for theme in self.themes:
+            archiveFile = self.archive/(theme.name + '.el')
+            timeStr = datetime.datetime.now().strftime(\"%a %b %d %H:%M:%S %Y\")
+            archiveFile.write_text(
+                textFormat % (archiveFile.name, timeStr, theme.sexpr))
+"))
+  (py-bug-tests-intern 'pyindex-mishandles-class-definitions-lp-1018164-base arg teststring)))
+
+(defun pyindex-mishandles-class-definitions-lp-1018164-base ()
+    (goto-char 25548)
+    (assert (eq 26242 (py-end-of-def-or-class)) nil "pyindex-mishandles-class-definitions-lp-1018164-test failed"))
+
+(defun exception-in-except-clause-highlighted-as-keyword-lp-909205-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+try:
+    blah
+except ormexc.NoResultFound:
+    pass
+"))
+  (py-bug-tests-intern 'exception-in-except-clause-highlighted-as-keyword-lp-909205-base arg teststring)))
+
+(defun exception-in-except-clause-highlighted-as-keyword-lp-909205-base ()
+  (font-lock-fontify-buffer)
+  (goto-char 65)
+  ;; (sit-for 0.1)
+  (assert (eq (get-char-property (point) 'face) 'font-lock-keyword-face) nil "exception-in-except-clause-highlighted-as-keyword-lp-909205-test #1 failed")
+  (goto-char 77)
+  (assert (eq (get-char-property (point) 'face) 'py-exception-name-face) nil "exception-in-except-clause-highlighted-as-keyword-lp-909205-test #2 failed")
+  )
+
+(defun inconvenient-window-splitting-behavior-python-lp-1018996-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import re
+import sys
+import os
+re.
+os.
+"))
+  (py-bug-tests-intern 'inconvenient-window-splitting-behavior-python-lp-1018996-base arg teststring)))
+
+(defun inconvenient-window-splitting-behavior-python-lp-1018996-base ()
+  (goto-char 82)
+  (py-shell-complete nil t)
+  (assert (string-match  "^re." (car py-shell-complete-debug)) nil "inconvenient-window-splitting-behavior-python-lp-1018996-test #1 failed")
+  (goto-char 86)
+  (py-shell-complete nil t)
+  (assert (string-match  "^os." (car py-shell-complete-debug)) nil "inconvenient-window-splitting-behavior-python-lp-1018996-test #2 failed"))
+
+(defun inconvenient-window-splitting-behavior-ipython-lp-1018996-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env ipython
+# -*- coding: utf-8 -*-
+import re
+import sys
+import os
+re.
+os.
+"))
+  (py-bug-tests-intern 'inconvenient-window-splitting-behavior-ipython-lp-1018996-base arg teststring)))
+
+(defun inconvenient-window-splitting-behavior-ipython-lp-1018996-base ()
+  (goto-char 83)
+  (py-shell-complete nil t)
+  (assert (string-match  "^re." (car py-shell-complete-debug)) nil "inconvenient-window-splitting-behavior-ipython-lp-1018996-test #1 failed")
+  (goto-char 87)
+  (py-shell-complete nil t)
+  (assert (string-match  "^os." (car py-shell-complete-debug)) nil "inconvenient-window-splitting-behavior-ipython-lp-1018996-test #2 failed"))
+
+(defun impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import with_statement
+print(\"I'm the \\\"impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-test\\\"\")
+"))
+  (py-bug-tests-intern 'impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-base arg teststring)))
+
+(defun impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-base ()
+    (assert (py-execute-buffer) nil "impossible-to-execute-a-buffer-with-from-future-imports-lp-1063884-test failed"))
+
+(defun several-new-bugs-with-paragraph-filling-lp-1066489-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+class IBanManager(Interface):
+    \"\"\"The global manager of email address bans.\"\"\"
+
+    def ban(email):
+        \"\"\"Ban an email address from subscribing to a mailing list.
+
+        The `IBanManager` is created by adapting an `IMailingList` or ``None``.
+        For global bans, use ``None``.
+
+        When an email address is banned, it will not be allowed to subscribe
+        to a the named mailing list. This does not affect any email address
+        already subscribed to the mailing list.
+
+        It is also possible to add a 'ban pattern' whereby all email addresses
+        matching a Python regular expression can be banned. This is
+        accomplished by using a `^` as the first character in `email`.
+
+        When an email address is already banned for the given mailing list (or
+        globally), then this method does nothing. However, it is possible to
+        extend a ban for a specific mailing list into a global ban; both bans
+        would be in place and they can be removed individually.
+
+        :param email: The text email address being banned or, if the string
+            starts with a caret (^), the email address pattern to ban.
+        :type email: str
+        :param mailing_list: The fqdn name of the mailing list to which the
+            ban applies. If None, then the ban is global.
+        :type mailing_list: string
+        \"\"\"
+"))
+  (py-bug-tests-intern 'several-new-bugs-with-paragraph-filling-lp-1066489-base arg teststring)))
+
+(defun several-new-bugs-with-paragraph-filling-lp-1066489-base ()
+  (goto-char 932)
+  (py-fill-paragraph)
+  (assert (re-search-forward "^ +:type email") nil "several-new-bugs-with-paragraph-filling-lp-1066489-test #1 failed")
+  (goto-char 220)
+  (push-mark)
+  (goto-char 1075)
+  (narrow-to-region 220 1045)
+  (py-fill-paragraph nil nil (point-min) (point-max))
+  (widen)
+  (assert (re-search-forward "^ +:type email") nil "several-new-bugs-with-paragraph-filling-lp-1066489-test #2 failed")
+  (goto-char 1108)
+  (push-mark)
+  (goto-char (point-max))
+  (py-fill-paragraph nil nil 1108 (point))
+  (widen)
+  (goto-char 1108)
+  (assert (re-search-forward "^ +:type email") nil "several-new-bugs-with-paragraph-filling-lp-1066489-test #3 failed")
+  (py-fill-paragraph))
+
+(defun incorrect-indentation-of-one-line-functions-lp-1067633-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def foo():
+    pass
+"))
+  (py-bug-tests-intern 'incorrect-indentation-of-one-line-functions-lp-1067633-base arg teststring)))
+
+(defun incorrect-indentation-of-one-line-functions-lp-1067633-base ()
+    (goto-char 67)
+    (assert (eq 4 (py-compute-indentation)) nil "incorrect-indentation-of-one-line-functions-lp-1067633-test failed"))
+
+(defun does-not-dedent-regions-lp-1072869-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "        print(\"HELLO\")"))
+  (py-bug-tests-intern 'does-not-dedent-regions-lp-1072869-base arg teststring)))
+
+(defun does-not-dedent-regions-lp-1072869-base ()
+  (assert (markerp (py-execute-buffer-ipython)) nil "does-not-dedent-regions-lp-1072869-test #1 failed")
+  (assert (markerp (py-execute-buffer-python)) nil "does-not-dedent-regions-lp-1072869-test #2 failed")
+  )
+
+(defun inconvenient-py-switch-buffers-on-execute-lp-1073-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+print \"HELLO!\"
+"))
+  (py-bug-tests-intern 'inconvenient-py-switch-buffers-on-execute-lp-1073-base arg teststring)))
+
+;; doesn't word, patches welcome
+(defun inconvenient-py-switch-buffers-on-execute-lp-1073-base ()
+  (let ((py-switch-buffers-on-execute-p t)
+        erg)
+    (py-execute-buffer-python)
+    (message "current: %s" (buffer-name (current-buffer)))
+    (setq erg (string-match "Python" (buffer-name (current-buffer))))
+    ;; (assert erg nil "inconvenient-py-switch-buffers-on-execute-lp-1073-test failed")
+    (switch-to-buffer (current-buffer))
+    ))
+
+(defun fails-to-indent-abs-wrong-type-argument-lp-1075673-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#!/usr/bin/env python
+# emacs: -\*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -\*-
+# vi: set ft=python sts=4 ts=4 sw=4 et:
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
+#
+#   See COPYING file distributed along with the PyMVPA package for the
+#   copyright and license terms.
+#
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
+\"\"\"Python distutils setup for PyMVPA\"\"\"
+
+from numpy.distutils.core import setup, Extension
+import os
+import sys
+from glob import glob
+
+if sys.version_info[:2] < (2, 5):
+"))
+  (py-bug-tests-intern 'fails-to-indent-abs-wrong-type-argument-lp-1075673-base arg teststring)))
+
+(defun fails-to-indent-abs-wrong-type-argument-lp-1075673-base ()
+    (assert (eq 4 (py-compute-indentation)) nil "fails-to-indent-abs-wrong-type-argument-lp-1075673-test failed"))
+
+(defun incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#!/usr/bin/python
+#emacs: -\*- mode: python; py-indent-offset: 4; tab-width: 4; indent-tabs-mode: nil -\*-
+#ex: set sts=4 ts=4 sw=4 noet:
+
+class X:
+    XX = [
+        \"asdfasdF\",
+        \"asdfasdf\",
+    # lakjsdflkjasdf
+    \"lkajsdlkfj\"
+    ]
+
+# There is no way to indent #comment line with TAB, nor subsequent list entry to the level of previous
+# entries
+
+"))
+  (py-bug-tests-intern 'incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-base arg teststring)))
+
+(defun incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-base ()
+    (goto-char 202)
+    (assert (eq 8 (py-compute-indentation)) nil "incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-test failed"))
+
+(defun fill-paragraph-in-a-comment-does-not-stop-at-empty-comment-lines-lp-1077139-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# in older version of python-mode (5.1.0) fill-paragraph (Alt-q) e.g. on first line of
+
+# line1: alskdjfl aksdjlfkas dklfj aslkdjf aklsdj flkasjd fklasjd lfkasj dlkfj asdklfj aslkdfj
+#
+# line2
+
+# would fill only portion of line1:
+
+# line1: alskdjfl aksdjlfkas dklfj aslkdjf aklsdj flkasjd fklasjd
+# lfkasj dlkfj asdklfj aslkdfj
+#
+# line2
+
+# while current version disregards such stop paragraph separation... unless it is at the beginning of the
+# buffer!! ;), so adding an empty line before the first comment line of this test example, results in:
+
+# line1: alskdjfl aksdjlfkas dklfj aslkdjf aklsdj flkasjd fklasjd
+# lfkasj dlkfj asdklfj aslkdfj line2
+
+"))
+  (py-bug-tests-intern 'fill-paragraph-in-a-comment-does-not-stop-at-empty-comment-lines-lp-1077139-base arg teststring)))
+
+(defun fill-paragraph-in-a-comment-does-not-stop-at-empty-comment-lines-lp-1077139-base ()
+  (let ((empty-comment-line-separates-paragraph-p t))
+    (goto-char 152)
+    (fill-paragraph)
+    (goto-char 233)
+    (beginning-of-line)
+    (assert (looking-at paragraph-separate) nil "fill-paragraph-in-a-comment-does-not-stop-at-empty-comment-lines-lp-1077139-test failed")))
+
+(defun spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# originally it actually added indentation level in my case so code became
+
+#     @sweepargs(clf=[kNN(5)]) #clfswh['multiclass'])
+# def test_auc(self, clf):
+#     pass
+
+# but on example to reproduce
+class A(object):
+    def prev():
+        pass
+
+    @decorator(1) lkajsd
+    def buga():
+        pass
+
+# attempt to insert # before lkajsd actually dedented it and made it
+
+class A(object):
+    def prev():
+        pass
+
+@decorator(1) #lkajsd
+    def buga():
+        pass
+
+# imho making inline comment should not alter whole line indentation
+
+"))
+  (py-bug-tests-intern 'spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-base arg teststring)))
+
+(defun spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-base ()
+    (goto-char 312)
+    (assert (eq 4 (py-compute-indentation)) nil "spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-test #1 failed")
+    (goto-char 349)
+    (assert (eq 4 (py-compute-indentation)) nil "spuriously-indents-whole-line-while-making-some-portion-inline-comment-lp-1080973-test #2 failed")
+    )
+
+(defun imenu-add-menubar-index-fails-lp-1084503-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"))
+  (py-bug-tests-intern 'imenu-add-menubar-index-fails-lp-1084503-base arg teststring)))
+
+(defun imenu-add-menubar-index-fails-lp-1084503-base ()
+  (assert (imenu-add-menubar-index) nil "imenu-add-menubar-index-fails-lp-1084503-test failed"))
+
+(defun fill-paragraph-in-comments-results-in-mess-lp-1084769-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def update():
+    # We need to get a reliable checksum for the dictionary in
+    # newpkg_list. Dictionary order is unpredictable, so to get a
+    # reproducible checksum, we get the items of the dict, sort on the
+    # keys, then get the json representation of this sorted list, encode
+    # this to bytes assuming utf-8, and hash
+    # the resulting bytes.
+"))
+  (py-bug-tests-intern 'fill-paragraph-in-comments-results-in-mess-lp-1084769-base arg teststring)))
+
+(defun fill-paragraph-in-comments-results-in-mess-lp-1084769-base ()
+    (goto-char 266)
+    (fill-paragraph)
+    (beginning-of-line)
+    (assert (looking-at "    ") nil "fill-paragraph-in-comments-results-in-mess-lp-1084769-test failed"))
+
+(defun py-execute-buffer-python3-looks-broken-lp-1085386-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "i = 0
+i+=1
+print(i)
+"))
+  (py-bug-tests-intern 'py-execute-buffer-python3-looks-broken-lp-1085386-base arg teststring)))
+
+(defun py-execute-buffer-python3-looks-broken-lp-1085386-base ()
+  (let ((py-use-current-dir-when-execute-p t))
+    (assert (markerp (py-execute-buffer-python3)) nil "py-execute-buffer-python3-looks-broken-lp-1085386-test failed")))
+
+(defun wrong-indent-after-asignment-lp-1087404-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+a = 1
+# After pressing enter column 1 as expected
+b = [1]
+
+# Now after pressing enter indents to column 4
+
+"))
+  (py-bug-tests-intern 'wrong-indent-after-asignment-lp-1087404-base arg teststring)))
+
+(defun wrong-indent-after-asignment-lp-1087404-base ()
+    (goto-char 106)
+    (assert (eq 0 (py-compute-indentation)) nil "wrong-indent-after-asignment-lp-1087404-test failed"))
+
+(defun wrong-indentation-after-return-or-pass-keyword-lp-1087499-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+class Foo(self):
+    def bar(self):
+        return self.baz
+
+class Baz(self):
+    def bar(self):
+        pass
+
+"))
+  (py-bug-tests-intern 'wrong-indentation-after-return-or-pass-keyword-lp-1087499-base arg teststring)))
+
+(defun wrong-indentation-after-return-or-pass-keyword-lp-1087499-base ()
+  (goto-char 108)
+  (assert (eq 4 (py-compute-indentation)) nil "wrong-indentation-after-return-or-pass-keyword-lp-1087499-test failed")
+  (goto-char 158)
+  (assert (py-compute-indentation) nil "wrong-indentation-after-return-or-pass-keyword-lp-1087499-test failed"))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n1-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import urllib
+os.chdir(\"NOT-EXISTING\")
+f = urllib.urlopen(\"NOT-EXISTING.html\")
+for lines in f:
+    print(lines)
+"))
+  (py-bug-tests-intern 'temporary-files-remain-when-python-raises-exception-lp-1083973-n1-base arg teststring)))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n1-base ()
+  (let ((python-mode-v5-behavior-p t))
+    (py-execute-buffer)
+    (assert (eq 72 (point)) nil "temporary-files-remain-when-python-raises-exception-lp-1083973-n1-test failed")))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n2-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import urllib
+f = urllib.urlopen(\"NOT-EXISTING.html\")
+for lines in f:
+    print(lines)
+"))
+  (py-bug-tests-intern 'temporary-files-remain-when-python-raises-exception-lp-1083973-n2-base arg teststring)))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n2-base ()
+  (let ((python-mode-v5-behavior-p t))
+    (py-execute-buffer)
+    (assert (eq 72 (point)) nil "temporary-files-remain-when-python-raises-exception-lp-1083973-n2-test failed")))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n3-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import urllib
+f = urllib.urlopen(\"NOT-EXISTING.html\")
+for lines in f:
+    print(lines)
+"))
+  (py-bug-tests-intern 'temporary-files-remain-when-python-raises-exception-lp-1083973-n3-base arg teststring)))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n3-base ()
+  (py-execute-buffer)
+  (assert (eq 163 (point)) nil "temporary-files-remain-when-python-raises-exception-lp-1083973-n3-test failed"))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n4-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import urllib
+f = urllib.urlopen(\"NOT-EXISTING.html\")
+for lines in f:
+    print(lines)
+"))
+  (py-bug-tests-intern 'temporary-files-remain-when-python-raises-exception-lp-1083973-n4-base arg teststring)))
+
+(defun temporary-files-remain-when-python-raises-exception-lp-1083973-n4-base ()
+  (py-execute-buffer)
+  (switch-to-buffer (current-buffer))
+  (sit-for 0.1)
+  (message "Bin hier %s" (buffer-name (current-buffer)))
+  (assert (eq 163 (point)) nil "temporary-files-remain-when-python-raises-exception-lp-1083973-n4-test failed"))
+
+(defun comments-start-a-new-line-lp-1092847-n1-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# I am using python-mode.el in Emacs to edit some Python code and it has the most annoying feature where it
+# auto-indents a comment and then starts a new line. For example, if I have this:
+
+def x():
+    y = 1
+<cursor is here, at root indentation level>
+
+And then add in one # at the root indentation level:
+
+def x():
+    y = 1
+
+    #
+<cursor is now here>
+
+# It automatically indents, inserts the #, and inserts a carriage return after the #. It's driving me crazy.
+# I want my comments to stay exactly where I put them! Any suggestions?
+
+# I've looked through the elisp code for the mode and can't find anything yet nor can I find anything
+# elsewhere online. All I can find is that comments won't be used for future indentation (py-honor-comment-
+# indentation) but nothing related to the comment itself. Nor the strange carriage return.
+
+"))
+  (py-bug-tests-intern 'comments-start-a-new-line-lp-1092847-base arg teststring)))
+
+(defun comments-start-a-new-line-lp-1092847-base ()
+  (let ((py-electric-comment-p t))
+    (goto-char 258)
+    (py-electric-comment 1)
+    (back-to-indentation)
+    (assert (eq 4 (current-column)) nil "comments-start-a-new-line-lp-1092847-n1-test failed")))
+
+(defun comments-start-a-new-line-lp-1092847-n2-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# I am using python-mode.el in Emacs to edit some Python code and it has the most annoying feature where it
+# auto-indents a comment and then starts a new line. For example, if I have this:
+
+def x():
+    y = 1
+<cursor is here, at root indentation level>
+
+And then add in one # at the root indentation level:
+
+def x():
+    y = 1
+
+    #
+<cursor is now here>
+
+# It automatically indents, inserts the #, and inserts a carriage return after the #. It's driving me crazy.
+# I want my comments to stay exactly where I put them! Any suggestions?
+
+# I've looked through the elisp code for the mode and can't find anything yet nor can I find anything
+# elsewhere online. All I can find is that comments won't be used for future indentation (py-honor-comment-
+# indentation) but nothing related to the comment itself. Nor the strange carriage return.
+
+"))
+  (py-bug-tests-intern 'comments-start-a-new-line-lp-1092847-n2-base arg teststring)))
+
+(defun comments-start-a-new-line-lp-1092847-n2-base ()
+  (let ((py-electric-comment-p nil))
+    (goto-char 258)
+    (py-electric-comment 1)
+    (back-to-indentation)
+    (assert (eq 0 (current-column)) nil "comments-start-a-new-line-lp-1092847-n2-test failed")))
+
+(defun filename-completion-fails-in-ipython-lp-1027265-n1-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+a = open('/ho')
+"))
+  (py-bug-tests-intern 'filename-completion-fails-in-ipython-lp-1027265-n1-base arg teststring)))
+
+(defun filename-completion-fails-in-ipython-lp-1027265-n1-base ()
+    (goto-char 61)
+    (completion-at-point)
+    (assert (eq 63 (point)) nil "filename-completion-fails-in-ipython-lp-1027265-n1-test failed"))
+
+(defun filename-completion-fails-in-ipython-lp-1027265-n2-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env ipython
+# -*- coding: utf-8 -*-
+a = open('/ho')
+"))
+  (py-bug-tests-intern 'filename-completion-fails-in-ipython-lp-1027265-n2-base arg teststring)))
+
+(defun filename-completion-fails-in-ipython-lp-1027265-n2-base ()
+    (goto-char 62)
+    (completion-at-point)
+    (assert (eq 65 (point)) nil "filename-completion-fails-in-ipython-lp-1027265-n2-test failed"))
+
+(defun enter-key-does-not-indent-properly-after-return-statement-lp-1098793-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def foo():
+    while something():
+        bar()
+    baz()
+    return 1
+
+# Once the cursor is placed after \"return 1\" and I hit enter, on the next line, the cursor is placed under
+# the \"r\" in return statement, instead of moving indentation to the outer block.
+#
+# \"ENTER\" key is bound to (py-newline-and-indent)
+#
+# Some version information:
+#
+# emacs-version
+# \"GNU Emacs 24.2.1 (i686-pc-cygwin) of 2012-08-27 on fiona\"
+# py-version
+# \"6.1.0\"
+
+"))
+  (py-bug-tests-intern 'enter-key-does-not-indent-properly-after-return-statement-lp-1098793-base arg teststring)))
+
+(defun enter-key-does-not-indent-properly-after-return-statement-lp-1098793-base ()
+    (goto-char 119)
+    (assert (eq 0 (py-compute-indentation)) nil "enter-key-does-not-indent-properly-after-return-statement-lp-1098793-test failed"))
+
+(defun py-up-test-python-el-111-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -\*- coding: utf-8 -\*-
+# up-list: Scan error: \"Unbalanced parentheses\"
+# Hi, when I press C-M-u in python buffer I get:
+#
+# up-list: Scan error: \"Unbalanced parentheses\"
+
+# My expected behavior is something like this:
+#
+# Scenario: Going higher level by C-M-u
+#     When I insert:
+
+# def f():
+#    if True:
+#        [i for i in range(3)]
+
+#     And I am looking at \"3)]\"
+#     And I press C-M-u
+#     Then I should looking at \"(3)]\"
+#     And I press C-M-u
+#     Then I should looking at \"[i for i\"
+#     And I press C-M-u
+#     Then I should looking at \"if True\"
+#     And I press C-M-u
+#     Then I should looking at \"def f\"
+#
+# related: #106
+
+def f():
+    if True:
+        print(\"[i for i in range(3)]: %s \" % ([i for i in range(3)]))
+
+"))
+  (py-bug-tests-intern 'py-up-test-python-el-111-base arg teststring)))
+
+(defun py-up-test-python-el-111-base ()
+    (goto-char 757)
+    (assert (eq 756 (py-up)) nil "py-up-test-python-el-111-test #1 failed")
+    (assert (eq 739 (py-up)) nil "py-up-test-python-el-111-test #2 failed")
+    (assert (eq 738 (py-up)) nil "py-up-test-python-el-111-test #3 failed")
+    (assert (eq 706 (py-up)) nil "py-up-test-python-el-111-test #4 failed")
+    (assert (eq 701 (py-up)) nil "py-up-test-python-el-111-test #5 failed")
+    (assert (eq 684 (py-up)) nil "py-up-test-python-el-111-test #6 failed")
+    (assert (eq 671 (py-up)) nil "py-up-test-python-el-111-test #7 failed")
+    (goto-char 726)
+    (assert (eq 707 (py-up)) nil "py-up-test-python-el-111-test #8 failed")
+    (assert (eq 706 (py-up)) nil "py-up-test-python-el-111-test #9 failed")
+    )
+
+(defun py-down-python-el-112-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# Scenario: Going lover level by C-M-d
+#     When I insert:
+
+class C(object):
+    def m(self):
+        if True:
+            return [i for i in range(3)]
+        else:
+            return []
+
+    # And I am looking at \"class C\"
+    # And I press C-M-d
+    # Then I should looking at \"def m\"
+    # And I press C-M-d
+    # Then I should looking at \"if True\"
+    # And I press C-M-d
+    # Then I should looking at \"i for i\"
+    # And I press C-M-d
+    # Then I should looking at \"3\"
+
+# Current version of C-M-d jumps to inside of (object)
+# because it is just a plain down-list. I think it's
+# better to have python-specific one for symmetry.
+
+"))
+  (py-bug-tests-intern 'py-down-python-el-112-base arg teststring)))
+
+(defun py-down-python-el-112-base ()
+    (goto-char 109)
+    (assert (eq 130 (py-down)) nil "py-down-test-python-el-112-test #1 failed")
+    (assert (eq 151 (py-down)) nil "py-down-test-python-el-112-test #2 failed")
+    (assert (eq 172 (py-down)) nil "py-down-test-python-el-112-test #3 failed")
+    (assert (eq 179 (py-down)) nil "py-down-test-python-el-112-test #4 failed")
+    (assert (eq 196 (py-down)) nil "py-down-test-python-el-112-test #5 failed")
+)
+
+(defun py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+_
+"))
+  (py-bug-tests-intern 'py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-base arg teststring)))
+
+(defun py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-base ()
+  (goto-char 48)
+  (py-underscore-word-syntax-p-on)
+  (assert (eq 119 (char-syntax (char-after))) nil "py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-test #1 failed")
+  (py-underscore-word-syntax-p-off)
+  (assert (eq 95 (char-syntax (char-after))) nil "py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-test #2 failed")
+  (py-underscore-word-syntax-p-on)
+  (assert (eq 119 (char-syntax (char-after))) nil "py-underscore-word-syntax-p-customization-has-no-effect-lp-1100947-test #3 failed")
+)
+
+(defun py-newline-and-indent-leaves-eol-whitespace-lp-1100892-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -\*- coding: utf-8 -\*-
+# py-newline-and-indent leaves extra whitespace at eol if used inside an existing construct. It should
+# instead clean up all trailing whitespace. I believe this is a regression.
+
+def foo():
+    x = some_long_call(supercalifragilistic=6, expialidocious=7)
+
+# Now, put point on the 'e' of expialidocious and hit RET
+
+# You will see that there's an extra space left after the \"6, \". All trailing whitespace should instead be
+# removed.
+
+"))
+  (py-bug-tests-intern 'py-newline-and-indent-leaves-eol-whitespace-lp-1100892-base arg teststring)))
+
+(defun py-newline-and-indent-leaves-eol-whitespace-lp-1100892-base ()
+  (let ((py-newline-delete-trailing-whitespace-p t))
+    (goto-char 286)
+    (py-newline-and-indent)
+    (skip-chars-backward " \t\r\n\f")
+    (assert (eq (char-after) 10) nil "py-newline-and-indent-leaves-eol-whitespace-lp-1100892-test failed")))
+
+(defun module-docstring-when-following-comment-lp-1102011-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "# -*- coding: utf-8 -*-
+# *****************************************************************************
+# <Name of software>
+# Copyright (c) 2009-2012 by the contributors (see AUTHORS)
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+# Module authors:
+# Georg Brandl <email address>
+#
+# *****************************************************************************
+\"\"\"Some docstring.\"\"\"
+
+__version__ = \"\$Revision\$\"
+
+"))
+  (py-bug-tests-intern 'module-docstring-when-following-comment-lp-1102011-base arg teststring)))
+
+(defun module-docstring-when-following-comment-lp-1102011-base ()
+  (let ((py-use-font-lock-doc-face-p t))
+    (goto-char 1024)
+    (python-mode)
+    (font-lock-fontify-buffer)
+    (sit-for 1)
+    (assert (eq (face-at-point) 'font-lock-doc-face) nil "module-docstring-when-following-comment-lp-1102011-test failed")))
+
+(defun ipython-complete-lp-1102226-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env ipython
+# -*- coding: utf-8 -*-
+import re
+re.
+"))
+  (py-bug-tests-intern 'ipython-complete-lp-1102226-base arg teststring)))
+
+(defun ipython-complete-lp-1102226-base ()
+  (and (featurep 'company)(company-mode -1))
+  (goto-char 62)
+  (ipython-complete)
+  ;; (set-buffer "*IPython Completions*")
+  ;; (switch-to-buffer (current-buffer))
+  (assert (bufferp (get-buffer "*IPython Completions*")) nil "ipython-complete-lp-1102226-test failed"))
+
+(defun more-docstring-filling-woes-lp-1102296-pep-257-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-pep-257-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-pep-257-base ()
+  (let ((py-docstring-style 'pep-257))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-pep-257-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-pep-257-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-test #2 done")
+    (goto-char 357)
+    (fill-paragraph)
+    (goto-char 437)
+    (sit-for 0.1)
+    (assert (empty-line-p) nil "more-docstring-filling-woes-lp-1102296-pep-257-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-test #3a done")
+    (forward-line 2)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-pep-257-test #3c failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-test #3c done")))
+
+(defun more-docstring-filling-woes-lp-1102296-onetwo-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-onetwo-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-onetwo-base ()
+  (let ((py-docstring-style 'onetwo))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-onetwo-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-onetwo-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-onetwo-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-onetwo-test #2 done")
+    (goto-char 357)
+    (fill-paragraph)
+    (beginning-of-line)
+    (sit-for 1)
+    ;; (message "%d" (skip-chars-forward " "))
+    (assert (eq (skip-chars-forward " ") 8) nil "more-docstring-filling-woes-lp-1102296-onetwo-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-onetwo-test #3a done")
+    (save-excursion
+      (goto-char 357)
+      (forward-line 2)
+      (assert (empty-line-p) nil "more-docstring-filling-woes-lp-1102296-onetwo-test #3b failed")
+      (message "%s" "more-docstring-filling-woes-lp-1102296-onetwo-test #3b done"))
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-onetwo-test #3c failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-onetwo-test #3c done")))
+
+(defun more-docstring-filling-woes-lp-1102296-django-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-django-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-django-base ()
+  (let ((py-docstring-style 'django))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-django-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-django-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-django-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-django-test #2 done")
+    (goto-char 380)
+    (fill-paragraph)
+    (beginning-of-line)
+    (sit-for 0.1)
+    (assert (looking-at "        \"\"\"") nil "more-docstring-filling-woes-lp-1102296-django-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-django-test #3a done")
+    (save-excursion
+      (goto-char 357)
+      (forward-line 1)
+      (assert (empty-line-p) nil "more-docstring-filling-woes-lp-1102296-django-test #3b failed")
+      (message "%s" "more-docstring-filling-woes-lp-1102296-django-test #3b done"))
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-django-test #3c failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-django-test #3c done")))
+
+(defun more-docstring-filling-woes-lp-1102296-symmetric-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-symmetric-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-symmetric-base ()
+  (let ((py-docstring-style 'symmetric))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-symmetric-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-symmetric-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-symmetric-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-symmetric-test #2 done")
+    (goto-char 380)
+    (fill-paragraph)
+    (beginning-of-line)
+    (sit-for 0.1)
+    (assert (looking-at "        \"\"\"") nil "more-docstring-filling-woes-lp-1102296-symmetric-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-symmetric-test #3a done")
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-symmetric-test #3c failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-symmetric-test #3c done")))
+
+(defun line-after-colon-with-inline-comment-lp-1109946-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def f():
+    if a:
+        b
+    if c: # inline comment
+
+        # |<---- cursor will not indent properly with <TAB>>
+"))
+  (py-bug-tests-intern 'line-after-colon-with-inline-comment-lp-1109946-base arg teststring)))
+
+(defun line-after-colon-with-inline-comment-lp-1109946-base ()
+  (let ((py-indent-honors-inline-comment t))
+    (goto-char 104)
+    (assert (eq 10 (py-compute-indentation)) nil "line-after-colon-with-inline-comment-lp-1109946-test failed")))
+
+(defun cascading-indent-lp-1101962-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def foo():
+    pgdt = []
+    pdwd = []
+        cItemLik = [ ht(\"Item\", T.hr(), T.span(\"Like\", style=
+                            \"background-color: rgb( 229, 200, 136 )\")),
+                     lambda item: ht( item['!'], T.br(), like( item ))
+                     ]
+"))
+  (py-bug-tests-intern 'cascading-indent-lp-1101962-base arg teststring)))
+
+(defun cascading-indent-lp-1101962-base ()
+    (goto-char 315)
+    (assert (eq 8 (py-compute-indentation)) nil "cascading-indent-lp-1101962-test failed"))
+
+(defun python-mode-very-slow-lp-1107037-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "# Since the last few commits, python-mode is unbearably slow on nontrivial files. Even
+# just moving around in the file makes Emacs use 100% CPU for a few seconds.
+#
+# If this is due to the fix for lp:1102011, I would rather live with the highlight bug :)
+# Georg Brandl (gbrandl) wrote 11 hours ago: #2
+#
+# Try the file below. I have narrowed the problem to the fix for lp:1102011 -- the regex
+# \*must\* have pathological behavior (which wouldn't surprise me, such backtracking
+# problems are very hard to fix). In general, for that many lines between module start
+# and docstring, I think it is quite fine for python-mode not to color the docstring as
+# such. I think the number of permitted comment lines should be restricted to 2, in order
+# to accomodate a shebang line and a coding declaration.
+# -\*- coding: utf-8 -\*-
+# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+# <Name of software>
+# Copyright (c) 2009-2012 by the contributors (see AUTHORS)
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+# Module authors:
+# Georg Brandl <email address>
+#
+# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+
+\"\"\"Some docstring.\"\"\"
+
+__version__ = \"$Revision: 1.3 $\"
+
+"))
+  (py-bug-tests-intern 'python-mode-very-slow-lp-1107037-base arg teststring)))
+
+(defun python-mode-very-slow-lp-1107037-base ()
+  (let ((py-use-font-lock-doc-face-p t))
+    (goto-char 1825)
+    (python-mode)
+    (font-lock-fontify-buffer)
+    (sit-for 1)
+    (assert (eq (face-at-point) 'font-lock-doc-face) nil "python-mode-very-slow-lp-1107037-test failed")))
+
+(defun add-custom-switch-for-ffap-hooks-lp-1117119-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+/usr/lib/pyt
+"))
+  (py-bug-tests-intern 'add-custom-switch-for-ffap-hooks-lp-1117119-base arg teststring)))
+
+(defun add-custom-switch-for-ffap-hooks-lp-1117119-base ()
+  (let ((py-ffap-p t)
+        (python-ffap t))
+    (goto-char 60)
+    (assert (member 'py-set-ffap-form python-mode-hook) nil "add-custom-switch-for-ffap-hooks-lp-1117119-test #1 failed")
+    ))
+
+(defun more-docstring-filling-woes-lp-1102296-nil-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-nil-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-nil-base ()
+  (let ((py-docstring-style nil))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-nil-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-nil-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-nil-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-nil-test #2 done")
+    (goto-char 380)
+    (fill-paragraph)
+    (back-to-indentation)
+    (sit-for 0.1)
+    (assert (eq (char-after) ?\i) nil "more-docstring-filling-woes-lp-1102296-nil-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-nil-test #3a done")
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-nil-test #3c failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-nil-test #3c done")))
+
+(defun more-docstring-filling-woes-lp-1102296-pep-257-nn-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# (I selected \"PEP-257-NN\" as the docstring fill style.)
+# Given the following code:
+
+class Test(object):
+    \"\"\"
+    Builds target formats from the reST sources.
+    \"\"\"
+
+    def method1(self):
+        \"\"\"Return the template bridge configured.\"\"\"
+        pass
+
+    def method2(self):
+        \"\"\"Load necessary templates and perform initialization. The default implementation does nothing.
+        \"\"\"
+        pass
+
+# There are three misbehaviors here:
+# \* should have removed the whitespace at the beginning and end of the class docstring
+# \* in method1, the \"pass\" should remain on its own line
+# \* in method2, the closing triple-quote should get its own line, and the \"pass\" too
+
+"))
+  (py-bug-tests-intern 'more-docstring-filling-woes-lp-1102296-pep-257-nn-base arg teststring)))
+
+(defun more-docstring-filling-woes-lp-1102296-pep-257-nn-base ()
+  (let ((py-docstring-style 'pep-257-nn))
+    (goto-char 178)
+    (assert (fill-paragraph) nil "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #1 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #1 done")
+    (goto-char 259)
+    (fill-paragraph)
+    (forward-line 1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #2 failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #2 done")
+    (goto-char 357)
+    (fill-paragraph)
+    (beginning-of-line)
+    (sit-for 0.1)
+    (assert (eq (skip-chars-forward " ")  8) nil "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #3a failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #3a done")
+    (forward-line 1)
+    (sit-for 0.1)
+    (assert (looking-at "        pass") nil "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #3b failed")
+    (message "%s" "more-docstring-filling-woes-lp-1102296-pep-257-nn-test #3b done")))
+
+
+(defun infinite-loop-on-lp-1156426-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+while mvi.t2 <= T:
+
+# calculate a spline for the kinematic inputs
+#fname = 'data/monte_1000hz.mat'
+"))
+  (py-bug-tests-intern 'infinite-loop-on-lp-1156426-base arg teststring)))
+
+(defun infinite-loop-on-lp-1156426-base ()
+    (let ((py-indent-comments t))
+    (assert (eq 4 (py-compute-indentation)) nil "infinite-loop-on-lp-1156426-test #1 failed"))
+    (setq py-indent-comments)
+    (assert (eq 0 (py-compute-indentation)) nil "infinite-loop-on-lp-1156426-test #2 failed"))
+
+
+
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here

@@ -34,6 +34,17 @@
     (find-file erg)
     (finds buffer directory-in directory-out)))
 
+(defvar python-mode-el-doku-list (list "autopair/autopair.el" "python-mode.el" "completion/auto-complete-pycomplete.el" "completion/company-pycomplete.el" "completion/pycomplete.el" "pymacs.el" "extensions/py-smart-operator.el"))
+
+(defun finds-alle ()
+  "Write doku for files listet in python-mode-el-doku-list. "
+  (interactive)
+  (dolist (ele python-mode-el-doku-list)
+    (when
+        (and (load (concat "~/arbeit/emacs/python-modes/python-mode/" ele))
+             (find-file (concat "~/arbeit/emacs/python-modes/python-mode/" ele)))
+      (finds))))
+
 (defun finds (&optional buffer directory-in directory-out)
   "Writes all commands in BUFFER alongside with their documentation into directory \"doc\" as \*.org and \*rst file ."
   (interactive)
@@ -52,26 +63,27 @@
       ;; (widen)
       (goto-char (point-min))
       ;; (eval-buffer)
-      (while (and (not (eobp))(re-search-forward "^(defun [[:alpha:]]" nil t 1))
-        (when (commandp (symbol-at-point))
-          (let* ((name (symbol-at-point))
-                 (docu (documentation name)))
-            (unless docu (message "don't see docu string for %s" (prin1-to-string name)))
-            (add-to-list 'commandslist (cons (prin1-to-string name) docu))
-            ;; (message "%s" (car commandslist))
-            ;; (end-of-defun)
-            ))
-        (forward-line 1))
+      (while (and (not (eobp))(re-search-forward "^(defun [[:alpha:]]\\|^;;; .+" nil t 1))
+        (if (save-match-data (commandp (symbol-at-point)))
+            (let* ((name (symbol-at-point))
+                   (docu (documentation name)))
+              (unless docu (message "don't see docu string for %s" (prin1-to-string name)))
+              (add-to-list 'commandslist (cons (prin1-to-string name) docu))
+              (forward-line 1)
+              ;; (message "%s" (car commandslist))
+              ;; (end-of-defun)
+              )
+          (add-to-list 'commandslist (list (match-string-no-properties 0)))))
       (setq commandslist (nreverse commandslist))
       (with-temp-buffer
         (switch-to-buffer (current-buffer))
         (insert (concat ";; a list of " suffix " commands
-\(setq " (replace-regexp-in-string  "\\." "-" suffix) "-commands (quote "))
+\(setq " (replace-regexp-in-string "\\." "-" suffix) "-commands (quote "))
         (insert (prin1-to-string commandslist))
         (insert "))")
         (eval-buffer)
         ;; (write-file (concat directory-out "commands-" suffix))
-)
+        )
       ;; (with-temp-buffer
       ;;   (dolist (ele commandslist)
       ;;     (insert (concat (car ele) "\n")))
@@ -80,10 +92,14 @@
       (with-temp-buffer
         ;; org
         ;; (insert (concat (capitalize (substring oldbuf 0 (string-match "\." oldbuf))) " commands" "\n\n"))
-        (insert (concat  suffix " commands\n\n"))
+        (insert (concat suffix " commands\n\n"))
         (dolist (ele commandslist)
-          (insert (concat "* "(car ele) "\n"))
-          (insert (concat "   " (cdr ele) "\n")))
+          (if (string-match "^;;; " (car ele))
+              (unless (or (string-match "^;;; Constants\\|^;;; Commentary\\|^;;; Code\\|^;;; Macro definitions\\|^;;; Customization" (car ele)))
+
+                (insert (concat (replace-regexp-in-string "^;;; " "* " (car ele)) "\n")))
+            (insert (concat "** "(car ele) "\n"))
+            (insert (concat "   " (cdr ele) "\n"))))
         (write-file (concat directory-out "commands-" orgname))
         (find-file (concat directory-out "commands-" orgname)))
       (with-temp-buffer

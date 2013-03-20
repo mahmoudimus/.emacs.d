@@ -209,7 +209,7 @@
 
 
 
-;; pymacs
+;; ;; pymacs
 (setq py-load-pymacs-p t)
 
 ;; require python

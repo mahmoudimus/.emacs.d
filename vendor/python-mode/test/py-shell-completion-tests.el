@@ -28,18 +28,21 @@
        'python-shell-complete-test
        'usr-bin-python-shell-complete-test
        'usr-bin-python2.7-shell-complete-test
-       'arbeit-python-epdfree-epd_free-7.2-2-rh5-x86-bin-python2.7-shell-complete-test
+       ;; 'arbeit-python-epdfree-epd_free-7.2-2-rh5-x86-bin-python2.7-shell-complete-test
        'usr-bin-python3-shell-complete-test
-       'usr-bin-python3.1-shell-complete-test
-       'ipython-shell-complete-test
-       'usr-bin-ipython-shell-complete-test
-       'arbeit-python-epd_free-7.1-2-rh5-x86-bin-ipython-shell-complete-test))
+       ;; 'usr-bin-python3.2-shell-complete-test
+       ;; 'ipython-shell-complete-test
+       ;; 'usr-bin-ipython-shell-complete-test
+       ;; 'arbeit-python-epd_free-7.1-2-rh5-x86-bin-ipython-shell-complete-test
+       )
+)
 
 (defun py-run-shell-complete-tests ()
   (interactive)
   (dolist (ele python-mode-shell-complete-tests)
     (funcall ele)
-    (sit-for 1)))
+    ;; (sit-for 1)
+))
 
 (defun python-shell-complete-test ()
   (interactive)
@@ -104,7 +107,7 @@
   (interactive)
   (let (py-shell-switch-buffers-on-execute-p
         py-split-windows-on-execute-p)
-    (set-buffer (py-shell nil t "/usr/bin/python3" nil "/"))
+    (set-buffer (py-shell nil t "/usr/local/bin/python3" nil "/"))
     (when (interactive-p) (switch-to-buffer (current-buffer)))
     (goto-char (point-max))
     (insert "pri")

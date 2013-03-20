@@ -27,3 +27,4 @@ el-get/
 ac-comphist.dat
 .desktop/
 custom.el
+vendor/python-mode/.bzr
