@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+# name: pound-db-testcase
+# contributor: Mahmoud Abdelkader
+# key: dbtestcase
+# expand-env: ((yas/indent-line 'nil))
+# --
+from __future__ import unicode_literals
+
+
+from pound.tests import PoundDBTestCase
+
+
+class $1(PoundDBTestCase):
+
+    def setUp(self):
+        super($1, self).setUp()
+
+    def tearDown(self):
+        super($1, self).tearDown()
+
+    $2
+
+$0

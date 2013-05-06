@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+# name: migrate
+# contributor: Mahmoud Abdelkader
+# key: migrate
+# expand-env: ((yas/indent-line 'nil))
+# --
+from __future__ import unicode_literals
+
+from sqlalchemy import *
+from migrate import *
+
+
+metadata = MetaData()
+
+$1
+
+
+def upgrade(migrate_engine):
+    metadata.bind = migrate_engine
+
+
+def downgrade(migrate_engine):
+    metadata.bind = migrate_engine
+
+$0

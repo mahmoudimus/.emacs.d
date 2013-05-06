@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: dbg
+# contributor: Mahmoud Abdelkader
+# key: dbg
+# --
+if __debug__:
+   logger.debug("$0")

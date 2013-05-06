@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: log
+# contributor: Mahmoud Abdelkader
+# key: log
+# expand-env: ((yas/indent-line 'nil))
+# --
+LOGGER = logging.getLogger(__name__)
