@@ -17,3 +17,28 @@ places
 savefile/
 /prelude-modules.el
 projectile-bookmarks.eld
+
+# mahmouds additions
+loaddefs.el*
+backups/*
+auto-save-list
+.newsrc-dribble
+.nnmail-cache
+/#.newsrc-dribble#
+.svn
+image-dired/
+elim/
+session*
+tramp
+\#*
+*.elc
+*.pyc
+
+# yes i use VIM to edit emacs config files because it's fucking amazing
+*.swp
+*.swo
+
+history
+ac-comphist.dat
+.desktop/
+vendor/python-mode/.bzr
