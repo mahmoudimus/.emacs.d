@@ -3,10 +3,16 @@ Python Mode News
 
 New in version 6.1.2
 ---------------------
+- simplified menu
+  Adapts version 5.2.0 style, augmented by a "More" button
 
-- boolean `py-electric-kill-backward-p', default is nil.
-  If behind a delimited form of braces, brackets or parentheses,
-  py-electric-backspace will kill it's contents
+- commands deleting all commented lines:
+  `py-delete-comments-in-def-or-class'
+  `py-delete-comments-in-class'
+  `py-delete-comments-in-block'
+  `py-delete-comments-in-region'
+
+-  command `py-empty-out-list-backward'
 
   With when cursor after 
   mystring[0:1]
@@ -16,12 +22,21 @@ New in version 6.1.2
   ---------^
   In result cursor is insided emptied delimited form."
 
+- customizable `py-backslashed-lines-indent-offset', default is 5
+  Amount of offset per level of indentation of backslashed.
+  No semantic indent,  which diff to `py-indent-offset' indicates
+
+- boolean `py-electric-kill-backward-p', default is nil.
+  If behind a delimited form of braces, brackets or parentheses,
+  `py-electric-backspace' runs `py-empty-out-list-backward'
+
 - unused variable `py-backspace-function' removed
 
 - Bundled third-party-stuff removed as reported conflicting at emacs-mirror, lp:1153998 
   affects autopair.el, smart-operator.el  
   Kept  menu switches resp. commands will issue a warning 
 
+- `py-which-def-or-class', command, now used `which-function-mode' 
 
 New in version 6.1.1
 ---------------------

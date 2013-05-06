@@ -14,6 +14,22 @@ Python-mode commands
 -----------------
 
 
+py-smart-operator-check
+-----------------------
+Check, if smart-operator-mode is loaded resp. available.
+
+Give some hints, if not.
+
+py-autopair-check
+-----------------
+Check, if autopair-mode is available.
+
+Give some hints, if not.
+
+(defun p
+--------
+
+
 ;;; Constants
 -------------
 
@@ -22,9 +38,239 @@ Python-mode commands
 ---------------------
 
 
-;;; Minor mode switches
------------------------
+;;; Toggle
+----------
 
+
+toggle-py-nil-docstring-style
+-----------------------------
+If nil docstring-style should be on or off.
+
+  Returns value of `py-docstring-style' switched to.
+To set permanently,  customize this variable 
+
+py-nil-docstring-style-on
+-------------------------
+Make sure, nil docstring-style' is on.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+py-nil-docstring-style-off
+--------------------------
+Make sure, nil docstring-style is off.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+toggle-py-onetwo-docstring-style
+--------------------------------
+If onetwo docstring-style should be on or off.
+
+  Returns value of `py-docstring-style' switched to.
+To set permanently,  customize this variable 
+
+py-onetwo-docstring-style-on
+----------------------------
+Make sure, onetwo docstring-style' is on.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+py-onetwo-docstring-style-off
+-----------------------------
+Make sure, onetwo docstring-style is off.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+toggle-py-pep-257-docstring-style
+---------------------------------
+If pep-257 docstring-style should be on or off.
+
+  Returns value of `py-pep-257-docstring-style' switched to. 
+
+py-pep-257-docstring-style-on
+-----------------------------
+Make sure, pep-257 docstring-style' is on.
+
+Returns value of `py-pep-257-docstring-style'. 
+
+py-pep-257-docstring-style-off
+------------------------------
+Make sure, pep-257 docstring-style is off.
+
+Returns value of `py-pep-257-docstring-style'. 
+
+toggle-py-pep-257-nn-docstring-style
+------------------------------------
+If pep-257-nn docstring-style should be on or off.
+
+  Returns value of `py-pep-257-nn-docstring-style' switched to. 
+
+py-pep-257-nn-docstring-style-on
+--------------------------------
+Make sure, pep-257-nn docstring-style' is on.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+py-pep-257-nn-docstring-style-off
+---------------------------------
+Make sure, pep-257-nn docstring-style is off.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+toggle-py-symmetric-docstring-style
+-----------------------------------
+If symmetric docstring-style should be on or off.
+
+  Returns value of `py-docstring-style' switched to.
+To set permanently,  customize this variable 
+
+py-symmetric-docstring-style-on
+-------------------------------
+Make sure, symmetric docstring-style' is on.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+py-symmetric-docstring-style-off
+--------------------------------
+Make sure, symmetric docstring-style is off.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+toggle-py-django-docstring-style
+--------------------------------
+If django docstring-style should be on or off.
+
+  Returns value of `py-docstring-style' switched to.
+To set permanently,  customize this variable 
+
+py-django-docstring-style-on
+----------------------------
+Make sure, django docstring-style' is on.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+py-django-docstring-style-off
+-----------------------------
+Make sure, django docstring-style is off.
+
+  Returns value of `py-docstring-style'.
+To set permanently,  customize this variable 
+
+toggle-py-underscore-word-syntax-p
+----------------------------------
+If `py-underscore-word-syntax-p' should be on or off.
+
+  Returns value of `py-underscore-word-syntax-p' switched to. 
+
+py-underscore-word-syntax-p-on
+------------------------------
+Make sure, py-underscore-word-syntax-p' is on.
+
+Returns value of `py-underscore-word-syntax-p'. 
+
+py-underscore-word-syntax-p-off
+-------------------------------
+Make sure, `py-underscore-word-syntax-p' is off.
+
+Returns value of `py-underscore-word-syntax-p'. 
+
+toggle-py-electric-comment-p
+----------------------------
+If `py-electric-comment-p' should be on or off.
+
+  Returns value of `py-electric-comment-p' switched to. 
+
+py-electric-comment-p-on
+------------------------
+Make sure, py-electric-comment-p' is on.
+
+Returns value of `py-electric-comment-p'. 
+
+py-electric-comment-p-off
+-------------------------
+Make sure, `py-electric-comment-p' is off.
+
+Returns value of `py-electric-comment-p'. 
+
+toggle-force-local-shell
+------------------------
+If locally indicated Python shell should be taken and
+enforced upon sessions execute commands.
+
+Toggles boolean `py-force-local-shell-p' along with `py-force-py-shell-name-p'
+Returns value of `toggle-force-local-shell' switched to.
+
+When on, kind of an option 'follow', local shell sets `py-shell-name', enforces its use afterwards.
+
+See also commands
+`py-force-local-shell-on'
+`py-force-local-shell-off'
+ 
+
+py-force-local-shell-on
+-----------------------
+Make sure, `py-py-force-local-shell-p' is on.
+
+Returns value of `py-force-local-shell-p'.
+
+Kind of an option 'follow', local shell sets `py-shell-name', enforces its use afterwards 
+
+py-force-local-shell-off
+------------------------
+Restore `py-shell-name' default value and `behaviour'. 
+
+toggle-force-py-shell-name-p
+----------------------------
+If customized default `py-shell-name' should be enforced upon execution.
+
+If `py-force-py-shell-name-p' should be on or off.
+Returns value of `py-force-py-shell-name-p' switched to.
+
+See also commands
+force-py-shell-name-p-on
+force-py-shell-name-p-off
+
+Caveat: Completion might not work that way.
+
+
+force-py-shell-name-p-on
+------------------------
+Switches `py-force-py-shell-name-p' on.
+
+Customized default `py-shell-name' will be enforced upon execution.
+Returns value of `py-force-py-shell-name-p'.
+
+Caveat: Completion might not work that way.
+
+
+force-py-shell-name-p-off
+-------------------------
+Make sure, `py-force-py-shell-name-p' is off.
+
+Function to use by executes will be guessed from environment.
+Returns value of `py-force-py-shell-name-p'. 
+
+py-toggle-indent-tabs-mode
+--------------------------
+Toggle `indent-tabs-mode'.
+
+Returns value of `indent-tabs-mode' switched to. 
+
+py-indent-tabs-mode-on
+----------------------
+Switch `indent-tabs-mode' on. 
+
+py-indent-tabs-mode-off
+-----------------------
+Switch `indent-tabs-mode' on. 
 
 toggle-py-jump-on-exception
 ---------------------------
@@ -128,21 +374,21 @@ Make sure, `py-smart-indentation' is off.
 
 Returns value of `py-smart-indentation'. 
 
-py-toggle-smart-operator
-------------------------
+toggle-py-smart-operator-mode-p
+-------------------------------
 If `py-smart-operator-mode-p' should be on or off.
 
-Returns value of `py-smart-operator-mode-p' switched to. 
+  Returns value of `py-smart-operator-mode-p' switched to. 
 
-py-smart-operator-mode-on
--------------------------
-Make sure, `py-smart-operator-mode-p' is on.
+py-smart-operator-mode-p-on
+---------------------------
+Make sure, py-smart-operator-mode-p' is on.
 
 Returns value of `py-smart-operator-mode-p'. 
 
-py-smart-operator-mode-off
---------------------------
-Make sure, `py-smart-operator-mode-p' is off.
+py-smart-operator-mode-p-off
+----------------------------
+Make sure, py-smart-operator-mode-p' is off.
 
 Returns value of `py-smart-operator-mode-p'. 
 
@@ -166,11 +412,21 @@ Returns value of `py-use-current-dir-when-execute-p'.
 
 py-toggle-autopair-mode
 -----------------------
-If `autopair-p' should be on or off. 
+If `py-autopair-mode' should be on or off.
+
+  Returns value of `py-autopair-mode' switched to. 
 
 py-autopair-mode-on
 -------------------
-Make sure, autopair' is on. 
+Make sure, py-autopair-mode' is on.
+
+Returns value of `py-autopair-mode'. 
+
+py-autopair-mode-off
+--------------------
+Make sure, py-autopair-mode' is off.
+
+Returns value of `py-autopair-mode'. 
 
 toggle-py-switch-buffers-on-execute-p
 -------------------------------------
@@ -212,10 +468,6 @@ py-toggle-sexp-function
 -----------------------
 Opens customization 
 
-(defun p
---------
-
-
 py-shell-get-process
 --------------------
 Get appropriate Python process for current buffer and return it.
@@ -249,12 +501,6 @@ to complete.
 ;;; Helper commands
 -------------------
 
-
-py-update-imports
------------------
-Returns `python-imports'.
-
-Imports done are displayed in message buffer. 
 
 py-guess-pdb-path
 -----------------
@@ -387,7 +633,13 @@ Similar to `toggle-py-smart-indentation' resp. `py-smart-indentation-off' follow
 
 This function is normally used by `indent-line-function' resp.
 TAB.
-Returns current indentation 
+Returns current indentation
+
+When `py-tab-shifts-region-p' is `t', not just the current line,
+but the region is shiftet that way.
+
+If `py-tab-indents-region-p' is `t' and first TAB doesn't shift
+--as indent is at outmost reasonable--, indent-region is called. 
 
 py-newline-and-indent
 ---------------------
@@ -399,84 +651,12 @@ py-newline-and-dedent
 Add a newline and indent to one level below current.
 Returns column. 
 
-toggle-force-local-shell
-------------------------
-If locally indicated Python shell should be taken and
-enforced upon sessions execute commands.
-
-Toggles boolean `py-force-local-shell-p' along with `py-force-py-shell-name-p'
-Returns value of `toggle-force-local-shell' switched to.
-
-When on, kind of an option 'follow', local shell sets `py-shell-name', enforces its use afterwards.
-
-See also commands
-`py-force-local-shell-on'
-`py-force-local-shell-off'
- 
-
-py-force-local-shell-on
------------------------
-Make sure, `py-py-force-local-shell-p' is on.
-
-Returns value of `py-force-local-shell-p'.
-
-Kind of an option 'follow', local shell sets `py-shell-name', enforces its use afterwards 
-
-py-force-local-shell-off
-------------------------
-Restore `py-shell-name' default value and `behaviour'. 
-
-toggle-force-py-shell-name-p
-----------------------------
-If customized default `py-shell-name' should be enforced upon execution.
-
-If `py-force-py-shell-name-p' should be on or off.
-Returns value of `py-force-py-shell-name-p' switched to.
-
-See also commands
-force-py-shell-name-p-on
-force-py-shell-name-p-off
-
-Caveat: Completion might not work that way.
-
-
-force-py-shell-name-p-on
-------------------------
-Switches `py-force-py-shell-name-p' on.
-
-Customized default `py-shell-name' will be enforced upon execution.
-Returns value of `py-force-py-shell-name-p'.
-
-Caveat: Completion might not work that way.
-
-
-force-py-shell-name-p-off
--------------------------
-Make sure, `py-force-py-shell-name-p' is off.
-
-Function to use by executes will be guessed from environment.
-Returns value of `py-force-py-shell-name-p'. 
-
-py-toggle-indent-tabs-mode
---------------------------
-Toggle `indent-tabs-mode'.
-
-Returns value of `indent-tabs-mode' switched to. 
-
 py-indent-tabs-mode
 -------------------
 With positive ARG switch `indent-tabs-mode' on.
 
 With negative ARG switch `indent-tabs-mode' off.
 Returns value of `indent-tabs-mode' switched to. 
-
-py-indent-tabs-mode-on
-----------------------
-Switch `indent-tabs-mode' on. 
-
-py-indent-tabs-mode-off
------------------------
-Switch `indent-tabs-mode' on. 
 
 py-guess-indent-offset
 ----------------------
@@ -919,77 +1099,93 @@ See also py-bounds-of-statements
 ---------------------
 
 
+py-beginning-of-comment
+-----------------------
+Go to the beginning of current line's comment, if any.
+
+Returns position if succesful. 
+
+py-end-of-comment
+-----------------
+Go to the end of comment at point.
+
+Returns position, nil if not in comment.
+
+py-uncomment
+------------
+Uncomment lines at point.
+
+If region is active, restrict uncommenting at region 
+
 py-comment-region
 -----------------
 Like `comment-region' but uses double hash (`#') comment starter.
+
+py-comment-block
+----------------
+Comments block at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-clause
+-----------------
+Comments clause at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-block-or-clause
+--------------------------
+Comments block-or-clause at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-def
+--------------
+Comments def at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-class
+----------------
+Comments class at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-def-or-class
+-----------------------
+Comments def-or-class at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
+
+py-comment-statement
+--------------------
+Comments statement at point.
+
+Uses double hash (`#') comment starter when `py-block-comment-prefix-p' is  `t',
+the default
 
 py-fill-comment
 ---------------
 Fill the comment paragraph at point
 
+py-end-of-string
+----------------
+Go to end of string at point, return position.
+
+Takes the result of (syntax-ppss)
+
 py-fill-paragraph
 -----------------
 `fill-paragraph-function'
 
-commands py-fill-paragraph-SUFFIX
-choose one of the following implemented styles:
-
-DJANGO, ONETWO, PEP-257, PEP-257-NN, SYMMETRIC
-
-Otherwise `py-fill-docstring-style' is used. Explanation:
-
-DJANGO:
-
-    """
-    Process foo, return bar.
-    """
-
-    """
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    """
-
-ONETWO:
-
-    """Process foo, return bar."""
-
-    """
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-
-    """
-
-PEP-257:
-
-    """Process foo, return bar."""
-
-    """Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-
-    """
-
-PEP-257-NN:
-
-    """Process foo, return bar."""
-
-    """Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    """
-
-SYMMETRIC:
-
-    """Process foo, return bar."""
-
-    """
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    """
-
+If `py-paragraph-fill-docstring-p' and inside a docstring, the whole docstring is formatted.
+See also `py-fill-string' 
 
 py-fill-labelled-string
 -----------------------
@@ -1001,6 +1197,10 @@ py-fill-string
 --------------
 String fill function for `py-fill-paragraph'.
 JUSTIFY should be used (if applicable) as in `fill-paragraph'.
+
+DOCSTRING is either a boolean or 'no
+If `py-paragraph-fill-docstring-p' is `t', `M-q` fills the
+complete docstring according to setting of `py-docstring-style' 
 
 py-fill-paren
 -------------
@@ -1021,7 +1221,7 @@ Fill docstring according to Django's coding standards style.
     If processing fails throw ProcessingError.
     """
 
-See available styles at `py-fill-paragraph' or var `py-fill-docstring-style'
+See available styles at `py-fill-paragraph' or var `py-docstring-style'
 
 
 py-fill-string-onetwo
@@ -1037,7 +1237,7 @@ One newline and start and Two at end style.
 
     """
 
-See available styles at `py-fill-paragraph' or var `py-fill-docstring-style'
+See available styles at `py-fill-paragraph' or var `py-docstring-style'
 
 
 py-fill-string-pep-257
@@ -1052,7 +1252,7 @@ PEP-257 with 2 newlines at end of string.
 
     """
 
-See available styles at `py-fill-paragraph' or var `py-fill-docstring-style'
+See available styles at `py-fill-paragraph' or var `py-docstring-style'
 
 
 py-fill-string-pep-257-nn
@@ -1066,7 +1266,7 @@ PEP-257 with 1 newline at end of string.
     If processing fails throw ProcessingError.
     """
 
-See available styles at `py-fill-paragraph' or var `py-fill-docstring-style'
+See available styles at `py-fill-paragraph' or var `py-docstring-style'
 
 
 py-fill-string-symmetric
@@ -1081,7 +1281,7 @@ Symmetric style.
     If processing fails throw ProcessingError.
     """
 
-See available styles at `py-fill-paragraph' or var `py-fill-docstring-style'
+See available styles at `py-fill-paragraph' or var `py-docstring-style'
 
 
 ;;; Opens-p
@@ -1137,6 +1337,13 @@ Sort multiline imports.
 
 Put point inside the parentheses of a multiline import and hit
 M-x py-sort-imports to sort the imports lexicographically
+
+py-which-def-or-class
+---------------------
+Returns concatenated `def' and `class' names in hierarchical order, if cursor is inside.
+
+Returns "???" otherwise
+Used by variable `which-func-functions' 
 
 py-which-function
 -----------------
@@ -1276,7 +1483,11 @@ http://docs.python.org/reference/compound_stmts.html
 
 py-up
 -----
-Go to beginning one level above of compound statement or definition at point.
+Go up or to beginning of form if inside.
+
+If inside a delimited form --string or list-- go to it's beginning.
+If not at beginning of a statement or block, go to it's beginning.
+If at beginning of a statement or block, go to beginning one level above of compound statement or definition at point.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
@@ -2732,9 +2943,9 @@ Useful for newly defined symbol, not known to python yet.
 
 py-find-imports
 ---------------
-Find top-level imports, updating `py-imports'.
+Find top-level imports.
 
-Returns py-imports
+Returns imports 
 
 py-eldoc-function
 -----------------
@@ -2753,11 +2964,9 @@ Dump long form of `python-mode' docs.
 
 py-find-definition
 ------------------
-Find source of definition of function NAME.
+Find source of definition of SYMBOL.
 
-Interactively, prompt for name.
-
-Search in current buffer first. 
+Interactively, prompt for SYMBOL.
 
 ;;; Miscellanus
 ---------------
@@ -2780,12 +2989,19 @@ py-nesting-level
 ----------------
 Accepts the output of `parse-partial-sexp'. 
 
+py-beginning-of-commented-section
+---------------------------------
+Leave upwards comments and/or empty lines. 
+
 py-compute-indentation
 ----------------------
 Compute Python indentation.
 
 When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
 `raise', `break', `continue', and `pass' force one level of dedenting.
+
+Optional arguments are flags resp. values set and used by `py-compute-indentation' internally
+
 
 py-continuation-offset
 ----------------------
