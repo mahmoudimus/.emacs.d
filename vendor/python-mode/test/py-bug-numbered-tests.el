@@ -291,21 +291,51 @@ def main(argv):
 If no `load-branch-function' is specified, make sure the appropriate branch is loaded. Otherwise default python-mode will be checked. "
   (interactive "p")
   (let ((teststring "
-d = {'a':{'b':3,
+d = {
+     'a':{
+          'b':3,
           'c':4
-          }
+         }
      }
+
+d = {'a':{
+          'b':3,
+          'c':4
+         }
+    }
+
+data = {
+    'key':
+    {
+        'objlist': [
+            {
+                'pk': 1,
+                'name': 'first',
+            },
+            {
+                'pk': 2,
+                'name': 'second',
+            }
+        ]
+    }
+}
+
 "))
     (py-bug-tests-intern 'nested-dictionaries-indent-lp:328791 arg teststring)))
 
 (defun nested-dictionaries-indent-lp:328791 ()
   (let ((py-indent-honors-multiline-listing t))
-    (goto-char 19)
-    (assert (eq 10 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #1 failed")
-    (goto-char 35)
-    (assert (eq 10 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #2 failed")
-    (goto-char 47)
-    (assert (eq 5 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #3 failed")
+    (goto-char 12)
+    (assert (eq 5 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #1 failed")
+    (goto-char 26)
+    (assert (eq 8 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #2 failed")
+    (goto-char 55)
+    (assert (eq 8 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #3 failed")
+    (goto-char 57)
+    (assert (eq 4 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #4 failed")
+    (goto-char 63)
+    (assert (eq 0 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791-test #5 failed")
+
     ))
 
 (defun mark-block-region-lp:328806-test (&optional arg)
@@ -1061,12 +1091,13 @@ except:
   (interactive "p")
   (let ((teststring "def foo():
     something()
+
     another(
 "))
     (py-bug-tests-intern 'unbalanced-parentheses-lp:784645-base arg teststring)))
 
 (defun unbalanced-parentheses-lp:784645-base ()
-  (goto-char 40)
+  (goto-char 28)
   (assert (eq 4 (py-compute-indentation)) nil "unbalanced-parentheses-lp:784645-test failed"))
 
 (defun explicitly-indent-in-list-lp:785018-test (&optional arg)
@@ -1522,7 +1553,8 @@ if __name__ == '__main__':
   (goto-char 206)
   (assert (eq 0 (py-compute-indentation)) nil "comments-indent-honor-setting-lp:824427-test failed"))
 
-(defun infinite-loop-after-tqs-lp:826044-test (&optional arg)
+(defun infinite-loop-after-tqs-lp:826044-teso
+t (&optional arg)
   (interactive "p")
   (let ((teststring "\"\"\"
 hey
@@ -1552,9 +1584,9 @@ if foo:
 
 (defun closing-list-lp:826144-base ()
   (goto-char 241)
-  (assert (eq 12 (py-compute-indentation)) nil "infinite-loop-after-tqs-lp:826044-test failed")
+  (assert (eq 12 (py-compute-indentation)) nil "closing-list-lp:826144-test #1 failed")
   (goto-char 251)
-  (assert (eq 8 (py-compute-indentation)) nil "infinite-loop-after-tqs-lp:826044-test failed")
+  (assert (eq 8 (py-compute-indentation)) nil "closing-list-lp:826144-test #2 failed")
   )
 
 (defun py-electric-comment-add-space-lp:828398-test (&optional arg)
@@ -4966,6 +4998,7 @@ def foo():
   (let ((py-newline-delete-trailing-whitespace-p t))
     (goto-char 286)
     (py-newline-and-indent)
+    (sit-for 0.1)
     (skip-chars-backward " \t\r\n\f")
     (assert (eq (char-after) 10) nil "py-newline-and-indent-leaves-eol-whitespace-lp-1100892-test failed")))
 
@@ -5266,8 +5299,8 @@ def foo():
   (py-bug-tests-intern 'cascading-indent-lp-1101962-base arg teststring)))
 
 (defun cascading-indent-lp-1101962-base ()
-    (goto-char 315)
-    (assert (eq 8 (py-compute-indentation)) nil "cascading-indent-lp-1101962-test failed"))
+    (goto-char 87)
+    (assert (eq 4 (py-compute-indentation)) nil "cascading-indent-lp-1101962-test failed"))
 
 (defun python-mode-very-slow-lp-1107037-test (&optional arg)
   (interactive "p")
@@ -5309,7 +5342,7 @@ def foo():
 
 \"\"\"Some docstring.\"\"\"
 
-__version__ = \"$Revision: 1.7 $\"
+__version__ = \"$Revision: 1.14 $\"
 
 "))
   (py-bug-tests-intern 'python-mode-very-slow-lp-1107037-base arg teststring)))
@@ -5502,7 +5535,6 @@ a = \"asdf\"
   ;; (car (nth 2 (car '((#1="class kugel" (#1# . 85) ("kugel.pylauf" . 224))))))
   (assert (string= "kugel.pylauf" (car (nth 2 (eval '(car imenu--index-alist))))) nil "wfmc-lp-1160022-test failed"))
 
-
 (defun tab-results-in-never-ending-process-lp-1163423-test (&optional arg)
   (interactive "p")
   (let ((teststring "#! /usr/bin/env python
@@ -5521,12 +5553,123 @@ a = \"asdf\"
     (goto-char 216)
     (push-mark)
     (goto-char 122)
-    (exchange-point-and-mark) 
+    (exchange-point-and-mark)
     (transient-mark-mode 1)
     (py-indent-line)
-    (sit-for 0.1) 
+    (sit-for 0.1)
     (message "point: %s" (point))
     (assert (eq (point) 216) nil "tab-results-in-never-ending-process-lp-1163423-test failed")))
+
+(defun loops-on-if-else-lp-328777-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "x = (if 1: 2
+     else: 3)
+"))
+  (py-bug-tests-intern 'loops-on-if-else-lp-328777-base arg teststring)))
+
+(defun loops-on-if-else-lp-328777-base ()
+    (goto-char 14)
+    (assert (eq 5 (py-compute-indentation)) nil "loops-on-if-else-lp-328777-test failed"))
+
+(defun nested-dictionaries-indent-again-lp:1174174-test (&optional arg)
+  "With ARG greater 1 keep test buffer open.
+
+If no `load-branch-function' is specified, make sure the appropriate branch is loaded. Otherwise default python-mode will be checked. "
+  (interactive "p")
+  (let ((teststring "
+d = {'a':{'b':3,
+          'c':4
+          }
+     }
+
+d = {'a':{
+          'b':3,
+          'c':4
+         }
+     }
+"))
+    1174174
+    (py-bug-tests-intern 'nested-dictionaries-indent-again-lp:1174174 arg teststring)))
+
+(defun nested-dictionaries-indent-again-lp:1174174 ()
+  (let ((py-indent-honors-multiline-listing t))
+    (goto-char 19)
+    (assert (eq 10 (py-compute-indentation)) nil "nested-dictionaries-indent-again-lp:1174174-test #1 failed")
+    (goto-char 35)
+    (assert (eq 10 (py-compute-indentation)) nil "nested-dictionaries-indent-again-lp:1174174-test #2 failed")
+    (goto-char 47)
+    (assert (eq 5 (py-compute-indentation)) nil "nested-dictionaries-indent-again-lp:1174174-test #3 failed")
+    ;; (goto-char 57)
+    ;; (assert (eq 4 (py-compute-indentation)) nil "nested-dictionaries-indent-again-lp:1174174-test #4 failed")
+    ;; (goto-char 63)
+    ;; (assert (eq 0 (py-compute-indentation)) nil "nested-dictionaries-indent-again-lp:1174174-test #5 failed")
+
+    ))
+
+(defun TAB-leaves-point-in-the-wrong-lp-1178453-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# r1225
+
+import tarfile
+
+src = tarfile.open('src.tgz', 'r:gz')
+dst = tarfile.open('dst.tgz', 'w:gz')
+
+for name in src.getnames():
+    print('name:', name)
+    info = src.getmember(name)
+    fp = src.extractfile(name)
+    dst.addfile(info, fp)
+
+src.close()
+dst.close()
+
+# Put point at the end of the `dst.addfile` line and hit return. Point is
+# properly left on the next line right under the first 'd'. Now hit TAB. Point is
+# correctly left at the beginning of the line. Hit TAB one more time.
+# 
+# Now, while 4 spaces have been added to the beginning of the line, point is left
+# at the beginning of the line instead of at the end of the just inserted
+# whitespace. Point should be at column 4.
+"))
+  (py-bug-tests-intern 'TAB-leaves-point-in-the-wrong-lp-1178453-base arg teststring)))
+
+(defun TAB-leaves-point-in-the-wrong-lp-1178453-base ()
+    (goto-char 292)
+    (py-indent-line) 
+    (assert (eq 4 (current-column)) nil "TAB-leaves-point-in-the-wrong-lp-1178453-test failed"))
+
+
+(defun Bogus-whitespace-left-in-docstring-after-wrapping-lp-1178455-test (&optional arg)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# r1225
+
+def foo():
+    \"\"\"Line one of a comment.
+
+    A paragraph of comments.
+    These should get wrapped correctly.
+    They do, but whooboy!
+
+    Last line of comment.
+    \"\"\"
+
+# Put point somewhere in the middle paragraph and hit M-q (fill-paragraph).
+#
+# The paragraph gets properly wrapped, but the blank line before it and after it
+# get additional 4 bogus spaces at the beginning of their lines.
+"))
+  (py-bug-tests-intern 'Bogus-whitespace-left-in-docstring-after-wrapping-lp-1178455-base arg teststring)))
+
+(defun Bogus-whitespace-left-in-docstring-after-wrapping-lp-1178455-base ()
+    (goto-char 140)
+    (fill-paragraph)
+    (goto-char 98)
+    (assert (and (bolp) (eolp)) nil "Bogus-whitespace-left-in-docstring-after-wrapping-lp-1178455-test failed"))
 
 
 (provide 'py-bug-numbered-tests)

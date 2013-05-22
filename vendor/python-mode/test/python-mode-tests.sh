@@ -1115,6 +1115,13 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 -eval "(assert (boundp 'py-font-lock-keywords) nil \"py-font-lock-keywords not a variable\")" \
 -eval "(assert (boundp 'py-font-lock-syntactic-keywords) nil \"py-font-lock-syntactic-keywords not a variable\")" \
 -eval "(assert (boundp 'virtualenv-name) nil \"virtualenv-name not a variable\")" \
+--funcall Bogus-whitespace-left-in-docstring-after-wrapping-lp-1178455-test \
+--funcall incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-test \
+--funcall indentation-wrong-after-multi-line-parameter-list-lp:871698-test \
+--funcall indent-after-inline-comment-lp:873372-test \
+--funcall honor-comments-indent-test \
+--funcall TAB-leaves-point-in-the-wrong-lp-1178453-test \
+--funcall loops-on-if-else-lp-328777-test \
 --funcall py-execute-block-or-clause-python3-test \
 --funcall py-execute-block-or-clause-python2-test \
 --funcall py-execute-block-or-clause-python2.7-test \
@@ -1185,9 +1192,7 @@ est \
 --funcall py-end-of-statement-test \
 --funcall shebang-interpreter-not-detected-lp:1001327-test \
 --funcall new-problem-with-py-temp-directory-lp:965762-test \
---funcall nested-dictionaries-indent-lp:328791-test \
 --funcall new-problem-with-py-temp-directory-lp:965762-test \
---funcall nested-dictionaries-indent-lp:328791-test \
 --funcall dq-in-tqs-string-lp:328813-test \
 --funcall py-current-defun-lp:328846-test \
 --funcall cls-pseudo-keyword-lp:328849-test \
@@ -1366,7 +1371,6 @@ est \
 --funcall py-end-of-expression-test \
 --funcall py-partial-expression-test \
 --funcall bob-beginning-of-statement-test \
---funcall infinite-loop-after-tqs-lp:826044-test \
 --funcall completion-at-gentoo-lp-1008842-test \
 --funcall indent-triplequoted-to-itself-lp:752252-test \
 --funcall complaint-about-non-ASCII-character-lp-1042949-test \
@@ -1378,9 +1382,6 @@ est \
 --funcall python-mode-slow-lp:803275-test \
 --funcall beg-end-of-defun-lp:303622-test \
 --funcall py-nested-block-or-clause-test \
---funcall ipython-shell-complete-test \
---funcall usr-bin-ipython-shell-complete-test \
---funcall inconvenient-window-splitting-behavior-ipython-lp-1018996-test \
 --funcall indent-region-lp:997958-test \
 --funcall not-that-useful-completion-lp:1003580-test \
 --funcall wrong-type-argument-lp:901541-test \
@@ -1431,10 +1432,6 @@ est \
 --funcall py-fill-string-symmetric-test \
 --funcall forward-sexp-test \
 --funcall comments-start-a-new-line-lp-1092847-n1-test \
---funcall incorrect-indentation-of-comments-in-a-multiline-list-lp-1077063-test \
---funcall indentation-wrong-after-multi-line-parameter-list-lp:871698-test \
---funcall indent-after-inline-comment-lp:873372-test \
---funcall honor-comments-indent-test \
 --funcall py-execute-block-python-test \
 --funcall py-execute-block-or-clause-python-test \
 --funcall master-file-not-honored-lp:794850-test \
@@ -1442,4 +1439,8 @@ est \
 --funcall fill-paragraph-in-docstring-lp-1161232-test \
 --funcall no-completion-at-all-lp:1001328-test \
 --funcall tab-results-in-never-ending-process-lp-1163423-test \
-
+--funcall nested-dictionaries-indent-lp:328791-test \
+--funcall infinite-loop-after-tqs-lp:826044-test\
+--funcall ipython-shell-complete-test \
+--funcall usr-bin-ipython-shell-complete-test \
+--funcall inconvenient-window-splitting-behavior-ipython-lp-1018996-test \

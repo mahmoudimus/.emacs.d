@@ -45,7 +45,7 @@
 
 (setq el-get-sources
       '((:name magit
-               :after (lambda ()
+               :after (progn
                         (global-set-key (kbd "C-x g") 'magit-status)))
         (:name yasnippet
        :website "http://code.google.com/p/yasnippet/"
@@ -53,7 +53,7 @@
        :type git
        :url "https://github.com/capitaomorte/yasnippet.git"
        :features "yasnippet"
-       :prepare (lambda ()
+       :prepare (progn
                   ;; Set up the default snippets directory
                   ;;
                   ;; Principle: don't override any user settings
@@ -64,7 +64,7 @@
                   (unless (or (boundp 'yas/snippet-dirs) (get 'yas/snippet-dirs 'customized-value))
                     (setq yas/snippet-dirs
                           (list (concat el-get-dir (file-name-as-directory "yasnippet") "snippets")))))
-       :post-init (lambda ()
+       :post-init (progn
                     ;; Trick customize into believing the standard
                     ;; value includes the default snippets.
                     ;; yasnippet would probably do this itself,

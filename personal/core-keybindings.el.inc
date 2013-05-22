@@ -75,7 +75,8 @@
 ;; (define-key ac-mode-map (kbd "M-") 'auto-complete)
 (define-key ac-completing-map (kbd "C-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-p") 'ac-previous)
-
+(define-key ac-complete-mode-map "\t" 'ac-complete)
+(setq ac-dwim t)
 
 ;; text keybindings
 
@@ -111,5 +112,10 @@
 
 (global-unset-key (kbd "C-x p"))
 (global-set-key (kbd "C-x P") 'proced)
+
+;; ido mode and recentf make me so happy in the god damn pants.
+(global-unset-key (kbd "C-c f"))
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-c C-f") 'prelude-recentf-ido-find-file)
 
 (provide 'core-keybindings)

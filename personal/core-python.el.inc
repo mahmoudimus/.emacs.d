@@ -179,9 +179,9 @@
      ;; auto-pair
      ;;==================================================
      ;; load autopair
-     (require 'autopair)
-     (autopair-global-mode)
-     (setq autopair-autowrap t)
+     ;; (require 'autopair)
+     ;; (autopair-global-mode)
+     ;; (setq autopair-autowrap t)
      ;;==================================================
      ;; Nose Tests
      ;;==================================================

@@ -13,7 +13,7 @@ New in version 6.1.2
   `py-delete-comments-in-region'
 
 -  command `py-empty-out-list-backward'
-
+  Deletes all elements from list before point
   With when cursor after 
   mystring[0:1]
   -------------^
@@ -37,6 +37,9 @@ New in version 6.1.2
   Kept  menu switches resp. commands will issue a warning 
 
 - `py-which-def-or-class', command, now used `which-function-mode' 
+
+- customizable `py-closing-list-space', default 1
+  Number of chars, closing parentesis outdent from opening
 
 New in version 6.1.1
 ---------------------
