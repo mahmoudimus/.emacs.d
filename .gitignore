@@ -42,3 +42,6 @@ history
 ac-comphist.dat
 .desktop/
 vendor/python-mode/.bzr
+
+session*
+.cask

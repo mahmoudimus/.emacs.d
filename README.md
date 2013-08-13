@@ -20,7 +20,7 @@ can skip the whole manual and just type in your favorite shell the
 following command:
 
 ```bash
-$ curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+curl -L http://git.io/epre | sh
 ```
 
 You can now power up your Emacs, sit back and enjoy Prelude,
@@ -31,13 +31,13 @@ source repository and the installation directory. To change the
 installation directory:
 
 ```bash
-$ export PRELUDE_INSTALL_DIR="$HOME/.emacs.d" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+export PRELUDE_INSTALL_DIR="$HOME/.emacs.d" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
 ```
 
 To change the source repository:
 
 ```bash
-$ export PRELUDE_URL="https://github.com/yourname/prelude.git" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+export PRELUDE_URL="https://github.com/yourname/prelude.git" && curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
 ```
 
 Note that the installer will back up any existing `.emacs` file or
@@ -65,7 +65,7 @@ You can install **Emacs Prelude** via the command line with either `curl` or
 If you're using `curl` type the following command:
 
 ```bash
-$ curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
 ```
 
 #### Via Wget
@@ -73,15 +73,15 @@ $ curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
 If you're using `wget` type:
 
 ```bash
-$ wget --no-check-certificate https://github.com/bbatsov/prelude/raw/master/utils/installer.sh -O - | sh
+wget --no-check-certificate https://github.com/bbatsov/prelude/raw/master/utils/installer.sh -O - | sh
 ```
 
 ### Manual
 
 ```bash
-$ git clone git://github.com/bbatsov/prelude.git path/to/local/repo
-$ ln -s path/to/local/repo ~/.emacs.d
-$ cd ~/.emacs.d
+git clone git://github.com/bbatsov/prelude.git path/to/local/repo
+ln -s path/to/local/repo ~/.emacs.d
+cd ~/.emacs.d
 ```
 
 You'd do well to replace `~/.emacs.d` with the value of
@@ -93,8 +93,8 @@ You'd do well to replace `~/.emacs.d` with the value of
 The update procedure is fairly straightforward:
 
 ```bash
-$ cd path/to/prelude/installation
-$ git pull
+cd path/to/prelude/installation
+git pull
 ```
 
 The `path/to/prelude/installation` is usually `~/.emacs.d` (at least
@@ -134,6 +134,7 @@ By default most of the modules that ship with Prelude are not loaded.
 ;; (require 'prelude-scala)
 (require 'prelude-scheme)
 ;; (require 'prelude-scss)
+;; (require 'prelude-web)
 (require 'prelude-xml)
 ```
 
@@ -152,15 +153,15 @@ Nothing fancy here. Just start Emacs as usual. Personally I run Emacs
 in daemon mode:
 
 ```bash
-$ emacs --daemon
+emacs --daemon
 ```
 
 Afterwards I connect to the server with either a terminal or a GUI
 client like this:
 
 ```bash
-$ emacsclient -t
-$ emacsclient -c
+emacsclient -t
+emacsclient -c
 ```
 
 You'd probably do well to put a few aliases in your `.zshrc` (or
@@ -197,17 +198,19 @@ Keybinding         | Description
 <kbd>C-+</kbd>     | Increase font size(`text-scale-increase`).
 <kbd>C--</kbd>     | Decrease font size(`text-scale-decrease`).
 <kbd>C-x O</kbd>   | Go back to previous window (the inverse of `other-window` (`C-x o`)).
-<kbd>C-x ^</kbd>   | Join two lines into one(`join-line`).
+<kbd>C-^</kbd>     | Join two lines into one(`prelude-top-join-line`).
 <kbd>C-x p</kbd>   | Start `proced` (manage processes from Emacs; works only in Linux).
 <kbd>C-x m</kbd>   | Start `eshell`.
 <kbd>C-x M-m</kbd> | Start your default shell.
 <kbd>C-x C-m</kbd> | Alias for `M-x`.
 <kbd>C-h A</kbd>   | Run `apropos` (search in all Emacs symbols).
-<kbd>M-\\</kbd>     | Run `hippie-expand` (a replacement for the default `dabbrev-expand`).
+<kbd>M-/</kbd>     | Run `hippie-expand` (a replacement for the default `dabbrev-expand`).
 <kbd>C-x C-b</kbd> | Open `ibuffer` (a replacement for the default `buffer-list`).
+<kbd>F11</kbd>     | Make the window full screen.
 <kbd>F12</kbd>     | Toggle the Emacs menu bar.
 <kbd>C-x g</kbd>   | Open Magit's status buffer.
 <kbd>C-=</kbd>     | Run `expand-region` (incremental text selection).
+<kbd>C-a</kbd>     | Run `prelude-move-beginning-of-line`. Read [this](http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/) for details.
 
 #### Prelude Mode
 
@@ -215,8 +218,8 @@ Keybinding         | Description
 -------------------|------------------------------------------------------------
 <kbd>C-c o</kbd>   | Open the currently visited file with an external program.
 <kbd>C-c g</kbd>   | Search in Google for the thing under point (or an interactive query).
-<kbd>C-S-RET</kbd> | Insert an empty line above the current line and indent it properly
-<kbd>S-RET</kbd>   | Insert an empty line and indent it properly (as in most IDEs).
+<kbd>C-S-RET</kbd> or <kbd>M-o</kbd> | Insert an empty line above the current line and indent it properly
+<kbd>S-RET</kbd> or <kbd>M-O</kbd> | Insert an empty line and indent it properly (as in most IDEs).
 <kbd>C-S-up</kbd>  | Move the current line up.
 <kbd>C-S-down</kbd> | Move the current line down.
 <kbd>C-c n</kbd> | Fix indentation in buffer and strip whitespace.
@@ -226,10 +229,19 @@ Keybinding         | Description
 <kbd>C-c e</kbd> | Eval a bit of Emacs Lisp code and replace it with its result.
 <kbd>C-c s</kbd> | Swap two active windows.
 <kbd>C-c d</kbd> | Duplicate the current line (or region).
+<kbd>C-c M-d</kbd> | Duplicate and comment the current line (or region).
 <kbd>C-c r</kbd> | Rename the currently visited file and buffer.
 <kbd>C-c t</kbd> | Open a terminal emulator (`ansi-term`).
 <kbd>C-c k</kbd> | Kill all open buffers except the one you're currently in.
 <kbd>C-c h</kbd> | Open Helm (a useful means of navigating your buffers and project files).
+<kbd>C-c +</kbd> | Increment integer at point.
+<kbd>C-c -</kbd> | Decrement integer at point.
+<kbd>Super-r</kbd> | Recent files
+<kbd>Super-x</kbd> | Expand region
+<kbd>Super-j</kbd> | Join lines
+<kbd>Super-k</kbd> | Kill whole line
+<kbd>Super-m</kbd> | Magit status
+<kbd>Super-o</kbd> | Open line above current line
 
 #### Projectile
 
@@ -238,6 +250,7 @@ Here's a list of functionality provided by [Projectile](https://github.com/bbats
 Keybinding         | Description
 -------------------|------------------------------------------------------------
 <kbd>C-c p f</kbd> | Display a list of all files in the project. With a prefix argument it will clear the cache first.
+<kbd>C-c p d</kbd> | Display a list of all directories in the project. With a prefix argument it will clear the cache first.
 <kbd>C-c p T</kbd> | Display a list of all test files(specs, features, etc) in the project.
 <kbd>C-c p g</kbd> | Run grep on the files in the project.
 <kbd>C-c p b</kbd> | Display a list of all project buffers currently open.
@@ -246,13 +259,22 @@ Keybinding         | Description
 <kbd>C-c p i</kbd> | Invalidates the project cache (if existing).
 <kbd>C-c p R</kbd> | Regenerates the projects `TAGS` file.
 <kbd>C-c p k</kbd> | Kills all project buffers.
-<kbd>C-c p d</kbd> | Opens the root of the project in `dired`.
+<kbd>C-c p D</kbd> | Opens the root of the project in `dired`.
 <kbd>C-c p e</kbd> | Shows a list of recently visited project files.
 <kbd>C-c p a</kbd> | Runs `ack` on the project. Requires the presence of `ack-and-a-half`.
-<kbd>C-c p l</kbd> | Runs a standard compilation command for your type of project.
+<kbd>C-c p c</kbd> | Runs a standard compilation command for your type of project.
 <kbd>C-c p p</kbd> | Runs a standard test command for your type of project.
 <kbd>C-c p z</kbd> | Adds the currently visited to the cache.
 <kbd>C-c p s</kbd> | Display a list of known projects you can switch to.
+
+Prelude adds some extra keybindings:
+
+Keybinding         | Command
+-------------------|------------------------------------------------------------
+<kbd>Super-f</kbd> | Find file in project
+<kbd>Super-d</kbd> | Find directory in project
+<kbd>Super-g</kbd> | Run grep on project
+<kbd>Super-p</kbd> | Switch projects
 
 If you ever forget any of Projectile's keybindings just do a:
 
@@ -268,7 +290,24 @@ Keybinding         | Description
 <kbd>JJ</kbd>      | Jump back to previous buffer(`prelude-switch-to-previous-buffer`)
 <kbd>uu</kbd>      | View edits as a tree(`undo-tree-visualize`)
 
-### Automatic package installation
+##### Disabling key-chords
+
+In some cases you may not want to have a key-chord that is defined by prelude,
+in which case you can disable the binding in your `personal.el` file by setting
+its command to `nil`. For example, to disable the `jj` key-chord add the
+following line:
+
+```lisp
+(key-chord-define-global "jj" nil)
+```
+
+If you're an `evil-mode` user you'll probably do well to disable `key-chord-mode` altogether:
+
+```lisp
+(key-chord-mode -1)
+```
+
+## Automatic package installation
 
 The default Prelude installation comes with a bare minimum of
 functionality. It will however install add-ons for various programming
@@ -305,7 +344,9 @@ Or you can use another theme altogether by adding something like:
 (load-theme 'solarized-dark t)
 ```
 
-P.S. Solarized is not available by default - you'll have to install it from MELPA first.
+**P.S.** Solarized is not available by default - you'll have to
+  install it from MELPA first (`M-x package-install RET
+  solarized-theme`).
 
 ### Personalizing
 
@@ -316,7 +357,13 @@ If you'd like to add some auto installation of packages in your
 personal config use the following code:
 
 ```lisp
-(prelude-ensure-module-deps '(some-package some-other-package))
+(prelude-require-packages '(some-package some-other-package))
+```
+
+If you require just a single package you can also use:
+
+```lisp
+(prelude-require-package 'some-package)
 ```
 
 #### Disabling whitespace-mode
@@ -361,7 +408,7 @@ system. You can install `aspell` and the dictionary on OS X with
 `homebrew` like this:
 
 ```bash
-$ brew install aspell --with-lang=en
+brew install aspell --with-lang=en
 ```
 
 On Linux distros - just use your distro's package manager.
@@ -372,7 +419,7 @@ If your Emacs looks considerably uglier in a terminal (compared to the
 GUI version) try adding this to your `.bashrc` or `.zshrc`:
 
 ```bash
-$ export TERM=xterm-256color
+export TERM=xterm-256color
 ```
 
 Source the `.bashrc` file and start Emacs again.
@@ -398,6 +445,37 @@ personal Emacs customization to enable them permanently:
 
 ```lisp
 (setq prelude-guru nil)
+```
+
+### Customized C-a behavior
+
+Prelude overrides `C-a` to behave as described
+[here](http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/). If
+you don't like that simply add this to your personal config:
+
+```lisp
+(global-set-key [remap move-beginning-of-line]
+                'move-beginning-of-line)
+```
+
+### Poor ido matching performance on large datasets
+
+Prelude swaps the default `ido` flex matching with the more powerful
+[ido-flx](https://github.com/lewang/flx).
+
+The sorting algorithm `flx` uses is more complex, but yields better results.
+
+On slower machines, it may be necessary to lower `flx-ido-threshhold` to
+ensure a smooth experience.
+
+```lisp
+(setq flx-ido-threshhold 1000)
+```
+
+You can always disable the improved sorting algorithm all together like this:
+
+```lisp
+(flx-ido-mode -1)
 ```
 
 ### Windows compatibility
