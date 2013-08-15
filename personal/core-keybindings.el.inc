@@ -116,6 +116,6 @@
 ;; ido mode and recentf make me so happy in the god damn pants.
 (global-unset-key (kbd "C-c f"))
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
-(global-set-key (kbd "C-c C-f") 'prelude-recentf-ido-find-file)
+(global-set-key (kbd "C-x s-f") 'prelude-recentf-ido-find-file)
 
 (provide 'core-keybindings)
