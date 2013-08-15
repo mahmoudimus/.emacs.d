@@ -5,10 +5,11 @@
 
 ;;; Code:
 
-;; Make command Meta instead of Alt
-;; (setq ns-command-modifier (quote meta))
-;; Make option Super instead of Alt
-;; (setq ns-alternate-modifier (quote meta))
+;; Make command Super
+(setq ns-command-modifier (quote super))
+;; Make option Meta
+(setq ns-alternate-modifier (quote meta))
+;; Make the function key Alt
 (setq ns-function-modifier (quote alt))
 
 ;; Make alt be meta instead of command, so we can map command stuff to
@@ -49,13 +50,13 @@
   ;; (set-face-attribute 'default nil :family "Consolas")
   ;; (set-face-font 'default "Monaco 12")
   ;; (set-face-font 'default "Menlo 12")
-  ;; (set-face-font 'default "Consolas 13")
+  (set-face-font 'default "Consolas 13")
   ;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 130)
   ;; (set-face-font 'default "FixedSCDZ")
-  (set-face-attribute 'default nil :family "Source Code Pro"
-                       :weight 'ExtraLight :height 120)
+  ;; (set-face-attribute 'default nil :family "Source Code Pro"
+  ;;                     :weight 'ExtraLight :height 120)
 
-  ;; (set-face-font 'default "Ubuntu Mono 12")
+  ;; (set-face-font 'default "Ubuntu Mono 14")
   ;; (set-face-attribute 'default nil :height 120)
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; default font size (point * 10)
@@ -97,7 +98,7 @@
 (push "/usr/local/bin" exec-path)
 (push "/usr/local/git/bin" exec-path)
 
-;; flymake fucking hangs mac os x
+;; flymake causes my emacs on MacOS X to hang
 (setq flymake-gui-warnings-enabled nil)
 
 (provide 'gauss-machine)

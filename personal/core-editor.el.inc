@@ -36,6 +36,19 @@
 
 (setq prelude-flyspell nil)
 
+;; --------------
+;; Flymake setup
+;; --------------
+;; use a better and recent version of flymake
+(add-to-list 'load-path (concat prelude-vendor-dir "/emacs-flymake"))
+(require 'flymake)
+;; I want my copies in the system temp dir.
+;; Do not run flymake in place (for TRAMP support - see
+;;    https://github.com/illusori/emacs-flymake/issues/1
+;; )
+(setq flymake-run-in-place nil)
+
+
 (require 'smart-operator)
 
 ;; Open Next Line
@@ -58,16 +71,23 @@
 (global-auto-complete-mode t)
 (ac-config-default)
 
+
 ;; yasnippet
 ;; load all el files in the snippets directory, they're usually lisp
 ;; helpers that help with snippet expansions.
-(setq core-custom-snippets prelude-personal-snippets-dir)
-(mapc 'load (directory-files core-custom-snippets t "^[^#].*el$"))
+(defvar core-custom-snippets-dir (expand-file-name "snippets" prelude-personal-dir)
+  "This folder houses my custom yasnippet bundles distributed with my emacs.el.")
+
 (require 'yasnippet)
-(push core-custom-snippets yas/root-directory)
+(add-to-list 'yas-snippet-dirs core-custom-snippets-dir)
+;; term-mode does not play well with yasnippet
+(add-hook 'term-mode-hook (lambda ()
+                            (yas-minor-mode -1)))
+
 ;; Load the snippets
-(mapc 'yas/load-directory yas/root-directory)
-(yas/global-mode t)
+(mapc 'load (directory-files core-custom-snippets-dir t "^[^#].*el$"))
+(yas-global-mode 1)
+;; (yas/global-mode t)
 
 ;; code borrowed from http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)

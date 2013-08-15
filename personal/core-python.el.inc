@@ -133,7 +133,9 @@
     ;; (print buffer-file-name (get-buffer "*Messages*"))
     ;; (print file-local-variables-alist (get-buffer "*Messages*"))
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
+                       (if (fboundp 'flymake-create-temp-copy)
+                           'flymake-create-temp-copy
+                         'flymake-create-temp-inplace)))
            (local-file (file-relative-name
                         temp-file
                         (file-name-directory buffer-file-name)))
@@ -147,8 +149,10 @@
        (concat (getenv "HOME") "/bin/flymake-python/pyflymake.py")
        (append options (list local-file)))))
 
-  (add-to-list 'flymake-allowed-file-name-masks '("\\.py\\'" flymake-python-lint-init))
-  (add-to-list 'flymake-allowed-file-name-masks '("\\.wsgi\\'" flymake-python-lint-init)))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-python-lint-init))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.wsgi\\'" flymake-python-lint-init)))
 
 ;; (defadvice flymake-python-lint-init (around flymake-python-lint-init-around)
 ;;   "Sets the virtual environment if applicable :)"

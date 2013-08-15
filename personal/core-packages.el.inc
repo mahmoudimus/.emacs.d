@@ -47,7 +47,7 @@
 (defvar mahmoud-required-packages
   (nconc
    ;; general
-   '(browse-kill-ring escreen)
+   '(browse-kill-ring escreen yasnippet)
    ;; python
    '(nose))
 
