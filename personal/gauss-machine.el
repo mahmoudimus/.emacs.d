@@ -5,12 +5,15 @@
 
 ;;; Code:
 
+
 ;; Make command Super
 (setq ns-command-modifier (quote super))
 ;; Make option Meta
 (setq ns-alternate-modifier (quote meta))
 ;; Make the function key Alt
 (setq ns-function-modifier (quote alt))
+;; for terminal use case use the function key as a super
+
 
 ;; Make alt be meta instead of command, so we can map command stuff to
 ;; normal cut and paste.

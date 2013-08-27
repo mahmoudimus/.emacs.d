@@ -1,4 +1,3 @@
-
 ;; emacs-starter-kit sources this file
 ;; don't put any requires from marmalade as they haven't been
 ;; added to the load-path yet.
@@ -14,7 +13,9 @@
 
 
 ;; Start the emacsclient server
-(server-start)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 
 ;; Bind keys to make recording/recalling macros easier

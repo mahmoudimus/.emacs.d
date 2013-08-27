@@ -21,3 +21,9 @@
 
 
 ;;; mahmoud-customizations.el ends here
+
+;; Customizations which we only want to happen when we're using
+;; Emacs on a TTY.
+;; (define-key function-key-map (kbd "ESC [ }") (kbd "<menu>")) ;%
+;; (define-key function-key-map (kbd "ESC [ J") 'event-apply-super-modifier)
+;; (define-key function-key-map (kbd "ESC [ ~") 'event-apply-hyper-modifier)
