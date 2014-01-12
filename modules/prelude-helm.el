@@ -1,4 +1,4 @@
-;;; prelude-c.el --- Emacs Prelude: cc-mode configuration.
+;;; prelude-helm.el --- Helm setup
 ;;
 ;; Copyright © 2011-2013 Bozhidar Batsov
 ;;
@@ -11,7 +11,7 @@
 
 ;;; Commentary:
 
-;; Some basic configuration for cc-mode and the modes derived from it.
+;; Some config for Helm.
 
 ;;; License:
 
@@ -32,26 +32,27 @@
 
 ;;; Code:
 
-(require 'prelude-programming)
+(prelude-require-packages '(helm helm-projectile))
 
-(defun prelude-c-mode-common-defaults ()
-  (setq c-basic-offset 4)
-  (c-set-offset 'substatement-open 0))
+(require 'helm-misc)
+(require 'helm-projectile)
 
-(setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
+(defun helm-prelude ()
+  "Preconfigured `helm'."
+  (interactive)
+  (condition-case nil
+      (if (projectile-project-root)
+          (helm-projectile)
+        ;; otherwise fallback to `helm-mini'
+        (helm-mini))
+    ;; fall back to helm mini if an error occurs (usually in `projectile-project-root')
+    (error (helm-mini))))
 
-;; this will affect all modes derived from cc-mode, like
-;; java-mode, php-mode, etc
-(add-hook 'c-mode-common-hook (lambda ()
-                                (run-hooks 'prelude-c-mode-common-hook)))
+(eval-after-load 'prelude-mode
+  '(define-key prelude-mode-map (kbd "C-c h") 'helm-prelude))
 
-(defun prelude-makefile-mode-defaults ()
-  (setq indent-tabs-mode t))
+(push "Press <C-c h> to navigate a project in Helm." prelude-tips)
 
-(setq prelude-makefile-mode-hook 'prelude-makefile-mode-defaults)
+(provide 'prelude-helm)
 
-(add-hook 'makefile-mode-hook (lambda ()
-                                (run-hooks 'prelude-makefile-mode-hook)))
-(provide 'prelude-c)
-
-;;; prelude-c.el ends here
+;;; prelude-helm.el ends here

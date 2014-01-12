@@ -33,9 +33,8 @@
 ;;; Code:
 
 (require 'prelude-programming)
-(require 'smartparens-ruby)
 
-(prelude-ensure-module-deps '(ruby-tools inf-ruby yari))
+(prelude-require-packages '(ruby-tools inf-ruby yari))
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, and gemfiles.
 (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
@@ -49,6 +48,7 @@
 (add-to-list 'auto-mode-alist '("Thorfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.jbuilder\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Podfile\\'" . ruby-mode))
 
 ;; We never want to edit Rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")
@@ -58,9 +58,7 @@
 (eval-after-load 'ruby-mode
   '(progn
      (defun prelude-ruby-mode-defaults ()
-       (inf-ruby-setup-keybindings)
-       ;; turn off the annoying input echo in irb
-       (setq comint-process-echoes t)
+       (inf-ruby-minor-mode +1)
        (ruby-tools-mode +1)
        ;; CamelCase aware editing operations
        (subword-mode +1))

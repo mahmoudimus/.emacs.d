@@ -43,11 +43,11 @@ With a prefix ARG always prompt for command to use."
   (when buffer-file-name
     (start-process "prelude-open-with-process"
                    "*prelude-open-with-output*"
-                    (cond
-                     ((and (not arg) (eq system-type 'darwin)) "open")
-                     ((and (not arg) (member system-type '(gnu gnu/linux gnu/kfreebsd))) "xdg-open")
-                     (t (read-shell-command "Open current file with: ")))
-                    (shell-quote-argument buffer-file-name))))
+                   (cond
+                    ((and (not arg) (eq system-type 'darwin)) "open")
+                    ((and (not arg) (member system-type '(gnu gnu/linux gnu/kfreebsd))) "xdg-open")
+                    (t (read-shell-command "Open current file with: ")))
+                   (shell-quote-argument buffer-file-name))))
 
 (defun prelude-buffer-mode (buffer-or-name)
   "Retrieve the `major-mode' of BUFFER-OR-NAME."
@@ -61,15 +61,31 @@ With a prefix ARG always prompt for command to use."
                                 (ansi-term (getenv "SHELL")))
                               "*ansi-term*"))
 
+(defun prelude-search (query-url prompt)
+  "Open the search url constructed with the QUERY-URL.
+PROMPT sets the `read-string prompt."
+  (browse-url
+   (concat query-url
+           (url-hexify-string
+            (if mark-active
+                (buffer-substring (region-beginning) (region-end))
+              (read-string prompt))))))
+
 (defun prelude-google ()
   "Googles a query or region if any."
   (interactive)
-  (browse-url
-   (concat
-    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
-    (url-hexify-string (if mark-active
-         (buffer-substring (region-beginning) (region-end))
-       (read-string "Google: "))))))
+  (prelude-search "http://www.google.com/search?q=" "Google: "))
+
+(defun prelude-youtube ()
+  "Search YouTube with a query or region if any."
+  (interactive)
+  (prelude-search "http://www.youtube.com/results?search_query="
+                  "Search YouTube: "))
+
+(defun prelude-github ()
+  "Search GitHub with a query or region if any."
+  (interactive)
+  (prelude-search "https://github.com/search?q=" "Search GitHub: "))
 
 (defun prelude-indent-rigidly-and-copy-to-clipboard (begin end arg)
   "Indent region between BEGIN and END by ARG columns and copy to clipboard."
@@ -107,25 +123,10 @@ With a prefix ARG open line above the current line."
   (interactive)
   (delete-indentation 1))
 
-(defun prelude-move-line-up ()
-  "Move the current line up."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
-
-(defun prelude-move-line-down ()
-  "Move the current line down."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
-
 (defun prelude-kill-whole-line (&optional arg)
   "A simple wrapper around command `kill-whole-line' that respects indentation.
 Passes ARG to command `kill-whole-line' when provided."
-  (interactive "P")
+  (interactive "p")
   (kill-whole-line arg)
   (back-to-indentation))
 
@@ -266,7 +267,7 @@ there's a region, all lines that region covers will be duplicated."
     (when filename
       (if (vc-backend filename)
           (vc-delete-file filename)
-        (progn
+        (when (y-or-n-p (format "Are you sure you want to delete %s? " filename))
           (delete-file filename)
           (message "Deleted file %s" filename)
           (kill-buffer))))))
@@ -296,12 +297,9 @@ there's a region, all lines that region covers will be duplicated."
 (defun prelude-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
+  (let ((value (eval (preceding-sexp))))
+    (backward-kill-sexp)
+    (insert (format "%s" value))))
 
 (defun prelude-recompile-init ()
   "Byte-compile all your dotfiles again."
@@ -404,8 +402,9 @@ Doesn't mess with special buffers."
     "Press <jj> quickly to jump to the beginning of a visible word."
     "Press <jk> quickly to jump to a visible character."
     "Press <jl> quickly to jump to a visible line."
-    "Press <C-c h> to navigate a project in Helm."
     "Press <C-c g> to search in Google."
+    "Press <C-c G> to search in GitHub."
+    "Press <C-c y> to search in YouTube."
     "Press <C-c r> to rename the current buffer and file it's visiting."
     "Press <C-c t> to open a terminal in Emacs."
     "Press <C-c k> to kill all the buffers, but the active one."
@@ -421,7 +420,7 @@ Doesn't mess with special buffers."
     "Press <f12> to toggle the menu bar."
     "Explore the Tools->Prelude menu to find out about some of Prelude extensions to Emacs."
     "Access the official Emacs manual by pressing <C-h r>."
-    "Visit WikEmacs at http://wikemacs.org to find out even more about Emacs."))
+    "Visit the EmacsWiki at http://emacswiki.org to find out even more about Emacs."))
 
 (defun prelude-tip-of-the-day ()
   "Display a random entry from `prelude-tips'."
@@ -447,14 +446,31 @@ Doesn't mess with special buffers."
   (exchange-point-and-mark)
   (deactivate-mark nil))
 
+(require 'epl)
+
 (defun prelude-update ()
   "Update Prelude to its latest version."
   (interactive)
   (when (y-or-n-p "Do you want to update Prelude? ")
+    (message "Updating installed packages...")
+    (epl-upgrade)
     (message "Updating Prelude...")
     (cd prelude-dir)
     (shell-command "git pull")
     (prelude-recompile-init)
+    (message "Update finished. Restart Emacs to complete the process.")))
+
+(defun prelude-update-packages (&optional arg)
+  "Update Prelude's packages.
+This includes package installed via `prelude-require-package'.
+
+With a prefix ARG updates all installed packages."
+  (interactive "P")
+  (when (y-or-n-p "Do you want to update Prelude's packages? ")
+    (if arg
+        (epl-upgrade)
+      (epl-upgrade (-filter (lambda (p) (memq (epl-package-name p) prelude-packages))
+                            (epl-installed-packages))))
     (message "Update finished. Restart Emacs to complete the process.")))
 
 (defun thing-at-point-goto-end-of-integer ()
@@ -480,7 +496,7 @@ Doesn't mess with special buffers."
       (error "No integer here"))
     ;; Skip backward over optional sign
     (when (looking-back "[+-]")
-        (backward-char 1))))
+      (backward-char 1))))
 (put 'integer 'beginning-op 'thing-at-point-goto-beginning-of-integer)
 
 (defun thing-at-point-bounds-of-integer-at-point ()
@@ -529,6 +545,27 @@ This follows freedesktop standards, should work in X servers."
       (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                              '(2 "_NET_WM_STATE_FULLSCREEN" 0))
     (error "Only X server is supported")))
+
+(defun prelude-find-user-init-file ()
+  "Edit the `user-init-file', in another window."
+  (interactive)
+  (find-file-other-window user-init-file))
+
+(defun prelude-find-shell-init-file ()
+  "Edit the shell init file in another window."
+  (interactive)
+  (let* ((shell (car (reverse (s-split "/" (getenv "SHELL")))))
+         (shell-init-file (cond
+                           ((s-equals? "zsh" shell) ".zshrc")
+                           ((s-equals? "bash" shell) ".bashrc")
+                           (t (error "Unknown shell")))))
+    (find-file-other-window (expand-file-name shell-init-file (getenv "HOME")))))
+
+(defun prelude-wrap-with (s)
+  "Create a wrapper function for smartparens using S."
+  `(lambda (&optional arg)
+     (interactive "P")
+     (sp-wrap-with-pair ,s)))
 
 (provide 'prelude-core)
 ;;; prelude-core.el ends here
