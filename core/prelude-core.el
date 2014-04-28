@@ -71,21 +71,17 @@ PROMPT sets the `read-string prompt."
                 (buffer-substring (region-beginning) (region-end))
               (read-string prompt))))))
 
-(defun prelude-google ()
-  "Googles a query or region if any."
-  (interactive)
-  (prelude-search "http://www.google.com/search?q=" "Google: "))
+(defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
+  "Given some information regarding a search engine, install the interactive command to search through them"
+  `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
+       ,(format "Search %s with a query or region if any." search-engine-name)
+       (interactive)
+       (prelude-search ,search-engine-url ,search-engine-prompt)))
 
-(defun prelude-youtube ()
-  "Search YouTube with a query or region if any."
-  (interactive)
-  (prelude-search "http://www.youtube.com/results?search_query="
-                  "Search YouTube: "))
-
-(defun prelude-github ()
-  "Search GitHub with a query or region if any."
-  (interactive)
-  (prelude-search "https://github.com/search?q=" "Search GitHub: "))
+(prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
+(prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
+(prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
+(prelude-install-search-engine "duckduckgo" "https://duckduckgo.com/?t=lm&q="              "Search DuckDuckGo: ")
 
 (defun prelude-indent-rigidly-and-copy-to-clipboard (begin end arg)
   "Indent region between BEGIN and END by ARG columns and copy to clipboard."
@@ -185,7 +181,8 @@ point reaches the beginning or end of the buffer, stop there."
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "TODO:" nil t)
+    (while (re-search-forward
+            (format "[[:space:]]*%s+[[:space:]]*TODO:" comment-start) nil t)
       (let ((overlay (make-overlay (- (point) 5) (point))))
         (overlay-put overlay
                      'before-string
@@ -202,50 +199,51 @@ point reaches the beginning or end of the buffer, stop there."
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+(defun prelude-get-positions-of-line-or-region ()
+  "Return positions (beg . end) of the current line
+or region."
+  (let (beg end)
+    (if (and mark-active (> (point) (mark)))
+        (exchange-point-and-mark))
+    (setq beg (line-beginning-position))
+    (if mark-active
+        (exchange-point-and-mark))
+    (setq end (line-end-position))
+    (cons beg end)))
+
 (defun prelude-duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated.  However, if
 there's a region, all lines that region covers will be duplicated."
   (interactive "p")
-  (let (beg end (origin (point)))
-    (if (and mark-active (> (point) (mark)))
-        (exchange-point-and-mark))
-    (setq beg (line-beginning-position))
-    (if mark-active
-        (exchange-point-and-mark))
-    (setq end (line-end-position))
-    (let ((region (buffer-substring-no-properties beg end)))
-      (-dotimes arg
-                (lambda (n)
-                  (goto-char end)
-                  (newline)
-                  (insert region)
-                  (setq end (point))))
-      (goto-char (+ origin (* (length region) arg) arg)))))
+  (pcase-let* ((origin (point))
+               (`(,beg . ,end) (prelude-get-positions-of-line-or-region))
+               (region (buffer-substring-no-properties beg end)))
+    (-dotimes arg
+      (lambda (n)
+        (goto-char end)
+        (newline)
+        (insert region)
+        (setq end (point))))
+    (goto-char (+ origin (* (length region) arg) arg))))
 
-;; TODO: Remove code duplication by extracting something more generic
 (defun prelude-duplicate-and-comment-current-line-or-region (arg)
   "Duplicates and comments the current line or region ARG times.
 If there's no region, the current line will be duplicated.  However, if
 there's a region, all lines that region covers will be duplicated."
   (interactive "p")
-  (let (beg end (origin (point)))
-    (if (and mark-active (> (point) (mark)))
-        (exchange-point-and-mark))
-    (setq beg (line-beginning-position))
-    (if mark-active
-        (exchange-point-and-mark))
+  (pcase-let* ((origin (point))
+               (`(,beg . ,end) (prelude-get-positions-of-line-or-region))
+               (region (buffer-substring-no-properties beg end)))
+    (comment-or-uncomment-region beg end)
     (setq end (line-end-position))
-    (let ((region (buffer-substring-no-properties beg end)))
-      (comment-or-uncomment-region beg end)
-      (setq end (line-end-position))
-      (-dotimes arg
-                (lambda (n)
-                  (goto-char end)
-                  (newline)
-                  (insert region)
-                  (setq end (point))))
-      (goto-char (+ origin (* (length region) arg) arg)))))
+    (-dotimes arg
+      (lambda (n)
+        (goto-char end)
+        (newline)
+        (insert region)
+        (setq end (point))))
+    (goto-char (+ origin (* (length region) arg) arg))))
 
 (defun prelude-rename-file-and-buffer ()
   "Renames current buffer and file it is visiting."
@@ -405,6 +403,7 @@ Doesn't mess with special buffers."
     "Press <C-c g> to search in Google."
     "Press <C-c G> to search in GitHub."
     "Press <C-c y> to search in YouTube."
+    "Press <C-c U> to search in DuckDuckGo."
     "Press <C-c r> to rename the current buffer and file it's visiting."
     "Press <C-c t> to open a terminal in Emacs."
     "Press <C-c k> to kill all the buffers, but the active one."

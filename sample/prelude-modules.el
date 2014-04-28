@@ -2,6 +2,7 @@
 
 (require 'prelude-ido) ;; Super charges Emacs completion for C-x C-f and more
 ;; (require 'prelude-helm) ;; Interface for narrowing and search
+(require 'prelude-company)
 
 (require 'prelude-c)
 ;; (require 'prelude-clojure)
@@ -23,6 +24,7 @@
 ;; (require 'prelude-ruby)
 ;; (require 'prelude-scala)
 (require 'prelude-scheme)
+(require 'prelude-shell)
 ;; (require 'prelude-scss)
 ;; (require 'prelude-web) ;; Emacs mode for web templates
 (require 'prelude-xml)

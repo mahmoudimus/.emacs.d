@@ -40,7 +40,7 @@
        "coffee-mode-defaults"
 
        ;; CoffeeScript uses two spaces.
-       (set (make-local-variable 'tab-width) 2)
+       (setq coffee-tab-width 2)
 
        ;; If you don't have js2-mode
        (setq coffee-js-mode 'javascript-mode)
@@ -58,8 +58,9 @@
        (setq coffee-command "~/dev/coffee")
 
        ;; Compile '.coffee' files on every save
-       (and (file-exists-p (buffer-file-name))
-            (file-exists-p (coffee-compiled-file-name))
+       (and (buffer-file-name)
+            (file-exists-p (buffer-file-name))
+            (file-exists-p (coffee-compiled-file-name (buffer-file-name)))
             (coffee-cos-mode t)))
 
      (setq prelude-coffee-mode-hook 'prelude-coffee-mode-defaults)
