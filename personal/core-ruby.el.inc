@@ -1,5 +1,5 @@
 ;;; -*- mode: lisp -*-
-;;; core-packages.el
+;;; core-ruby.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
 ;;
@@ -34,31 +34,7 @@
 
 ;;; Code:
 
-;;; prelude already adds the melpa package.
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-initialize)
+;; set the python file path and add a few things to the load path.
+(setq ruby-deep-indent-paren nil)
 
-;; install the emacs packages above if they're not installed
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(defvar mahmoud-required-packages
-  (nconc
-   ;; general
-   '(browse-kill-ring escreen yasnippet)
-   ;; python
-   '(nose))
-
-  "A list of packages to ensure are installed at launch.")
-
-(dolist (p mahmoud-required-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
-(provide 'core-packages)
-
-;;; core-packages.el ends here
+(provide 'core-ruby)

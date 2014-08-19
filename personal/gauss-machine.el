@@ -48,19 +48,27 @@
 
   ;; anti-aliasing for fonts.
   (setq ns-antialias-text t)
+  ;; font setting
+  ;;(create-fontset-from-ascii-font "M+ 1mn:pixelsize=14:weight=normal:slant=normal:spacing=m" nil "mplus1mn")
+  ;;(set-fontset-font "fontset-mplus1mn" 'unicode
+                    ;;(font-spec :family "M+ 1mn" :spacing 'm :size 14)
+                    ;;nil 'prepend)
+  ;; (add-to-list 'default-frame-alist '(font . "fontset-mplus1mn"))
 
   ;; default Latin font (e.g. Consolas)
   ;; (set-face-attribute 'default nil :family "Consolas")
   ;; (set-face-font 'default "Monaco 12")
   ;; (set-face-font 'default "Menlo 12")
-  (set-face-font 'default "Consolas 13")
+  ;; (set-face-font 'default "Consolas 13")
   ;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 130)
   ;; (set-face-font 'default "FixedSCDZ")
   ;; (set-face-attribute 'default nil :family "Source Code Pro"
   ;;                     :weight 'ExtraLight :height 120)
 
-  ;; (set-face-font 'default "Ubuntu Mono 14")
-  ;; (set-face-attribute 'default nil :height 120)
+  (set-face-font 'default "Ubuntu Mono 15")
+  ;; (add-to-list 'default-frame-alist '(font . "M+ 1mn-13"))
+  ;; (set-face-font 'default "M+ 2m-14")
+  (set-face-attribute 'default nil :height 150)
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; default font size (point * 10)
   ;;
