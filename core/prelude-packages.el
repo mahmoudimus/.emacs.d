@@ -44,10 +44,12 @@
 (defvar prelude-packages
   '(ace-jump-mode
     ace-jump-buffer
+    ace-window
     ack-and-a-half
     anzu
     browse-kill-ring
     dash
+    discover-my-major
     diff-hl
     diminish
     easy-kill
@@ -56,15 +58,20 @@
     expand-region
     flycheck
     gist
+    git-timemachine
     gitconfig-mode
     gitignore-mode
+    god-mode
     grizzl
     guru-mode
+    ov
     projectile
     magit
     move-text
+    operate-on-number
     rainbow-mode
     smartparens
+    smartrep
     undo-tree
     volatile-highlights
     zenburn-theme)
@@ -129,6 +136,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.dart\\'" dart-mode dart-mode)
     ("\\.ex\\'" elixir-mode elixir-mode)
     ("\\.exs\\'" elixir-mode elixir-mode)
+    ("\\.elixir\\'" elixir-mode elixir-mode)
     ("\\.erl\\'" erlang erlang-mode)
     ("\\.feature\\'" feature-mode feature-mode)
     ("\\.go\\'" go-mode go-mode)
@@ -149,8 +157,10 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.scala\\'" scala-mode2 scala-mode)
     ("\\.scss\\'" scss-mode scss-mode)
     ("\\.slim\\'" slim-mode slim-mode)
+    ("\\.swift\\'" swift-mode swift-mode)
     ("\\.textile\\'" textile-mode textile-mode)
-    ("\\.yml\\'" yaml-mode yaml-mode)))
+    ("\\.yml\\'" yaml-mode yaml-mode)
+    ("Dockerfile\\'" dockerfile-mode dockerfile-mode)))
 
 ;; markdown-mode doesn't have autoloads for the auto-mode-alist
 ;; so we add them manually if it's already installed

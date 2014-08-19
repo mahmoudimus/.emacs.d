@@ -45,3 +45,5 @@ vendor/python-mode/.bzr
 
 session*
 .cask
+tramp
+/var/pcache

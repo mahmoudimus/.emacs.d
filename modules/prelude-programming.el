@@ -113,6 +113,11 @@ This functions should be added to the hooks of major modes for programming."
 ;;
 ;; (the final optional t sets the *append* argument)
 
+;; smart curly braces
+(sp-pair "{" nil :post-handlers
+         '(((lambda (&rest _ignored)
+              (prelude-smart-open-line-above)) "RET")))
+
 (defun prelude-prog-mode-defaults ()
   "Default coding hook, useful with any programming language."
   (when (and (executable-find ispell-program-name)
