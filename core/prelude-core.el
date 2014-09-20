@@ -42,18 +42,17 @@ When in dired mode, open file under the cursor.
 
 With a prefix ARG always prompt for command to use."
   (interactive "P")
-  (let ((current-file-name
-         (if (eq major-mode 'dired-mode)
-             (dired-get-file-for-visit)
-           buffer-file-name)))
-    (when current-file-name
-        (start-process "prelude-open-with-process"
-                       "*prelude-open-with-output*"
-                       (cond
-                        ((and (not arg) (eq system-type 'darwin)) "open")
-                        ((and (not arg) (member system-type '(gnu gnu/linux gnu/kfreebsd))) "xdg-open")
-                        (t (read-shell-command "Open current file with: ")))
-                       (shell-quote-argument current-file-name)))))
+  (let* ((current-file-name
+          (if (eq major-mode 'dired-mode)
+              (dired-get-file-for-visit)
+            buffer-file-name))
+         (open (pcase system-type
+                 (`darwin "open")
+                 ((or `gnu `gnu/linux `gnu/kfreebsd) "xdg-open")))
+         (program (if (or arg (not open))
+                      (read-shell-command "Open current file with: ")
+                    open)))
+    (start-process "prelude-open-with-process" nil program current-file-name)))
 
 (defun prelude-buffer-mode (buffer-or-name)
   "Retrieve the `major-mode' of BUFFER-OR-NAME."
@@ -379,10 +378,10 @@ Doesn't mess with special buffers."
 
 (defvar prelude-tips
   '("Press <C-c o> to open a file with external program."
-    "Press <C-c p f> or <s-f> to navigate a project's files with ido."
-    "Press <C-c p g> or <s-g> to run grep on a project."
-    "Press <C-c p s> or <s-p> to switch between projects."
-    "Press <C-=> or <s-x> to expand the selected region."
+    "Press <C-c p f> to navigate a project's files with ido."
+    "Press <C-c p s g> to run grep on a project."
+    "Press <C-c p p> to switch between projects."
+    "Press <C-=> to expand the selected region."
     "Press <C-c g> to search in Google."
     "Press <C-c G> to search in GitHub."
     "Press <C-c y> to search in YouTube."
@@ -390,7 +389,7 @@ Doesn't mess with special buffers."
     "Press <C-c r> to rename the current buffer and the file it's visiting if any."
     "Press <C-c t> to open a terminal in Emacs."
     "Press <C-c k> to kill all the buffers, but the active one."
-    "Press <C-x g> or <s-m> to run magit-status."
+    "Press <C-x g> to run magit-status."
     "Press <C-c D> to delete the current file and buffer."
     "Press <C-c s> to swap two windows."
     "Press <S-RET> or <M-o> to open a line beneath the current one."
@@ -483,6 +482,46 @@ With a prefix argument ARG, find the `user-init-file' instead."
   `(lambda (&optional arg)
      (interactive "P")
      (sp-wrap-with-pair ,s)))
+
+(defun prelude-goto-symbol (&optional symbol-list)
+  "Refresh imenu and jump to a place in the buffer using Ido."
+  (interactive)
+  (cond
+   ((not symbol-list)
+    (let (name-and-pos symbol-names position)
+      (while (progn
+               (imenu--cleanup)
+               (setq imenu--index-alist nil)
+               (prelude-goto-symbol (imenu--make-index-alist))
+               (setq selected-symbol
+                     (completing-read "Symbol? " (reverse symbol-names)))
+               (string= (car imenu--rescan-item) selected-symbol)))
+      (unless (and (boundp 'mark-active) mark-active)
+        (push-mark nil t nil))
+      (setq position (cdr (assoc selected-symbol name-and-pos)))
+      (cond
+       ((overlayp position)
+        (goto-char (overlay-start position)))
+       (t
+        (goto-char position)))
+      (recenter)))
+   ((listp symbol-list)
+    (dolist (symbol symbol-list)
+      (let (name position)
+        (cond
+         ((and (listp symbol) (imenu--subalist-p symbol))
+          (prelude-goto-symbol symbol))
+         ((listp symbol)
+          (setq name (car symbol))
+          (setq position (cdr symbol)))
+         ((stringp symbol)
+          (setq name symbol)
+          (setq position
+                (get-text-property 1 'org-imenu-marker symbol))))
+        (unless (or (null position) (null name)
+                    (string= (car imenu--rescan-item) name))
+          (add-to-list 'symbol-names (substring-no-properties name))
+          (add-to-list 'name-and-pos (cons (substring-no-properties name) position))))))))
 
 (provide 'prelude-core)
 ;;; prelude-core.el ends here
