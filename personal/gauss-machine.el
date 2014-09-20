@@ -65,10 +65,17 @@
   ;; (set-face-attribute 'default nil :family "Source Code Pro"
   ;;                     :weight 'ExtraLight :height 120)
 
-  (set-face-font 'default "Ubuntu Mono 15")
-  ;; (add-to-list 'default-frame-alist '(font . "M+ 1mn-13"))
-  ;; (set-face-font 'default "M+ 2m-14")
-  (set-face-attribute 'default nil :height 150)
+  (set-face-font 'default "Ubuntu Mono 16")
+  (set-face-attribute 'mode-line nil :height 140)
+  (set-face-attribute 'mode-line-buffer-id nil :height 140)
+  (set-face-attribute 'mode-line-emphasis nil :height 140)
+  (set-face-attribute 'mode-line-highlight nil :height 140)
+  (set-face-attribute 'mode-line-inactive nil :height 140)
+
+  ;;(set-default-font "-apple-M+_1mn-medium-normal-normal-*-*-*-*-*-p-0-iso10646-1")
+  ;;(set-face-attribute 'default nil :height 130)
+  (setq line-spacing nil)
+  (setq line-height t)
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; default font size (point * 10)
   ;;
@@ -79,7 +86,7 @@
   ;; use specific font for Korean charset.
   ;; if you want to use different font size for specific charset,
   ;; add :size POINT-SIZE in the font-spec.
-  (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+  ;; (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
   ;; you may want to add different for other charset in this way.
   )
 
@@ -95,7 +102,7 @@
 ;; (set-face-attribute 'mode-line-emphasis nil :height 130)
 ;; (set-face-attribute 'mode-line-highlight nil :height 130)
 ;; (set-face-attribute 'mode-line-inactive nil :height 130)
-(setq line-height 1.0)
+
 
 
 ;; on a mac, remove the visibile-bell stuff
