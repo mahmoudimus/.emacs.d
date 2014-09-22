@@ -1,7 +1,7 @@
 ;;; -*- mode: lisp -*-
-;;; core-packages.el
+;;; preload-01.el
 ;;
-;; Copyright (c) 2011 -- Mahmoud Abdelkader
+;; Copyright (c) 2014 -- Mahmoud Abdelkader
 ;;
 ;; Author: Mahmoud Abdelkader <mahmoud@linux.com>
 ;; URL: http://github.com/mahmoudimus/emacs.d/
@@ -12,8 +12,8 @@
 
 ;;; Commentary:
 
-;; This file simply sets up the default load path and requires
-;; the various modules defined within my emacs configuration.
+;; This file simply sets up the preloads for prelude to make
+;; the loading process for emacs much faster
 
 ;;; License:
 
@@ -33,29 +33,16 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+;; disable prelude-flyspell (it is very slow)
+(setq prelude-flyspell nil)
 
-;;; prelude already adds the melpa package.
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-;;(add-to-list 'package-archives
-;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-initialize)
+;; flyspell is slow, let's make it fast by ignoring the sit-for
+;; see: http://www.brool.com/index.php/speeding-up-flyspell-region
+(defadvice flyspell-region (around fast-flyspell-region)
+  (flet ( (sit-for (x) t) )
+    ad-do-it))
+(ad-activate 'flyspell-region)
 
-;; install the emacs packages above if they're not installed
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(provide 'preload-01)
 
-(defvar mahmoud-required-packages
-   ;; general
-  '(browse-kill-ring escreen yasnippet)
-  "A list of packages to ensure are installed at launch.")
-
-
-(dolist (p mahmoud-required-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
-(provide 'core-packages)
-
-;;; core-packages.el ends here
+;;; preload-01.el ends here
