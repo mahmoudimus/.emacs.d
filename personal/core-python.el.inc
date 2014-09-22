@@ -163,6 +163,28 @@
 ;;          ad-do-it))
 
 
+
+(defun setup-python-environment ()
+  "Setup the emacs' python-environment [#]_
+
+.. [#] https://github.com/tkf/emacs-python-environment"
+
+  (require 'python-environment)
+  (setq python-environment-directory "~/.virtualenvs")
+  (setq python-environment-default-root-name "default") ; symlink
+
+  )
+
+
+(defun setup-jedi ()
+  "Setup jedi"
+
+  (require 'jedi)
+  (setq jedi:server-command '("jediepcserver")) ; on PATH in every venv
+
+  )
+
+
 (eval-after-load 'python-mode
   '(progn
      ;;==================================================
@@ -174,6 +196,10 @@
      ;;==================================================
      ;; load virtualenv
      (require 'virtualenv)
+     ;;==================================================
+     ;; Python Environment
+     ;;==================================================
+     (setup-python-environment)
      ;;==================================================
      ;; Pycomplete
      ;;==================================================
@@ -189,16 +215,15 @@
      ;;==================================================
      ;; Nose Tests
      ;;==================================================
-     (setup-nose)
+     ;; (setup-nose)
      ;; add python hook when in python to activate flymake lint
-     (add-hook
-      'python-mode-hook
-      (lambda()
-        (flymake-mode t)
-        ;; Not on all modes, please
-        (flymake-find-file-hook)
-       )
-      )
+     (add-hook 'python-mode-hook
+               (lambda()
+                 (flymake-mode t)
+                 ;; Not on all modes, please
+                 (flymake-find-file-hook)
+                 )
+               )
      )
   )
 ;; (add-hook 'python-mode-hook
