@@ -7,7 +7,7 @@ This emacs customization relies on the wonderful [Prelude](https://github.com/bb
 ```bash
 git clone --recursive https://github.com/mahmoudimus/.emacs.d.git ~/.emacs.d
 cd ~/.emacs.d
-./sync init
+./sync.sh init
 ```
 
 ### Personalizations
@@ -24,4 +24,4 @@ First, run this:
 git config --global alias.up-sub '!f() { cd $1 && git checkout master && git pull && git submodule update --init --recursive; }; f
 ```
 
-Second: `./sync update-prelude` or `git up-sub prelude` from the `~/.emacs.d/` directory.
+Second: `./sync.sh update-prelude` or `git up-sub prelude` from the `~/.emacs.d/` directory.
