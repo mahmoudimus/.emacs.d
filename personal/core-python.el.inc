@@ -172,16 +172,52 @@
   (require 'python-environment)
   (setq python-environment-directory "~/.virtualenvs")
   (setq python-environment-default-root-name "default") ; symlink
-
+  (setup-virtualenvwrapper)
   )
+
+
+(defun setup-virtualenvwrapper ()
+  "Setup virtualenvwrapper"
+
+  (require 'virtualenvwrapper)
+  (setq venv-location (file-name-as-directory python-environment-directory))
+  (put 'project-venv-name 'safe-local-variable #'stringp)
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell)
+  )
+
 
 
 (defun setup-jedi ()
   "Setup jedi"
 
   (require 'jedi)
+  (setq jedi:complete-on-dot t)
   (setq jedi:server-command '("jediepcserver")) ; on PATH in every venv
 
+  (defun local-jedi-server-setup ()
+    (hack-local-variables)
+    (when (boundp 'project-venv-name)
+      (venv-workon project-venv-name))
+    (jedi:setup))
+
+  (add-hook 'python-mode-hook 'local-jedi-server-setup)
+  )
+
+
+(defun setup-ipython ()
+  "Setup ipython"
+  (setq
+   python-shell-interpreter "ipython"
+   python-shell-interpreter-args ""
+   python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+   python-shell-completion-setup-code
+   "from IPython.core.completerlib import module_completion"
+   python-shell-completion-module-string-code
+   "';'.join(module_completion('''%s'''))\n"
+   python-shell-completion-string-code
+   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
   )
 
 
@@ -200,6 +236,10 @@
      ;; Python Environment
      ;;==================================================
      (setup-python-environment)
+     ;;==================================================
+     ;; Jedi
+     ;;==================================================
+     (setup-jedi)
      ;;==================================================
      ;; Pycomplete
      ;;==================================================

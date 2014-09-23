@@ -35,6 +35,7 @@
 ;;; Code:
 
 ;;; prelude already adds the melpa package.
+(require 'cl)
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
@@ -47,12 +48,15 @@
   (package-refresh-contents))
 
 (defvar mahmoud-required-packages
+  (append
    ;; general
-  '(browse-kill-ring escreen yasnippet)
+   '(browse-kill-ring escreen yasnippet)
+   ;; python
+   '(python-environment jedi virtualenvwrapper)
+   )
   "A list of packages to ensure are installed at launch.")
 
-
-(dolist (p mahmoud-required-packages)
+(dolist (p mahmoud-required-packages2)
   (when (not (package-installed-p p))
     (package-install p)))
 
