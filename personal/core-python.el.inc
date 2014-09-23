@@ -189,7 +189,7 @@
      ;;==================================================
      ;; Nose Tests
      ;;==================================================
-     (setup-nose)
+     ;; (setup-nose)
      ;; add python hook when in python to activate flymake lint
      (add-hook
       'python-mode-hook
