@@ -65,13 +65,15 @@
   ;; (set-face-attribute 'default nil :family "Source Code Pro"
   ;;                     :weight 'ExtraLight :height 120)
 
-  (set-face-font 'default "Ubuntu Mono 16")
-  (set-face-attribute 'mode-line nil :height 140)
-  (set-face-attribute 'mode-line-buffer-id nil :height 140)
-  (set-face-attribute 'mode-line-emphasis nil :height 140)
-  (set-face-attribute 'mode-line-highlight nil :height 140)
-  (set-face-attribute 'mode-line-inactive nil :height 140)
-
+  ;; ubuntu mono doesn't support greek glyphs :-(
+  ;; (set-face-font 'default "Ubuntu Mono 16")
+  ;; (set-face-font 'default "Monaco 12")
+  ;; (set-face-font 'default "Menlo 12")
+  (set-face-font 'default "Consolas 13")
+  ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
+  ;; (set-face-font 'default "Terminus (TTF)-13")
+  (set-face-font 'mode-line "Terminus (TTF)-12")
+  (set-face-font 'mode-line-inactive "Terminus (TTF)-12")
   ;;(set-default-font "-apple-M+_1mn-medium-normal-normal-*-*-*-*-*-p-0-iso10646-1")
   ;;(set-face-attribute 'default nil :height 130)
   (setq line-spacing nil)
