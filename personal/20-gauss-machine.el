@@ -114,9 +114,9 @@
 
 ;; On OS X Emacs doesn't use the shell PATH if it's not started from
 ;; the shell. If you're using homebrew modifying the PATH is essential.
-(setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
-(push "/usr/local/bin" exec-path)
-(push "/usr/local/git/bin" exec-path)
+;; (setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
+;; (push "/usr/local/bin" exec-path)
+;; (push "/usr/local/git/bin" exec-path)
 
 ;; flymake causes my emacs on MacOS X to hang
 (setq flymake-gui-warnings-enabled nil)

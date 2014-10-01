@@ -50,6 +50,9 @@
 ;; variables is a huge performance problem.
 (setq py-imenu-create-index-p nil)
 
+;; use local default
+(setq py-use-local-default t)
+
 ;; python mode settings
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
@@ -58,6 +61,28 @@
 
 (require 'auto-complete-config)
 (ac-config-default)
+
+;; setup virtualenvwrapper.el
+(require 'virtualenvwrapper)
+(setq-default mode-line-misc-info (cons '(:exec venv-current-name)
+                                        mode-line-misc-info))
+(put 'project-venv-name 'safe-local-variable #'stringp)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
+
+(defun local-venv-auto-workon ()
+  (hack-local-variables)
+  (when (boundp 'project-venv-name)
+    (venv-workon project-venv-name)
+    (setq py-shell-local-path (concat venv-current-dir venv-executables-dir))
+    (setq virtualenv-name project-venv-name)
+    ;; TODO: move this into a post activate hook and have it
+    ;; TODO: do the upgrades as well from the .dir-locals.el
+    (async-shell-command "pip install pylint flake8 nose pytest")
+    ))
+
+(add-hook 'python-mode-hook 'local-venv-auto-workon)
+
 
 ;; disable smart operator cuz it fucking sucks
 ;; (setq py-smart-operator-mode-p nil)
@@ -162,30 +187,15 @@
 ;;          ;;(print (buffer-local-variables) (get-buffer "*Messages*"))
 ;;          ad-do-it))
 
-
-
 (defun setup-python-environment ()
   "Setup the emacs' python-environment [#]_
 
 .. [#] https://github.com/tkf/emacs-python-environment"
 
   (require 'python-environment)
-  (setq python-environment-directory "~/.virtualenvs")
+  (setq python-environment-directory venv-location)
   (setq python-environment-default-root-name "default") ; symlink
-  (setup-virtualenvwrapper)
   )
-
-
-(defun setup-virtualenvwrapper ()
-  "Setup virtualenvwrapper"
-
-  (require 'virtualenvwrapper)
-  (setq venv-location (file-name-as-directory python-environment-directory))
-  (put 'project-venv-name 'safe-local-variable #'stringp)
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-  )
-
 
 
 (defun setup-jedi ()
@@ -221,21 +231,44 @@
   )
 
 
+(defun setup-flycheck-python ()
+  "Sets up the flycheck stuff for python environments"
+  (require 'flycheck)
+
+  (defun flycheck-python-set-executables ()
+    ;; flake8
+    (setq flycheck-python-flake8-executable (executable-find "flake8")
+          flycheck-flake8rc (expand-file-name "~/.config/flake8"))
+    ;; pylint
+    (setq flycheck-python-pylint-executable (executable-find "pylint")
+          flycheck-pylintrc (expand-file-name "~/.config/pylint"))
+    ;; see https://github.com/flycheck/flycheck/issues/186, as the
+    ;; author of flycheck believes that pylint and flake8 are not
+    ;; complementary.
+    ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
+    (setq flycheck-checker 'python-pylint)
+    ;; Force Flycheck mode on
+    (flycheck-mode))
+
+  (defun flycheck-python-setup ()
+    (add-hook 'hack-local-variables-hook #'flycheck-python-set-executables
+              nil 'local))
+
+  (add-hook 'python-mode-hook #'flycheck-python-setup)
+  )
+
+
 (eval-after-load 'python-mode
   '(progn
      ;;==================================================
      ;; Ropemacs Configuration
      ;;==================================================
      (setup-ropemacs)
-     ;; ;;==================================================
-     ;; ;; Virtualenv Commands
-     ;; ;;==================================================
-     ;; ;; load virtualenv
-     ;; (require 'virtualenv)
      ;;==================================================
      ;; Python Environment
      ;;==================================================
      (setup-python-environment)
+     (setup-flycheck-python)
      ;;==================================================
      ;; Jedi
      ;;==================================================
@@ -244,7 +277,7 @@
      ;; Pycomplete
      ;;==================================================
      ;; load pycomplete
-     (require 'pycomplete)
+     ;; (require 'pycomplete)
      ;;==================================================
      ;; auto-pair
      ;;==================================================
@@ -256,14 +289,6 @@
      ;; Nose Tests
      ;;==================================================
      ;; (setup-nose)
-     ;; add python hook when in python to activate flymake lint
-     (add-hook 'python-mode-hook
-               (lambda()
-                 (flymake-mode t)
-                 ;; Not on all modes, please
-                 (flymake-find-file-hook)
-                 )
-               )
      )
   )
 ;; (add-hook 'python-mode-hook

@@ -57,7 +57,7 @@
      ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
      smart-mode-line
      ;; https://github.com/Bruce-Connor/rich-minority
-     rich-minoriy)
+     rich-minority)
    ;; python
    '(python-environment
      jedi
