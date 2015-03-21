@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: version
+# contributor: Mahmoud Abdelkader
+# key: version
+# expand-env: ((yas/indent-line 'nil))
+# --
+__version__ = '$1'

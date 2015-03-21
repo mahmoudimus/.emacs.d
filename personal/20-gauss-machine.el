@@ -70,11 +70,12 @@
   ;; (set-face-font 'default "Monaco 12")
   ;; (set-face-font 'default "Menlo 12")
   (set-face-font 'default "Consolas 13")
+  ;; (set-face-font 'default "-*-M+ 2m-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; (set-face-font 'default "Terminus (TTF)-13")
   (set-face-font 'mode-line "Terminus (TTF)-12")
   (set-face-font 'mode-line-inactive "Terminus (TTF)-12")
-  ;;(set-default-font "-apple-M+_1mn-medium-normal-normal-*-*-*-*-*-p-0-iso10646-1")
+
   ;;(set-face-attribute 'default nil :height 130)
   (setq line-spacing nil)
   (setq line-height t)

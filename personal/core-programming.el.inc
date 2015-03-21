@@ -101,24 +101,27 @@
 
 (add-to-list 'remove-tabs-inhibit-for-modes 'makefile-mode)
 (add-to-list 'remove-tabs-inhibit-for-modes 'BSDmakefile)
+(add-to-list 'remove-tabs-inhibit-for-modes 'indent-tabs-mode)
 
 (defun remove-tabs-trspaces-empltylines()
   "Clean the current buffer from trailing spaces and empty lines at the end of the file.
    Also untabify the buffer in major-mode not in list remove-tabs-inhibit-for-modes"
   (interactive)
-  (message "Cleaning the buffer from tabs, trailing whitespaces and empty lines")
+  (message "Removing tab hook called")
 
   (when (or (not remove-tabs-inhibit-for-modes)
             (all '(lambda (e) (not (derived-mode-p e))) remove-tabs-inhibit-for-modes))
-    (untabify 0 (point-max)))
-
-  (delete-trailing-whitespace)
-  (let ((current (point)))
-    (goto-char (point-max))
-    (delete-blank-lines)
-    (goto-char current)
-    )
+    (message "Cleaning the buffer from tabs, trailing whitespaces and empty lines")
+    (untabify 0 (point-max))
+    (delete-trailing-whitespace)
+    (let ((current (point)))
+      (goto-char (point-max))
+      (delete-blank-lines)
+      (goto-char current)
+      ))
   )
+
+(setq prelude-clean-whitespace-on-save nil)
 
 (defun core-prog-mode-hook ()
   "Default coding hook, useful with any programming language."
