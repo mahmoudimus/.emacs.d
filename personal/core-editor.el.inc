@@ -40,13 +40,13 @@
 ;; Flymake setup
 ;; --------------
 ;; use a better and recent version of flymake
-(add-to-list 'load-path (concat prelude-vendor-dir "/emacs-flymake"))
-(require 'flymake)
+;; (add-to-list 'load-path (concat prelude-vendor-dir "/emacs-flymake"))
+;; (require 'flymake)
 ;; I want my copies in the system temp dir.
 ;; Do not run flymake in place (for TRAMP support - see
 ;;    https://github.com/illusori/emacs-flymake/issues/1
 ;; )
-(setq flymake-run-in-place nil)
+;; (setq flymake-run-in-place nil)
 
 
 (require 'smart-operator)
@@ -61,15 +61,15 @@
 
 
 ;; Auto Completion
-(add-to-list 'load-path (concat prelude-vendor-dir "/auto-complete.el"))
-(require 'auto-complete)
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories
-             (concat prelude-vendor-dir "auto-complete.el/dict"))
-(setq ac-auto-start 2)
-(setq ac-dwim t)
-(global-auto-complete-mode t)
-(ac-config-default)
+;; (add-to-list 'load-path (concat prelude-vendor-dir "/auto-complete.el"))
+;; (require 'auto-complete)
+;; (require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories
+;;              (concat prelude-vendor-dir "auto-complete.el/dict"))
+;; (setq ac-auto-start 2)
+;; (setq ac-dwim t)
+;; (global-auto-complete-mode t)
+;; (ac-config-default)
 
 
 ;; yasnippet

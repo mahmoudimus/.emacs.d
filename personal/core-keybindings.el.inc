@@ -71,12 +71,12 @@
 
 
 ;; auto-complete keybindings
-(define-key ac-mode-map (kbd "<C-tab>") 'auto-complete)
+;; (define-key ac-mode-map (kbd "<C-tab>") 'auto-complete)
 ;; (define-key ac-mode-map (kbd "M-") 'auto-complete)
-(define-key ac-completing-map (kbd "C-n") 'ac-next)
-(define-key ac-completing-map (kbd "C-p") 'ac-previous)
-(define-key ac-complete-mode-map "\t" 'ac-complete)
-(setq ac-dwim t)
+;; (define-key ac-completing-map (kbd "C-n") 'ac-next)
+;; (define-key ac-completing-map (kbd "C-p") 'ac-previous)
+;; (define-key ac-complete-mode-map "\t" 'ac-complete)
+;; (setq ac-dwim t)
 
 ;; text keybindings
 

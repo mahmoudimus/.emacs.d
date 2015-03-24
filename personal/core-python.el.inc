@@ -56,18 +56,18 @@
 ;; We never want to edit python bytecode
 (add-to-list 'completion-ignored-extensions ".pyc")
 
-(require 'auto-complete-config)
-(ac-config-default)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
 
 ;; disable smart operator cuz it fucking sucks
 ;; (setq py-smart-operator-mode-p nil)
 
-(eval-after-load "pymacs"
-  '(progn
-     ;;(message (shell-command-to-string "python -c 'import sys; print sys.path'"))
-     (message "Pymacs has been loaded, now adding to the path...")
-     (add-to-list 'pymacs-load-path python-files-dir)
-     ))
+;; (eval-after-load "pymacs"
+;;   '(progn
+;;      ;;(message (shell-command-to-string "python -c 'import sys; print sys.path'"))
+;;      (message "Pymacs has been loaded, now adding to the path...")
+;;      (add-to-list 'pymacs-load-path python-files-dir)
+;;      ))
 
 
 (defun setup-nose ()
@@ -168,7 +168,7 @@
      ;;==================================================
      ;; Ropemacs Configuration
      ;;==================================================
-     (setup-ropemacs)
+     ;; (setup-ropemacs)
      ;;==================================================
      ;; Virtualenv Commands
      ;;==================================================
@@ -215,7 +215,7 @@
 
 
 ;; ;; pymacs
-(setq py-load-pymacs-p t)
+;; (setq py-load-pymacs-p t)
 
 ;; require python
 (require 'python-mode)
