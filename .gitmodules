@@ -1,3 +1,6 @@
 [submodule "prelude"]
 	path = prelude
 	url = https://github.com/bbatsov/prelude.git
+[submodule "vendor/auto-complete.el"]
+	path = vendor/auto-complete.el
+	url = https://github.com/auto-complete/auto-complete
