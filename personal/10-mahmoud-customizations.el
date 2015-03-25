@@ -12,12 +12,14 @@
 (mahmoud-load-customization "core-el-get.el.inc")
 (mahmoud-load-customization "core-editor.el.inc")
 (mahmoud-load-customization "core-ui.el.inc")
+(mahmoud-load-customization "core-modeline.el.inc")
 (mahmoud-load-customization "core-programming.el.inc")
 
 (mahmoud-load-customization "core-keybindings.el.inc")
 
 ;; specialize the programming languages
 (mahmoud-load-customization "core-python.el.inc")
+(mahmoud-load-customization "core-ruby.el.inc")
 
 
 ;;; mahmoud-customizations.el ends here

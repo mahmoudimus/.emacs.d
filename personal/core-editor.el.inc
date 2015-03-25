@@ -35,7 +35,7 @@
 ;;; Code:
 
 (setq prelude-flyspell nil)
-
+(setq projectile-enable-caching t)
 ;; --------------
 ;; Flymake setup
 ;; --------------

@@ -35,6 +35,7 @@
 ;;; Code:
 
 ;;; prelude already adds the melpa package.
+(require 'cl)
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
@@ -47,10 +48,23 @@
   (package-refresh-contents))
 
 (defvar mahmoud-required-packages
+  (append
    ;; general
-  '(browse-kill-ring escreen yasnippet)
+   '(browse-kill-ring
+     escreen
+     yasnippet
+     ;; https://github.com/Bruce-Connor/smart-mode-line
+     ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
+     smart-mode-line
+     ;; https://github.com/Bruce-Connor/rich-minority
+     rich-minority)
+   ;; python
+   '(python-environment
+     jedi
+     ;; https://github.com/porterjamesj/virtualenvwrapper.el
+     virtualenvwrapper)
+   )
   "A list of packages to ensure are installed at launch.")
-
 
 (dolist (p mahmoud-required-packages)
   (when (not (package-installed-p p))

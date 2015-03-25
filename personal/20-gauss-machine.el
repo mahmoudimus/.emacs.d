@@ -65,14 +65,17 @@
   ;; (set-face-attribute 'default nil :family "Source Code Pro"
   ;;                     :weight 'ExtraLight :height 120)
 
-  (set-face-font 'default "Ubuntu Mono 16")
-  (set-face-attribute 'mode-line nil :height 140)
-  (set-face-attribute 'mode-line-buffer-id nil :height 140)
-  (set-face-attribute 'mode-line-emphasis nil :height 140)
-  (set-face-attribute 'mode-line-highlight nil :height 140)
-  (set-face-attribute 'mode-line-inactive nil :height 140)
+  ;; ubuntu mono doesn't support greek glyphs :-(
+  ;; (set-face-font 'default "Ubuntu Mono 16")
+  ;; (set-face-font 'default "Monaco 12")
+  ;; (set-face-font 'default "Menlo 12")
+  (set-face-font 'default "Consolas 13")
+  ;; (set-face-font 'default "-*-M+ 2m-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+  ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
+  ;; (set-face-font 'default "Terminus (TTF)-13")
+  (set-face-font 'mode-line "Terminus (TTF)-12")
+  (set-face-font 'mode-line-inactive "Terminus (TTF)-12")
 
-  ;;(set-default-font "-apple-M+_1mn-medium-normal-normal-*-*-*-*-*-p-0-iso10646-1")
   ;;(set-face-attribute 'default nil :height 130)
   (setq line-spacing nil)
   (setq line-height t)
@@ -112,9 +115,9 @@
 
 ;; On OS X Emacs doesn't use the shell PATH if it's not started from
 ;; the shell. If you're using homebrew modifying the PATH is essential.
-(setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
-(push "/usr/local/bin" exec-path)
-(push "/usr/local/git/bin" exec-path)
+;; (setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
+;; (push "/usr/local/bin" exec-path)
+;; (push "/usr/local/git/bin" exec-path)
 
 ;; flymake causes my emacs on MacOS X to hang
 (setq flymake-gui-warnings-enabled nil)

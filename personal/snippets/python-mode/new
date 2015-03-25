@@ -9,8 +9,7 @@ import argparse
 import logging
 
 $1
-
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def execute(args):
@@ -23,8 +22,14 @@ def main():
     class SetLoggingLevel(argparse.Action):
 
         def __call__(self, parser, namespace, values, option_string=None):
-            setattr(namespace, self.dest, getattr(logging, values))
-            LOGGER.setLevel(getattr(namespace, self.dest))
+            level = getattr(namespace, self.dest)
+            setattr(namespace, self.dest, level)
+            logging.basicConfig(
+                level=level,
+                format='%(asctime)s : %(levelname)s : %(name)s : %(message)s',
+                stream=sys.stderr,
+            )
+            logger.setLevel(level)
 
     parser.add_argument(
         '-l', '--logging-level',

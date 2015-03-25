@@ -38,9 +38,14 @@
 (setq python-mode-dir (concat prelude-vendor-dir "/python-mode"))
 (setq python-files-dir (concat prelude-vendor-dir "/python"))
 
-(add-to-list 'load-path (concat python-files-dir "/virtualenv.el"))
-(add-to-list 'load-path (concat python-mode-dir "extensions"))
-(add-to-list 'load-path (concat python-mode-dir "completion"))
+;; I use python mode from launchpad.net (the one by python.org)
+(require 'python-mode)
+;; (autoload 'python-mode "python-mode" "Python editing mode." t)
+;; python's python-mode.el comes with a few extensions for it,
+;; in its /extensions and /completion folders.
+;; not sure they're needed given helm/company mode
+;; (add-to-list 'load-path (concat python-mode-dir "extensions"))
+;; (add-to-list 'load-path (concat python-mode-dir "completion"))
 
 (setq py-install-directory python-mode-dir)
 (add-to-list 'load-path py-install-directory)
@@ -49,158 +54,185 @@
 ;; creating and displaying an index menu of functions and global
 ;; variables is a huge performance problem.
 (setq py-imenu-create-index-p nil)
-
-;; python mode settings
+;; mode-alist should end .py or .wsgi
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(autoload 'python-mode "python-mode" "Python editing mode." t)
+(setq auto-mode-alist (cons '("\\.wsgi$" . python-mode) auto-mode-alist))
 ;; We never want to edit python bytecode
 (add-to-list 'completion-ignored-extensions ".pyc")
 
-(require 'auto-complete-config)
-(ac-config-default)
+;; setup virtualenvwrapper.el
+(require 'virtualenvwrapper)
+(setq-default mode-line-misc-info
+              (cons '(:exec venv-current-name) mode-line-misc-info))
+;; these vars in .dir-locals.el / file local variables are safe
+(put 'project-venv-name 'safe-local-variable #'stringp)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
 
-;; disable smart operator cuz it fucking sucks
-;; (setq py-smart-operator-mode-p nil)
+;; use local default python with virtualenvwrapper
+(setq py-use-local-default t)
 
-(eval-after-load "pymacs"
-  '(progn
-     ;;(message (shell-command-to-string "python -c 'import sys; print sys.path'"))
-     (message "Pymacs has been loaded, now adding to the path...")
-     (add-to-list 'pymacs-load-path python-files-dir)
-     ))
+(defun hook-py-venv-auto-workon ()
+  "A python-mode hook, such that when the venv is activated:
 
+- set the py-shell-local-path since we set the py-use-local-default
+- once in a new venv, make sure we install some necessary tools.
+"
+  (hack-local-variables)
+  (when (boundp 'project-venv-name)
+    (venv-workon project-venv-name)
+    (setq py-shell-local-path (concat venv-current-dir venv-executables-dir))
+    ;; for anaconda mode
+    (setq python-shell-virtualenv-path venv-current-dir)
+    (setq virtualenv-name project-venv-name)
+    ;; TODO: move this into a post activate hook and have it
+    ;; TODO: do the upgrades as well from the .dir-locals.el
+    (async-shell-command "pip install pylint flake8 nose pytest")
+    ))
+(add-hook 'python-mode-hook 'hook-py-venv-auto-workon)
 
-(defun setup-nose ()
-  "Sets up nosetests"
-  (require 'nose)
+;;;flycheck stuff
+(when (not (boundp 'flycheck-mode))
+  (flycheck-mode))
+
+(setq flycheck-display-errors-delay 0.1)
+
+(defun setup-py-flycheck ()
+  ;; flake8
+  (setq flycheck-python-flake8-executable (executable-find "flake8")
+        flycheck-flake8rc (expand-file-name "~/.config/flake8"))
+  ;; pylint
+  (setq flycheck-python-pylint-executable (executable-find "pylint")
+        flycheck-pylintrc (expand-file-name "~/.config/pylint"))
+  ;; see https://github.com/flycheck/flycheck/issues/186, as the
+  ;; author of flycheck believes that pylint and flake8 are not
+  ;; complementary.
+  (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  ;; (setq flycheck-checker 'python-pylint)
+
+  ;; Force Flycheck mode on
+  (flycheck-mode)
   )
 
-(defun setup-ropemacs ()
-  "Setup the ropemacs harness"
-  (core-setup-python-env)
-  (pymacs-load "ropemacs" "rope-")
-
-  ;; Stops from erroring if there's a syntax err
-  (setq ropemacs-codeassist-maxfixes 3)
-
-  ;; Configurations
-  (setq ropemacs-guess-project t)
-  (setq ropemacs-enable-autoimport t)
+(defun flycheck-python-setup ()
+  "Just setups up local-variables to call flycheck to respect project
+local settings."
+  (add-hook 'hack-local-variables-hook #'setup-py-flycheck nil 'local))
+(add-hook 'python-mode-hook #'flycheck-python-setup)
 
 
-  (setq ropemacs-autoimport-modules '("os" "shutil" "sys" "logging"))
+;; Setup the emacs' python-environment [#]_
+;; Typically used for building python enhancements to emacs via python.
+;; .. [#] https://github.com/tkf/emacs-python-environment"
+;; (require 'python-environment)
+;; (setq python-environment-directory venv-location)
+;; (setq python-environment-default-root-name "default") ; symlink
 
-  ;; Adding hook to automatically open a rope project if there is one
-  ;; in the current or in the upper level directory
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (cond ((file-exists-p ".ropeproject")
-                     (rope-open-project default-directory))
-                    ((file-exists-p "../.ropeproject")
-                     (rope-open-project (concat default-directory "..")))
-                    )
-              ))
+;; (defun pymacs-make-env ()
+;;   (interactive)
+;;   (python-environment-run "pip" "install" "Pymacs"))
+
+
+;; (defun setup-jedi ()
+;;   "Setup jedi"
+;;   ;; https://gist.github.com/nyergler/6100112
+;;   (require 'jedi)
+;;   (setq jedi:complete-on-dot t)
+;;   (setq jedi:server-command '("jediepcserver")) ; on PATH in every venv
+
+;;   (defun local-jedi-server-setup ()
+;;     (hack-local-variables)
+;;     (when (boundp 'project-venv-name)
+;;       (venv-workon project-venv-name))
+;;     (jedi:setup))
+
+;;   (add-hook 'python-mode-hook 'local-jedi-server-setup)
+;;   )
+
+
+(defun setup-ipython ()
+  "Setup ipython"
+  (setq
+   python-shell-interpreter "ipython"
+   python-shell-interpreter-args ""
+   python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+   python-shell-completion-setup-code
+   "from IPython.core.completerlib import module_completion"
+   python-shell-completion-module-string-code
+   "';'.join(module_completion('''%s'''))\n"
+   python-shell-completion-string-code
+   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
   )
 
-(defun mahmoud-force-indent (&optional arg)
-    (interactive "P")
-    (insert-tab arg))
+;; (defun core-setup-python-env ()
+;;   (interactive)
+;;   (setenv "PYTHONPATH"
+;;           (concat
+;;            (getenv "PYTHONPATH") path-separator
+;;            python-files-dir
+;;            )))
+
+;; (defun reload-pymacs ()
+;;     (interactive)
+;;     (pymacs-terminate-services)
+;;     (setenv "PYMACS_PYTHON"  (concat py-shell-local-path "python"))
+;;     (pymacs-load "ropemacs" "rope-")
+;;     (setq ropemacs-enable-autoimport 't))
 
 
-(defun core-setup-python-env ()
-  (interactive)
-  (setenv "PYTHONPATH"
-          (concat
-           (getenv "PYTHONPATH") path-separator
-           python-files-dir
-           ))
-)
+;; (defun setup-ropemacs ()
+;;   "Setup the ropemacs harness"
+;;   (core-setup-python-env)
+;;   (pymacs-load "ropemacs" "rope-")
 
-(defun reload-pymacs ()
-    (interactive)
-    (pymacs-terminate-services)
-    (setenv "PYMACS_PYTHON"  (concat virtualenv-root "/" virtualenv-workon "/bin/python"))
-    (pymacs-load "ropemacs" "rope-")
-    (setq ropemacs-enable-autoimport 't))
+;;   ;; Stops from erroring if there's a syntax err
+;;   (setq ropemacs-codeassist-maxfixes 3)
+
+;;   ;; Configurations
+;;   (setq ropemacs-guess-project t)
+;;   (setq ropemacs-enable-autoimport t)
 
 
+;;   (setq ropemacs-autoimport-modules '("os" "shutil" "sys" "logging"))
 
-;; load flymake lint runner
-(when (load "flymake" t)
-  (defun flymake-python-lint-init (&optional trigger-type)
-    ;; (print virtualenv-workon (get-buffer "*Messages*"))
-    ;; (print virtualenv-root (get-buffer "*Messages*"))
-    ;; (print buffer-file-name (get-buffer "*Messages*"))
-    ;; (print file-local-variables-alist (get-buffer "*Messages*"))
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       (if (fboundp 'flymake-create-temp-copy)
-                           'flymake-create-temp-copy
-                         'flymake-create-temp-inplace)))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name)))
-           (venv-path (concat virtualenv-root "/" virtualenv-workon))
-           (options (when trigger-type (list "--trigger-type" trigger-type))))
-      (if (and virtualenv-workon (not (string= virtualenv-workon " Virtualenv")))
-          (if (listp options)
-              (progn (push (concat "--virtualenv=" venv-path) options))
-            (let (options (list (concat "--virtualenv=" venv-path))))))
-      (list
-       (concat (getenv "HOME") "/bin/flymake-python/pyflymake.py")
-       (append options (list local-file)))))
+;;   ;; Adding hook to automatically open a rope project if there is one
+;;   ;; in the current or in the upper level directory
+;;   (add-hook 'python-mode-hook
+;;             (lambda ()
+;;               (cond ((file-exists-p ".ropeproject")
+;;                      (rope-open-project default-directory))
+;;                     ((file-exists-p "../.ropeproject")
+;;                      (rope-open-project (concat default-directory "..")))
+;;                     )
+;;               ))
+;;   )
 
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-python-lint-init))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.wsgi\\'" flymake-python-lint-init)))
+;; (defun mahmoud-force-indent (&optional arg)
+;;     (interactive "P")
+;;     (insert-tab arg))
 
-;; (defadvice flymake-python-lint-init (around flymake-python-lint-init-around)
-;;   "Sets the virtual environment if applicable :)"
-;;   (progn (print virtualenv-mode-name (get-buffer "*Messages*"))
-;;          (print buffer-file-name (get-buffer "*Messages*"))
-;;          (print file-local-variables-alist (get-buffer "*Messages*"))
-;;          ;;(print (buffer-local-variables) (get-buffer "*Messages*"))
-;;          ad-do-it))
+;; pymacs
+;; (eval-after-load 'pymacs
+;;   '(progn
+;;      ;;(message (shell-command-to-string "python -c 'import sys; print sys.path'"))
+;;      (pymacs-make)
+;;      ;; (message "Pymacs has been loaded, now adding to the path...")
+;;      ;; (add-to-list 'pymacs-load-path python-files-dir)
+;;      ))
 
+;; (require 'pymacs)
 
+;;;delayed hooks after python-mode
 (eval-after-load 'python-mode
   '(progn
-     ;;==================================================
-     ;; Ropemacs Configuration
-     ;;==================================================
-     (setup-ropemacs)
-     ;;==================================================
-     ;; Virtualenv Commands
-     ;;==================================================
-     ;; load virtualenv
-     (require 'virtualenv)
-     ;;==================================================
-     ;; Pycomplete
-     ;;==================================================
-     ;; load pycomplete
-     (require 'pycomplete)
-     ;;==================================================
-     ;; auto-pair
-     ;;==================================================
-     ;; load autopair
-     ;; (require 'autopair)
-     ;; (autopair-global-mode)
-     ;; (setq autopair-autowrap t)
-     ;;==================================================
-     ;; Nose Tests
-     ;;==================================================
-     ;; (setup-nose)
-     ;; add python hook when in python to activate flymake lint
-     (add-hook
-      'python-mode-hook
-      (lambda()
-        (flymake-mode t)
-        ;; Not on all modes, please
-        (flymake-find-file-hook)
-       )
-      )
+     (setup-ipython)
      )
   )
+
+
+(provide 'core-python)
+
 ;; (add-hook 'python-mode-hook
 ;;       (lambda ()
 ;;         (set-variable 'py-indent-offset 4)
@@ -211,13 +243,3 @@
 ;;         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
 ;;         (auto-complete-mode t)
 ;;       ))
-
-
-
-;; ;; pymacs
-(setq py-load-pymacs-p t)
-
-;; require python
-(require 'python-mode)
-
-(provide 'core-python)
