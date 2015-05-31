@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-
 ;; Make command Super
 (setq ns-command-modifier (quote super))
 ;; Make option Meta
@@ -44,7 +43,8 @@
 
 ;; default font
 
-(when (eq system-type 'darwin)
+(when (and (not (is-in-terminal))
+           (eq system-type 'darwin))
 
   ;; anti-aliasing for fonts.
   (setq ns-antialias-text t)
@@ -78,7 +78,7 @@
 
   ;;(set-face-attribute 'default nil :height 130)
   (setq line-spacing nil)
-  (setq line-height t)
+  ;; (setq line-height t)
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; default font size (point * 10)
   ;;
@@ -120,7 +120,7 @@
 ;; (push "/usr/local/git/bin" exec-path)
 
 ;; flymake causes my emacs on MacOS X to hang
-(setq flymake-gui-warnings-enabled nil)
+;; (setq flymake-gui-warnings-enabled nil)
 
 (provide 'gauss-machine)
 

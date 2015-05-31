@@ -79,13 +79,13 @@
   "This folder houses my custom yasnippet bundles distributed with my emacs.el.")
 
 (require 'yasnippet)
-(add-to-list 'yas-snippet-dirs core-custom-snippets-dir)
+;; (add-to-list 'yas-snippet-dirs core-custom-snippets-dir)
 ;; term-mode does not play well with yasnippet
 (add-hook 'term-mode-hook (lambda ()
                             (yas-minor-mode -1)))
 
 ;; Load the snippets
-(mapc 'load (directory-files core-custom-snippets-dir t "^[^#].*el$"))
+;; (mapc 'load (directory-files core-custom-snippets-dir t "^[^#].*el$"))
 (yas-global-mode 1)
 ;; (yas/global-mode t)
 
