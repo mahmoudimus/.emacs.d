@@ -63,6 +63,8 @@
 ;; to get the error message.
 (require 'flymake-cursor)
 
+(defun is-in-terminal()
+  (not (display-graphic-p)))
 
 ;; Escreen support
 ;; escreen is simpler than elscreen...but elscreen spawns new 0-9
