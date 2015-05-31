@@ -1,3 +1,12 @@
 [submodule "prelude"]
 	path = prelude
 	url = https://github.com/bbatsov/prelude.git
+[submodule "vendor/auto-complete.el"]
+	path = vendor/auto-complete.el
+	url = https://github.com/auto-complete/auto-complete
+[submodule "emacs-flymake"]
+	path = emacs-flymake
+	url = https://github.com/illusori/emacs-flymake
+[submodule "vendor/emacs-flymake"]
+	path = vendor/emacs-flymake
+	url = https://github.com/illusori/emacs-flymake
