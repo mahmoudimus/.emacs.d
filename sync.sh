@@ -2,6 +2,15 @@
 
 WHAT=${1:?"Need to specify an action!"}
 
+# http://stackoverflow.com/a/12394284/133514
+function recursively_byte_compile() {
+    emacs --batch --eval '(byte-recompile-directory "~/.emacs.d")'
+}
+
+function byte_compile() {
+    emacs -Q --batch -f batch-byte-compile *.el foo/*.el
+}
+
 
 if [ $WHAT = "update-prelude" ];  then
     git up-sub prelude
