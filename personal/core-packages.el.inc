@@ -58,7 +58,8 @@
      smart-mode-line
      ;; https://github.com/Bruce-Connor/rich-minority
      rich-minority)
-   ;; python
+   ;; docker
+   '(docker-tramp) ;; python
    '(python-environment
      jedi
      ;; https://github.com/porterjamesj/virtualenvwrapper.el

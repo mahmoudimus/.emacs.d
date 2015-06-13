@@ -21,6 +21,9 @@
 (mahmoud-load-customization "core-python.el.inc")
 (mahmoud-load-customization "core-ruby.el.inc")
 
+(mahmoud-load-customization "core-connectivity.el.inc")
+
+
 
 ;;; mahmoud-customizations.el ends here
 
