@@ -1,9 +1,6 @@
 [submodule "prelude"]
-	path = prelude
-	url = https://github.com/bbatsov/prelude.git
-[submodule "emacs-flymake"]
-	path = emacs-flymake
-	url = https://github.com/illusori/emacs-flymake
+    path = prelude
+    url = https://github.com/bbatsov/prelude.git
 [submodule "vendor/emacs-flymake"]
-	path = vendor/emacs-flymake
-	url = https://github.com/illusori/emacs-flymake
+    path = vendor/emacs-flymake
+    url = https://github.com/illusori/emacs-flymake
