@@ -39,7 +39,7 @@
 ;; flyspell is slow, let's make it fast by ignoring the sit-for
 ;; see: http://www.brool.com/index.php/speeding-up-flyspell-region
 (defadvice flyspell-region (around fast-flyspell-region)
-  (flet ( (sit-for (x) t) )
+  (cl-flet ( (sit-for (x) t) )
     ad-do-it))
 (ad-activate 'flyspell-region)
 
