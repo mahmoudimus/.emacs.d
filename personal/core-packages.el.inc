@@ -52,7 +52,7 @@
    ;; general
    '(browse-kill-ring
      escreen
-     yasnippet
+     ;; yasnippet (i'm going to get this from el-get)
      ;; https://github.com/Bruce-Connor/smart-mode-line
      ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
      smart-mode-line

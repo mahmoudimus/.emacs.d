@@ -122,4 +122,9 @@
 
 (add-hook 'escreen-goto-screen-hook 'escreen-get-active-screen-numbers-with-emphasis)
 
+;; http://stackoverflow.com/a/268205/133514
+(defun server-remove-kill-buffer-hook ()
+  (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
+(add-hook 'server-visit-hook 'server-remove-kill-buffer-hook)
+
 (provide 'core-ui)
