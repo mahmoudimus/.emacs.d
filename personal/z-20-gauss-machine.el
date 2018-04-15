@@ -7,12 +7,17 @@
 
 ;; Make command Super
 (setq ns-command-modifier (quote super))
+(setq mac-command-modifier 'super)
 ;; Make option Meta
 (setq ns-alternate-modifier (quote meta))
+(setq mac-option-modifier 'meta)
+
 ;; Make the function key Alt
 (setq ns-function-modifier (quote alt))
-;; for terminal use case use the function key as a super
+(setq mac-function-modifier 'alt)
 
+;; for terminal use case use the function key as a super
+;; mac switch meta key
 
 ;; Make alt be meta instead of command, so we can map command stuff to
 ;; normal cut and paste.
@@ -116,6 +121,7 @@
 ;; On OS X Emacs doesn't use the shell PATH if it's not started from
 ;; the shell. If you're using homebrew modifying the PATH is essential.
 ;; (setenv "PATH" (shell-command-to-string "/bin/bash -l -c 'echo -n $PATH'"))
+(setenv "PATH" (shell-command-to-string "/bin/zsh -l -c 'source ~/.zshrc; echo -n $PATH'"))
 ;; (push "/usr/local/bin" exec-path)
 ;; (push "/usr/local/git/bin" exec-path)
 
