@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+# name: gapdb
+# contributor: Mahmoud Abdelkader
+# key: gapdb
+# expand-env: ((yas/indent-line 'nil))
+# --
+import sys
+import pdb
+for attr in ('stdin', 'stdout', 'stderr'):
+    setattr(sys, attr, getattr(sys, '__%s__' % attr))
+pdb.set_trace()

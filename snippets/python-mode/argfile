@@ -1,0 +1,11 @@
+# -*- mode: python -*-
+# -*- coding: utf-8 -*
+# name: Argparse add input file option
+# key: argfile
+# expand-env: ((yas/indent-line 'nil))
+# --
+
+def add_options(options):
+    options.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+                         default=sys.stdin)
+    return options
