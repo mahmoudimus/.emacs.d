@@ -62,6 +62,10 @@
      deadgrep
      ;; rg.el (https://github.com/dajva/rg.el)
      rg
+     ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
+     exec-path-from-shell
+     ;; elisp-format
+     elisp-format
      )
    '()
    ;; python

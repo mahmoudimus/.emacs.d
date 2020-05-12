@@ -45,7 +45,10 @@
 (global-set-key (kbd "s-;") 'comment-dwim)
 
 ;; helm complete the file name with a tab
+
+(require 'helm)
 (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+(define-key helm-map (kbd "\t") 'helm-execute-persistent-action)
 
 ;; (global-set-key (kbd "s-/") 'comment-region)
 ;; (global-set-key (kbd "s-?") 'uncomment-region)
