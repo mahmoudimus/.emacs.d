@@ -66,6 +66,8 @@
      exec-path-from-shell
      ;; elisp-format
      elisp-format
+     ;;
+     neotree
      )
    '()
    ;; python
