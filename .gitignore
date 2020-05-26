@@ -1,3 +1,4 @@
 .spacemacs.env
 ~\!
 *.el~
+.spacemacs.env.*
