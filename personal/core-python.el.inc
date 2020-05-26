@@ -34,13 +34,39 @@
 
 ;;; Code:
 
+;; Enable elpy
+(elpy-enable)
+
+;; Use IPython for REPL
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "--simple-prompt --no-banner --no-confirm-exit --colors=NoColor"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "ipython")
+
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;;;delayed hooks after python-mode
+(eval-after-load 'python-mode
+  '(progn
+     ;; (setup-ipython)
+     )
+  )
+
+(provide 'core-python)
+
+;; this is an old version of my python customizations.
+
 ;; set the python file path and add a few things to the load path.
 ;;
 ;; (setq python-mode-dir (concat spacemacs-vendor-dir "/python-mode"))
 ;; (setq python-files-dir (concat spacemacs-vendor-dir "/python"))
 
 ;; I use python mode from launchpad.net (the one by python.org)
-(require 'python-mode)
+;; (require 'python-mode)
 ;; (autoload 'python-mode "python-mode" "Python editing mode." t)
 ;; python's python-mode.el comes with a few extensions for it,
 ;; in its /extensions and /completion folders.
@@ -48,55 +74,55 @@
 ;; (add-to-list 'load-path (concat python-mode-dir "extensions"))
 ;; (add-to-list 'load-path (concat python-mode-dir "completion"))
 
-(setq py-install-directory python-mode-dir)
-(add-to-list 'load-path py-install-directory)
+;; (setq py-install-directory python-mode-dir)
+;; (add-to-list 'load-path py-install-directory)
 ;; python mode from launchpad.net (the one by python.org)
 
 ;; creating and displaying an index menu of functions and global
 ;; variables is a huge performance problem.
-(setq py-imenu-create-index-p nil)
+;; (setq py-imenu-create-index-p nil)
 ;; mode-alist should end .py or .wsgi
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.wsgi$" . python-mode) auto-mode-alist))
 ;; We never want to edit python bytecode
-(add-to-list 'completion-ignored-extensions ".pyc")
+;; (add-to-list 'completion-ignored-extensions ".pyc")
 
 ;; setup virtualenvwrapper.el
-(require 'virtualenvwrapper)
-(setq-default mode-line-misc-info
-              (cons '(:exec venv-current-name) mode-line-misc-info))
+;; (require 'virtualenvwrapper)
+;; (setq-default mode-line-misc-info
+;;               (cons '(:exec venv-current-name) mode-line-misc-info))
 ;; these vars in .dir-locals.el / file local variables are safe
-(put 'project-venv-name 'safe-local-variable #'stringp)
-(venv-initialize-interactive-shells)
-(venv-initialize-eshell)
+;; (put 'project-venv-name 'safe-local-variable #'stringp)
+;; (venv-initialize-interactive-shells)
+;; (venv-initialize-eshell)
 
 ;; use local default python with virtualenvwrapper
-(setq py-use-local-default t)
+;; (setq py-use-local-default t)
 
-(defun hook-py-venv-auto-workon ()
-  "A python-mode hook, such that when the venv is activated:
+;; (defun hook-py-venv-auto-workon ()
+;;   "A python-mode hook, such that when the venv is activated:
 
-- set the py-shell-local-path since we set the py-use-local-default
-- once in a new venv, make sure we install some necessary tools.
-"
-  (hack-local-variables)
-  (when (boundp 'project-venv-name)
-    (venv-workon project-venv-name)
-    (setq py-shell-local-path (concat venv-current-dir venv-executables-dir))
-    ;; for anaconda mode
-    (setq python-shell-virtualenv-path venv-current-dir)
-    (setq virtualenv-name project-venv-name)
-    ;; TODO: move this into a post activate hook and have it
-    ;; TODO: do the upgrades as well from the .dir-locals.el
-    (async-shell-command "pip install pylint flake8 nose pytest")
-    ))
-(add-hook 'python-mode-hook 'hook-py-venv-auto-workon)
+;; - set the py-shell-local-path since we set the py-use-local-default
+;; - once in a new venv, make sure we install some necessary tools.
+;; "
+;;   (hack-local-variables)
+;;   (when (boundp 'project-venv-name)
+;;     (venv-workon project-venv-name)
+;;     (setq py-shell-local-path (concat venv-current-dir venv-executables-dir))
+;;     ;; for anaconda mode
+;;     (setq python-shell-virtualenv-path venv-current-dir)
+;;     (setq virtualenv-name project-venv-name)
+;;     ;; TODO: move this into a post activate hook and have it
+;;     ;; TODO: do the upgrades as well from the .dir-locals.el
+;;     (async-shell-command "pip install pylint flake8 nose pytest")
+;;     ))
+;; (add-hook 'python-mode-hook 'hook-py-venv-auto-workon)
 
 ;;;flycheck stuff
-(when (not (boundp 'flycheck-mode))
-  (flycheck-mode))
+;; (when (not (boundp 'flycheck-mode))
+;;   (flycheck-mode))
 
-(setq flycheck-display-errors-delay 0.1)
+;; (setq flycheck-display-errors-delay 0.1)
 
 (defun setup-py-flycheck ()
   ;; flake8
@@ -223,16 +249,6 @@ local settings."
 ;;      ))
 
 ;; (require 'pymacs)
-
-;;;delayed hooks after python-mode
-(eval-after-load 'python-mode
-  '(progn
-     (setup-ipython)
-     )
-  )
-
-
-(provide 'core-python)
 
 ;; (add-hook 'python-mode-hook
 ;;       (lambda ()

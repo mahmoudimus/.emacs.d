@@ -43,6 +43,11 @@
     ad-do-it))
 (ad-activate 'flyspell-region)
 
+;; override the spacemacs-env-vars-file to have the hostname in it to avoid clashing
+;; as I sync my spacemacs-env-vars-file..
+(setq spacemacs-env-vars-file
+  (concat (concat (or dotspacemacs-directory user-home-directory) ".spacemacs.env.") (system-name))
+
 (provide 'preload-01)
 
 ;;; preload-01.el ends here

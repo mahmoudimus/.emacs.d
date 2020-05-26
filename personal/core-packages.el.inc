@@ -68,6 +68,8 @@
      elisp-format
      ;;
      neotree
+     ;; https://github.com/millejoh/emacs-ipython-notebook
+     ein
      )
    '()
    ;; python
