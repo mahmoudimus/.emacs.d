@@ -139,7 +139,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Operator Mono Lig"
+   dotspacemacs-default-font '("Operator Mono XLight"
                                :size 16
                                :weight normal
                                :width normal
@@ -380,13 +380,36 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "d7383f47263f7969baf3856ab8b3df649eb77eafdff0c5731bee2ad18e0faed2" "392395ee6e6844aec5a76ca4f5c820b97119ddc5290f4e0f58b38c9748181e8d" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-color "#f1c40f")
+ '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+ '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#3a81c3")
+     ("OKAY" . "#3a81c3")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#42ae2c")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(package-selected-packages
    (quote
-    (deadgrep swiper-helm elisp-format writeroom-mode visual-fill-column treemacs-projectile treemacs ht pfuture electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-mode company-go browse-kill-ring anzu ack-and-a-half ace-window)))
+    (subatomic256-theme ample-zen-theme ample-theme flatui-theme deadgrep swiper-helm elisp-format writeroom-mode visual-fill-column treemacs-projectile treemacs ht pfuture electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-mode company-go browse-kill-ring anzu ack-and-a-half ace-window)))
+ '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(safe-local-variable-values
    (quote
     ((encoding . utf-8)
@@ -396,13 +419,33 @@ This function is called at the very end of Spacemacs initialization."
      (nose-project-names . "ach")
      (nose-project-names . "balanced")
      (virtualenv-default-directory . "/Users/mahmoud/code/poundpay/python/balanced")
-     (virtualenv-workon . "balanced")))))
+     (virtualenv-workon . "balanced"))))
+ '(sml/active-background-color "#34495e")
+ '(sml/active-foreground-color "#ecf0f1")
+ '(sml/inactive-background-color "#dfe4ea")
+ '(sml/inactive-foreground-color "#34495e")
+ '(vc-annotate-background "#ecf0f1")
+ '(vc-annotate-color-map
+   (quote
+    ((30 . "#e74c3c")
+     (60 . "#c0392b")
+     (90 . "#e67e22")
+     (120 . "#d35400")
+     (150 . "#f1c40f")
+     (180 . "#d98c10")
+     (210 . "#2ecc71")
+     (240 . "#27ae60")
+     (270 . "#1abc9c")
+     (300 . "#16a085")
+     (330 . "#2492db")
+     (360 . "#0a74b9"))))
+ '(vc-annotate-very-old-color "#0a74b9"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(neo-dir-link-face ((t (:foreground "deep sky blue" :slant normal :weight normal :height 120 :font "PragmataPro Mono Liga"))))
- '(neo-file-link-face ((t (:foreground "white" :weight normal :height 120 :font "PragmataPro Mono Liga"))))
- '(neo-root-dir-face ((t (:foreground "light blue" :weight bold)))))
+ '(neo-dir-link-face ((t (:foreground "deep sky blue" :slant normal :weight normal :height 140 :font "IBM Plex Mono Medium"))))
+ '(neo-file-link-face ((t (:foreground "deep sky grey" :weight normal :height 140 :font "Menlo"))))
+ '(neo-root-dir-face ((t (:foreground "light blue" :height 140 :weight normal)))))
 )

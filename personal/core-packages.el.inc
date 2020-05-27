@@ -76,7 +76,12 @@
    '(python-environment
      jedi
      ;; https://github.com/porterjamesj/virtualenvwrapper.el
-     virtualenvwrapper)
+     virtualenvwrapper
+     ;; importmagic
+     importmagic
+     ;; pyvenv
+     ;; pyvenv
+     )
    )
   "A list of packages to ensure are installed at launch.")
 

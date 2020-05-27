@@ -44,6 +44,26 @@
 (add-to-list 'python-shell-completion-native-disabled-interpreters
              "ipython")
 
+;; silence the warnings, while letting emacs still guess the offset
+;; https://stackoverflow.com/a/51966682/133514
+(setq python-indent-guess-indent-offset t)
+(setq python-indent-guess-indent-offset-verbose nil)
+
+;; mode-alist should end .py or .wsgi
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.wsgi$" . python-mode) auto-mode-alist))
+;; We never want to edit python bytecode
+(add-to-list 'completion-ignored-extensions ".pyc")
+
+;; setup virtualenvwrapper.el
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
+;; (setq-default mode-line-misc-info
+;;               (cons '(:exec venv-current-name) mode-line-misc-info))
+;; these vars in .dir-locals.el / file local variables are safe
+;; (put 'project-venv-name 'safe-local-variable #'stringp)
+
 ;; Enable Flycheck
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
@@ -81,20 +101,6 @@
 ;; creating and displaying an index menu of functions and global
 ;; variables is a huge performance problem.
 ;; (setq py-imenu-create-index-p nil)
-;; mode-alist should end .py or .wsgi
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.wsgi$" . python-mode) auto-mode-alist))
-;; We never want to edit python bytecode
-;; (add-to-list 'completion-ignored-extensions ".pyc")
-
-;; setup virtualenvwrapper.el
-;; (require 'virtualenvwrapper)
-;; (setq-default mode-line-misc-info
-;;               (cons '(:exec venv-current-name) mode-line-misc-info))
-;; these vars in .dir-locals.el / file local variables are safe
-;; (put 'project-venv-name 'safe-local-variable #'stringp)
-;; (venv-initialize-interactive-shells)
-;; (venv-initialize-eshell)
 
 ;; use local default python with virtualenvwrapper
 ;; (setq py-use-local-default t)
@@ -145,7 +151,7 @@
   "Just setups up local-variables to call flycheck to respect project
 local settings."
   (add-hook 'hack-local-variables-hook #'setup-py-flycheck nil 'local))
-(add-hook 'python-mode-hook #'flycheck-python-setup)
+;;(add-hook 'python-mode-hook #'flycheck-python-setup)
 
 
 ;; Setup the emacs' python-environment [#]_

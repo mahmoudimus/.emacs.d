@@ -56,10 +56,10 @@
   :type git
   :url "https://github.com/raxod502/el-patch.git")
 
-;; python-mode
-(el-get-bundle python-mode
-  :type git
-  :url "https://gitlab.com/python-mode-devs/python-mode.git")
+;; ;; python-mode
+;; (el-get-bundle python-mode
+;;   :type git
+;;   :url "https://gitlab.com/python-mode-devs/python-mode.git")
 
 ;; (:name smex                          ;; a better (ido like) M-x
 ;;        :after (lambda ()

@@ -78,8 +78,13 @@
   ;; (set-face-font 'default "-*-M+ 2m-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; (set-face-font 'default "Terminus (TTF)-13")
-  (set-face-font 'mode-line "Operator Mono Lig 12")
-  (set-face-font 'mode-line-inactive "Operator Mono Lig 10")
+  (set-face-font 'default "Operator Mono XLight 16") ;; can be light as well instead of XLight
+  (set-face-font 'mode-line "Operator Mono Lig 14")
+  (set-face-attribute 'mode-line nil
+                      :family "Operator Mono Lig"
+                      :weight 'Bold
+                      :height 140)
+  (set-face-font 'mode-line-inactive "Operator Mono Lig 12")
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
 
   ;;(set-face-attribute 'default nil :height 130)
