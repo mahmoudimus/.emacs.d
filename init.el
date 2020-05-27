@@ -440,12 +440,4 @@ This function is called at the very end of Spacemacs initialization."
      (330 . "#2492db")
      (360 . "#0a74b9"))))
  '(vc-annotate-very-old-color "#0a74b9"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(neo-dir-link-face ((t (:foreground "deep sky blue" :slant normal :weight normal :height 140 :font "IBM Plex Mono Medium"))))
- '(neo-file-link-face ((t (:foreground "deep sky grey" :weight normal :height 140 :font "Menlo"))))
- '(neo-root-dir-face ((t (:foreground "light blue" :height 140 :weight normal)))))
 )

@@ -60,6 +60,7 @@
 ;; (load-theme 'zenburn t)
 ;; (load-theme 'tomorrow-night-bright t)
 ;; global hl mode
+(load-theme 'spacemacs-light)
 (global-hl-line-mode 1)
 
 ;; change regexp highlight face to something other than yellow

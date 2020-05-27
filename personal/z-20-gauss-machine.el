@@ -48,7 +48,7 @@
 
 ;; default font
 
-(when (and (not (is-in-terminal))
+    (when (and (not (is-in-terminal))
            (eq system-type 'darwin))
 
   ;; anti-aliasing for fonts.
@@ -107,24 +107,26 @@
    ;; '(cursor ((t (:background "gold" :foreground "#151718"))))
    ;; '(mode-line ((t (:background "black" :foreground "#4499FF"))))
    '(neo-dir-link-face ((t
-                         (:foreground "deep sky blue"
+                         (:foreground "blue"
                                       :slant normal
-                                      :weight normal
-                                      :height 140
-                                      ;;:font "SF Mono Medium"))))
-                                      :font "IBM Plex Mono Medium"))))
+                                      :weight light
+                                      :height 120
+                                      :font "SF Mono"))))
+                                      ;;:font "IBM Plex Mono Medium"))))
    '(neo-file-link-face ((t
                           (:foreground "deep sky grey"
-                                       :weight normal
-                                       :height 140
-                                       :font "Menlo"))))
+                                       :weight medium
+                                       :height 110
+                                       :font "Source Code Pro"))))
+                                       ;;:font "Menlo"))))
                                        ;;:font "Bront"))))
                                        ;;:font "PragmataPro Mono Liga"))))
                                        ;;:font "IBM Plex Mono ExtraLight"))))
    '(neo-root-dir-face ((t
-                         (:foreground "light blue"
-                                      :height 140
-                                      :weight normal)))))
+                         (:foreground "deep sky blue"
+                                      :weight medium
+                                      :height 120
+                                      :font "SF Mono")))))
                                       ;;:weight bold)))))
 
 )
