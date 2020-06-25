@@ -78,13 +78,19 @@
   ;; (set-face-font 'default "-*-M+ 2m-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
   ;; (set-face-font 'default "Helvetica Monospaced Pro-12")
   ;; (set-face-font 'default "Terminus (TTF)-13")
-  (set-face-font 'default "Operator Mono XLight 16") ;; can be light as well instead of XLight
-  (set-face-font 'mode-line "Operator Mono Lig 14")
+  ;; -OperatorMono Nerd Font-normal-normal-norma
+  ;; M-x describe-font
+  (set-face-font 'default "OperatorMono Nerd Font") ;; can be light as well instead of XLight
+  (set-face-attribute 'default nil
+                      :family "OperatorMono Nerd Font"
+                      :weight 'Light
+                      :height 160)
+  (set-face-font 'mode-line "OperatorMono Nerd Font 14")
   (set-face-attribute 'mode-line nil
-                      :family "Operator Mono Lig"
+                      :family "OperatorMono Nerd Font"
                       :weight 'Bold
                       :height 140)
-  (set-face-font 'mode-line-inactive "Operator Mono Lig 12")
+  (set-face-font 'mode-line-inactive "OperatorMono Nerd Font 12")
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
 
   ;;(set-face-attribute 'default nil :height 130)
@@ -114,7 +120,7 @@
                                       :font "SF Mono"))))
                                       ;;:font "IBM Plex Mono Medium"))))
    '(neo-file-link-face ((t
-                          (:foreground "deep sky grey"
+                          (:foreground "slate gray"
                                        :weight medium
                                        :height 110
                                        :font "Source Code Pro"))))

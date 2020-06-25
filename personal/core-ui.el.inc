@@ -59,8 +59,9 @@
 ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
 ;; (load-theme 'zenburn t)
 ;; (load-theme 'tomorrow-night-bright t)
+;; get rid of "Loading a theme can run Lisp code. Really load? (y or n) " message
+(load-theme 'spacemacs-light t)
 ;; global hl mode
-(load-theme 'spacemacs-light)
 (global-hl-line-mode 1)
 
 ;; change regexp highlight face to something other than yellow

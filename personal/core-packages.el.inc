@@ -70,6 +70,12 @@
      neotree
      ;; https://github.com/millejoh/emacs-ipython-notebook
      ein
+     ;; direnv
+     ;; https://github.com/wbolster/emacs-direnv
+     direnv
+     ;; use-package
+     ;; https://github.com/jwiegley/use-package
+     use-package
      )
    '()
    ;; python
@@ -80,7 +86,7 @@
      ;; importmagic
      importmagic
      ;; pyvenv
-     ;; pyvenv
+     pyvenv
      )
    )
   "A list of packages to ensure are installed at launch.")

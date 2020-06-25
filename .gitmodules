@@ -1,0 +1,3 @@
+[submodule "external/spacemacs-custom"]
+	path = external/spacemacs-custom
+	url = https://github.com/brandonwillard/spacemacs-custom.git

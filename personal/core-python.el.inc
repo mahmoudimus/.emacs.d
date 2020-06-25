@@ -33,6 +33,7 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(require 'use-config)
 
 ;; Enable elpy
 (elpy-enable)
@@ -76,7 +77,10 @@
      )
   )
 
-(provide 'core-python)
+;; (defvar config-python-lsp-frontend 'lsp-mode)
+;; (defvar config-python-lsp-backend 'ms-python)
+
+
 
 ;; this is an old version of my python customizations.
 
@@ -241,9 +245,9 @@ local settings."
 ;;               ))
 ;;   )
 
-;; (defun mahmoud-force-indent (&optional arg)
-;;     (interactive "P")
-;;     (insert-tab arg))
+(defun mahmoud-force-indent (&optional arg)
+    (interactive "P")
+    (insert-tab arg))
 
 ;; pymacs
 ;; (eval-after-load 'pymacs
@@ -256,13 +260,45 @@ local settings."
 
 ;; (require 'pymacs)
 
-;; (add-hook 'python-mode-hook
-;;       (lambda ()
-;;         (set-variable 'py-indent-offset 4)
-;;         (set-variable 'py-continuation-offset 0)
-;;         ;(set-variable 'py-smart-indentation nil)
-;;         (set-variable 'indent-tabs-mode nil)
-;;         (define-key py-mode-map (kbd "C-RET") 'newline-and-indent)
-;;         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
-;;         (auto-complete-mode t)
-;;       ))
+;; https://github.com/douglasdavis/ddavis.io/blob/master/content/posts/emacs-python-lsp.md#automated-helper-automated-helper
+
+(defun dd/py-workon-project-venv ()
+  "Call pyenv-workon with the current projectile project name.
+This will return the full path of the associated virtual
+environment found in $WORKON_HOME, or nil if the environment does
+not exist."
+  (let ((pname (projectile-project-name)))
+    (pyvenv-workon pname)
+    (if (file-directory-p pyvenv-virtual-env)
+        pyvenv-virtual-env
+      (pyvenv-deactivate))))
+
+(defun dd/py-auto-lsp ()
+  "Turn on lsp mode in a Python project with some automated logic.
+Try to automatically determine which pyenv virtual environment to
+activate based on the project name, using
+`dd/py-workon-project-venv'. If successful, call `lsp'. If we
+cannot determine the virtualenv automatically, first call the
+interactive `pyvenv-workon' function before `lsp'"
+  (interactive)
+  (let ((pvenv (dd/py-workon-project-venv)))
+    (if pvenv
+        (lsp)
+      (progn
+        (call-interactively #'pyvenv-workon)
+        (lsp)))))
+
+(bind-key (kbd "C-c C-a") #'dd/py-auto-lsp python-mode-map)
+
+(add-hook 'python-mode-hook
+      (lambda ()
+        (set-variable 'py-indent-offset 4)
+        (set-variable 'py-continuation-offset 0)
+        ;(set-variable 'py-smart-indentation nil)
+        (set-variable 'indent-tabs-mode nil)
+        (define-key py-mode-map (kbd "C-RET") 'newline-and-indent)
+        (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
+        (auto-complete-mode t)
+      ))
+
+(provide 'core-python)

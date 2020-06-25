@@ -28,35 +28,53 @@ values."
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
+
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ruby
-     html
-     javascript
-     go
-     yaml
+     ;; auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup nil
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     ;; # language server protocl
+     lsp
      better-defaults
+     org
+     version-control
+     docker
+     ;; # languages
+     ruby
+     html
+     javascript
+     go
+     yaml
      emacs-lisp
      git
      markdown
-     org
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
-     version-control
-     python
-     docker
+     syntax-checking
+     dap ;; new debugger for python layer
+     (python :variables
+             python-backend 'lsp
+             ;; python-tab-width 4
+             python-fill-column 99
+             python-formatter 'yapf
+             python-format-on-save t
+             python-sort-imports-on-save t
+             python-pipenv-activate t)
+     python-extras
      )
+
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -139,7 +157,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Operator Mono XLight"
+   dotspacemacs-default-font '("OperatorMono Nerd Font"
                                :size 16
                                :weight normal
                                :width normal
@@ -323,6 +341,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (when (file-exists-p spacemacs-personal-preload-dir)
     (message "Loading personal configuration files in %s..." spacemacs-personal-preload-dir)
     (mapc 'load (directory-files spacemacs-personal-preload-dir 't "^[^#\.].*el$")))
+
+  (add-to-list 'dotspacemacs-configuration-layer-path
+	       (concat (expand-file-name "layers" spacemacs-dir) "/"))
+       
   )
 
 (defun dotspacemacs/user-config ()
@@ -337,8 +359,7 @@ you should place your code here."
   (when (file-exists-p spacemacs-personal-dir)
     (message "Loading personal configuration files in %s..." spacemacs-personal-dir)
     (mapc 'load (directory-files spacemacs-personal-dir 't "^[^#\.].*el$")))
-
-  )
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -439,5 +460,4 @@ This function is called at the very end of Spacemacs initialization."
      (300 . "#16a085")
      (330 . "#2492db")
      (360 . "#0a74b9"))))
- '(vc-annotate-very-old-color "#0a74b9"))
-)
+ '(vc-annotate-very-old-color "#0a74b9")))
