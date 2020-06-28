@@ -35,6 +35,8 @@
 ;;; Code:
 
 (setq confirm-kill-emacs 'y-or-n-p)
+;; slowness :-(
+(setq gc-cons-threshold 100000000)
 
 (setq projectile-enable-caching t)
 ;; I want my copies in the system temp dir.

@@ -76,6 +76,9 @@
      ;; use-package
      ;; https://github.com/jwiegley/use-package
      use-package
+     ;; Emacs "pseudo-daemon" for Mac OS
+     ;; https://github.com/DarwinAwardWinner/mac-pseudo-daemon.git
+     mac-pseudo-daemon
      )
    '()
    ;; python

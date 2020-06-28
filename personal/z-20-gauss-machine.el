@@ -80,17 +80,22 @@
   ;; (set-face-font 'default "Terminus (TTF)-13")
   ;; -OperatorMono Nerd Font-normal-normal-norma
   ;; M-x describe-font
-  (set-face-font 'default "OperatorMono Nerd Font") ;; can be light as well instead of XLight
+  (setq m-font-face '"OperatorMono Nerd Font")
+  (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
   (set-face-attribute 'default nil
-                      :family "OperatorMono Nerd Font"
-                      :weight 'Light
-                      :height 160)
-  (set-face-font 'mode-line "OperatorMono Nerd Font 14")
+                      :family m-font-face
+                      :weight 'normal
+                      :height 150)
+  (set-face-font 'mode-line m-font-face)
   (set-face-attribute 'mode-line nil
-                      :family "OperatorMono Nerd Font"
-                      :weight 'Bold
+                      :family m-font-face
+                      :weight 'normal
                       :height 140)
-  (set-face-font 'mode-line-inactive "OperatorMono Nerd Font 12")
+  (set-face-font 'mode-line-inactive m-font-face)
+  (set-face-attribute 'mode-line-inactive nil
+                      :family m-font-face
+                      :weight 'Light
+                      :height 120)
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
 
   ;;(set-face-attribute 'default nil :height 130)
