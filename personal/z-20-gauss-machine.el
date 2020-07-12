@@ -14,7 +14,7 @@
 
 ;; Make the function key Alt
 (setq ns-function-modifier (quote alt))
-(setq mac-function-modifier 'alt)
+(setq mac-function-modifier 'alt) ;; \A (function = alt!)
 
 ;; for terminal use case use the function key as a super
 ;; mac switch meta key
@@ -25,16 +25,16 @@
 ;;       mac-option-modifier 'meta)
 
 ;; Map command-x,c,v to cut, copy, paste
-;; (global-set-key [?\A-x] 'clipboard-kill-region)
-;; (global-set-key [?\A-c] 'clipboard-kill-ring-save)
-;; (global-set-key [?\A-v] 'clipboard-yank)
+(global-set-key [?\A-x] 'clipboard-kill-region)
+(global-set-key [?\A-c] 'clipboard-kill-ring-save)
+(global-set-key [?\A-v] 'clipboard-yank)
 
 ;; More mac shortcuts.
-;; (global-set-key [?\A-a] 'mark-whole-buffer)
-;; (global-set-key [?\A-z] 'undo)
-;; (global-set-key [?\A-l] 'goto-line)
-;; (global-set-key [?\A-m] 'iconify-frame)
-;; (global-set-key [?\A-n] 'new-frame)
+(global-set-key [?\A-a] 'mark-whole-buffer)
+(global-set-key [?\A-z] 'undo)
+(global-set-key [?\A-l] 'goto-line)
+(global-set-key [?\A-m] 'iconify-frame)
+(global-set-key [?\A-n] 'new-frame)
 
 ;; The value is in 1/10pt, so 100 gives us 10pt
 ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
@@ -80,7 +80,10 @@
   ;; (set-face-font 'default "Terminus (TTF)-13")
   ;; -OperatorMono Nerd Font-normal-normal-norma
   ;; M-x describe-font
+  ;; (setq m-font-face '"CozetteVector")
+  (setq m-font-face '"Akkurat Mono")
   (setq m-font-face '"OperatorMono Nerd Font")
+
   (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
   (set-face-attribute 'default nil
                       :family m-font-face
@@ -90,12 +93,12 @@
   (set-face-attribute 'mode-line nil
                       :family m-font-face
                       :weight 'normal
-                      :height 140)
+                      :height 130)
   (set-face-font 'mode-line-inactive m-font-face)
   (set-face-attribute 'mode-line-inactive nil
                       :family m-font-face
                       :weight 'Light
-                      :height 120)
+                      :height 130)
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
 
   ;;(set-face-attribute 'default nil :height 130)

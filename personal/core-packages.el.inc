@@ -35,7 +35,6 @@
 ;;; Code:
 
 ;;; the melpa package is alredy added
-(require 'cl)
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
@@ -67,7 +66,9 @@
      ;; elisp-format
      elisp-format
      ;;
-     neotree
+     ;; neotree
+     ;; treemacs: https://github.com/Alexander-Miller/treemacs
+     treemacs
      ;; https://github.com/millejoh/emacs-ipython-notebook
      ein
      ;; direnv

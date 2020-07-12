@@ -117,7 +117,7 @@
 
 ;; helm settings
 (setq helm-candidate-number-limit 50)
-(setq helm-ff-candidate-number-limit 100)
+(setq helm-ff-candidate-number-limit 200)
 (setq helm-completion-style 'emacs)
 ;; uncomment for emacs 26.3
 ;; (setq completion-styles '(helm-flex))

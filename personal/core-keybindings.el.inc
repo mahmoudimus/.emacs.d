@@ -64,8 +64,58 @@
 ;; we're using emacs-mac, so we shoud use the tab window
 (mac-toggle-tab-bar)
 
+(setq mac-frame-tabbing nil)
+
+(defun mahmoudimus-mac-new-tab ()
+  "Create a new tab on mac"
+  (interactive)
+  (let ((mac-frame-tabbing t))
+    (make-frame-command)))
+
+(defun mahmoudimus-mac-kill-tab ()
+  "Kill a tab (Just an alias for delete-frame since a tab on
+mac is actually just a frame)"
+  (interactive)
+  (delete-frame))
+
 (global-set-key (kbd "s-}") 'mac-next-tab)
 (global-set-key (kbd "s-{") 'mac-previous-tab)
+
+(define-key
+  ;; create a new tab
+  (current-global-map)
+  (kbd "s-t")
+  'mahmoudimus-mac-new-tab)
+
+(define-key
+  ;; close current tab
+  (current-global-map)
+  (kbd "s-w")
+  'mahmoudimus-mac-kill-tab)
+
+(define-key
+  ;; save file
+  (current-global-map)
+  (kbd "s-s")
+  'save-buffer)
+
+(define-key
+  ;; copy
+  (current-global-map)
+  (kbd "s-c")
+  'evil-yank)
+
+(define-key
+  ;; paste
+  (current-global-map)
+  (kbd "s-v")
+  'evil-paste-after)
+
+(define-key
+  ;; new frame
+  (current-global-map)
+  (kbd "s-n")
+  'make-frame)
 
 ;; text keybindings
 

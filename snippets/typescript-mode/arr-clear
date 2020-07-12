@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: clearArray
+# key: arr-clear
+# --
+// https://stackoverflow.com/a/17306971/133514
+function clearArray<T>(array: T[]) {
+  while (array.length) {
+    array.pop();
+  }
+}

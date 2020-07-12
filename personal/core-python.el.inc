@@ -33,7 +33,6 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-(require 'use-config)
 
 ;; Enable elpy
 ;; (elpy-enable)
@@ -42,8 +41,7 @@
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt --no-banner --no-confirm-exit --colors=NoColor"
       python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters
-             "ipython")
+
 
 ;; silence the warnings, while letting emacs still guess the offset
 ;; https://stackoverflow.com/a/51966682/133514
@@ -70,12 +68,6 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-;;;delayed hooks after python-mode
-(eval-after-load 'python-mode
-  '(progn
-     ;; (setup-ipython)
-     )
-  )
 
 ;; (defvar config-python-lsp-frontend 'lsp-mode)
 ;; (defvar config-python-lsp-backend 'ms-python)
@@ -200,6 +192,8 @@ local settings."
    "';'.join(module_completion('''%s'''))\n"
    python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+  (add-to-list 'python-shell-completion-native-disabled-interpreters
+                "ipython")
   )
 
 ;; (defun core-setup-python-env ()
@@ -300,5 +294,12 @@ local settings."
 ;;         (local-set-key (kbd "<M-S-iso-lefttab>") 'mahmoud-force-indent)
 ;;         (auto-complete-mode t)
 ;;       ))
+
+;;;delayed hooks after python-mode
+(eval-after-load 'python-mode
+  '(progn
+     (setup-ipython)
+     )
+  )
 
 (provide 'core-python)

@@ -50,6 +50,18 @@
                       ".spacemacs.env.")
               (system-name)))
 
+;; Use `fundamental-mode' to reduce startup time
+(setq initial-major-mode 'lisp-interaction-mode)
+
+;; `lexical-binding' is on in *scratch* since 27.1
+(when (version< emacs-version "27.1")
+  (add-hook 'emacs-startup-hook
+            (defun mahmoudimus-enable-lexical-binding ()
+              (let ((buffer (get-buffer "*scratch*")))
+                (when buffer
+                  (with-current-buffer buffer
+                    (setq lexical-binding t)))))))
+
 (provide 'preload-01)
 
 ;;; preload-01.el ends here

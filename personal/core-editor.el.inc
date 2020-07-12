@@ -54,32 +54,34 @@
 (require 'browse-kill-ring)
 
 
-;; yasnippet
+;; snippets
+;;
 ;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bcompletion/auto-completion#snippets-directories
 ;; load all el files in the snippets directory, they're usually lisp
 ;; helpers that help with snippet expansions.
 (defvar core-custom-snippets-dir (expand-file-name "snippets" dotspacemacs-directory)
   "This folder houses my custom yasnippet bundles distributed with my emacs.el.")
 
+;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bcompletion/auto-completion#snippets-directories
+(setq auto-completion-private-snippets-directory core-custom-snippets-dir)
+
+;; use yasnippet
 (require 'yasnippet)
-;; (add-to-list 'yas-snippet-dirs core-custom-snippets-dir)
 ;; term-mode does not play well with yasnippet
 (add-hook 'term-mode-hook (lambda ()
                             (yas-minor-mode -1)))
 
 ;; Load the snippets
-
 (yas-global-mode 1)
 ;; (yas/global-mode t)
+;; (add-to-list 'yas-snippet-dirs core-custom-snippets-dir)
 ;; (mapc 'load (directory-files core-custom-snippets-dir t "^[^#].*el$"))
 ;; new version of yasnippet, loads directory
 ;; -- https://stackoverflow.com/questions/9698415/how-to-build-list-with-defvar-in-emacs
-(setq yas-snippet-dirs (append yas-snippet-dirs
-                               core-custom-snippets-dir))
-;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bcompletion/auto-completion#snippets-directories
-(setq auto-completion-private-snippets-directory core-custom-snippets-dir)
+(setq yas-snippet-dirs (cons core-custom-snippets-dir yas-snippet-dirs))
+(delq nil (delete-dups yas-snippet-dirs))
 
-
+;; duplicate line
 ;; code borrowed from http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)
   "comment line at point; if COMMENTFIRST is non-nil, comment the

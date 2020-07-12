@@ -1,3 +1,4 @@
+;; -*- mode: dotspacemacs -*-
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -71,8 +72,9 @@ values."
            dash-docs-docset-newpath (concat
                                      (expand-file-name "stores" spacemacs-personal-dir)
                                      "/"
-                                     "dash-docsets")
-           )
+                                     "dash-docsets"))
+     ;; only in spacemacs devel
+     treemacs
      ;; languages
      ruby
      html
@@ -83,7 +85,23 @@ values."
                  ;; either tslint (default) or eslint
                  typescript-linter 'tslint
                  typescript-fmt-on-save t)
-     go
+     (go :variables
+         ;; run gofmt before save
+         go-format-before-save t
+         gofmt-command "goimports"
+         ;; A more modern auto-complete is provided by gogetdoc, which
+         ;; is able to precisely detect all documentations in your go projects
+         ;; independently from where they have been added. This is also the
+         ;; recommended choice from go-mode.el.
+         godoc-at-point-function 'godoc-gogetdoc
+         ;; LSP backend
+         ;; ;; -> backend can be chosen per project directory local variables
+         ;; ;; -> e.g.: ((go-mode (go-backend . go-mode)))
+         ;; ;; -> Note: easily add a directory local variable with SPC f v d.
+         ;; go-backend 'lsp
+         ;; TODO: add linting?
+         ;; see: ${GITHUB_SPACEMACS_DEVELOP}/layers/%2Blang/go#linting
+         )
      yaml
      emacs-lisp
      git
@@ -100,8 +118,7 @@ values."
              python-fill-column 99
              python-formatter 'black
              python-format-on-save t
-             python-sort-imports-on-save t
-             )
+             python-sort-imports-on-save t)
      ;; do not enable -- slows down emacs when opening files
      ;; python-extras
      )
@@ -373,10 +390,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
     (message "Loading personal configuration files in %s..." spacemacs-personal-preload-dir)
     (mapc 'load (directory-files spacemacs-personal-preload-dir 't "^[^#\.].*el$")))
 
-  (add-to-list 'dotspacemacs-configuration-layer-path
-           (concat (expand-file-name "layers" spacemacs-dir) "/"))
-
-  )
+  ;; https://develop.spacemacs.org/doc/DOCUMENTATION.html#custom-variables
+  (setq custom-file
+        (concat
+         (expand-file-name "00-custom.el" spacemacs-personal-dir)))
+)
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -390,110 +408,15 @@ you should place your code here."
   (when (file-exists-p spacemacs-personal-dir)
     (message "Loading personal configuration files in %s..." spacemacs-personal-dir)
     (mapc 'load (directory-files spacemacs-personal-dir 't "^[^#\.].*el$")))
-)
+
+  (add-to-list 'dotspacemacs-configuration-layer-path
+               (concat (expand-file-name "layers" spacemacs-dir) "/")))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file shoulontain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   (quote
-    (electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-modecompany-go browse-kill-ring anzu ack-and-a-half ace-window)))
- '(safe-local-variable-values
-   (quote
-    ((encoding . utf-8)
-     (nose-project-names . "precog-client")
-     (nose-project-names . "justice")
-     (nose-project-names . "precog")
-     (nose-project-names . "ach")
-     (nose-project-names . "balanced")
-     (virtualenv-default-directory . "/Users/mahmoud/code/poundpay/python/balanced")
-     (virtualenv-workon . "balanced")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(custom-safe-themes
-   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "d7383f47263f7969baf3856ab8b3df649eb77eafdff0c5731bee2ad18e0faed2" "392395ee6e6844aec5a76ca4f5c820b97119ddc5290f4e0f58b38c9748181e8d" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))
- '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#f1c40f")
- '(hl-paren-background-colors '("#2492db" "#95a5a6" nil))
- '(hl-paren-colors '("#ecf0f1" "#ecf0f1" "#c0392b"))
- '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#3a81c3")
-     ("OKAY" . "#3a81c3")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#42ae2c")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
- '(package-selected-packages
-   '(subatomic256-theme ample-zen-theme ample-theme flatui-theme deadgrep swiper-helm elisp-format writeroom-mode visual-fill-column treemacs-projectile treemacs ht pfuture electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-mode company-go browse-kill-ring anzu ack-and-a-half ace-window))
- '(pdf-view-midnight-colors '("#655370" . "#fbf8ef"))
- '(safe-local-variable-values
-   '((pyvenv-workon . "i2gl")
-     (encoding . utf-8)
-     (nose-project-names . "precog-client")
-     (nose-project-names . "justice")
-     (nose-project-names . "precog")
-     (nose-project-names . "ach")
-     (nose-project-names . "balanced")
-     (virtualenv-default-directory . "/Users/mahmoud/code/poundpay/python/balanced")
-     (virtualenv-workon . "balanced")))
- '(sml/active-background-color "#34495e")
- '(sml/active-foreground-color "#ecf0f1")
- '(sml/inactive-background-color "#dfe4ea")
- '(sml/inactive-foreground-color "#34495e")
- '(vc-annotate-background "#ecf0f1")
- '(vc-annotate-color-map
-   '((30 . "#e74c3c")
-     (60 . "#c0392b")
-     (90 . "#e67e22")
-     (120 . "#d35400")
-     (150 . "#f1c40f")
-     (180 . "#d98c10")
-     (210 . "#2ecc71")
-     (240 . "#27ae60")
-     (270 . "#1abc9c")
-     (300 . "#16a085")
-     (330 . "#2492db")
-     (360 . "#0a74b9")))
- '(vc-annotate-very-old-color "#0a74b9"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(neo-dir-link-face ((t (:foreground "blue" :slant normal :weight light :height 120 :font "SF Mono"))))
- '(neo-file-link-face ((t (:foreground "slate gray" :weight medium :height 110 :font "Source Code Pro"))))
- '(neo-root-dir-face ((t (:foreground "deep sky blue" :weight medium :height 120 :font "SF Mono")))))
 )
