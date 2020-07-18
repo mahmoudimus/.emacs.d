@@ -1,4 +1,4 @@
-;;; -*- mode: emacs-lisp -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
 ;;; core-modeline.el
 ;;
 ;; Copyright (c) 2014 -- Mahmoud Abdelkader

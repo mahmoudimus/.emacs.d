@@ -1,4 +1,4 @@
-;;; -*- mode: emacs-lisp -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
 ;;; preload-01.el
 ;;
 ;; Copyright (c) 2014 -- Mahmoud Abdelkader

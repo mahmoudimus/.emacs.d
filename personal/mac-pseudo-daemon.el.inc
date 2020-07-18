@@ -1,4 +1,4 @@
-;;; -*- mode: emacs-lisp -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
 ;;; mac-pseudo-daemon.el --- Daemon mode that plays nice with Mac OS.
 
 ;; Author: Ryan C. Thompson

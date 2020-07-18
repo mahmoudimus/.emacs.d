@@ -1,4 +1,4 @@
-;;; -*- mode: emacs-lisp -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
 ;;; core-programming.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
