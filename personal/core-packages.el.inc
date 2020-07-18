@@ -82,6 +82,11 @@
      mac-pseudo-daemon
      )
    '()
+   ;; helm
+   '(helm-ag)
+   ;; company-mode
+   '(company-fuzzy)
+   '()
    ;; python
    '(python-environment
      jedi

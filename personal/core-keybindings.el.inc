@@ -160,8 +160,8 @@ mac is actually just a frame)"
 
 (global-set-key (kbd "C-c f")   'set-fill-column)
 
-(global-set-key (kbd "C-x f") 'helm-find-files)
-(global-set-key (kbd "C-x C-f") 'helm-recentf)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x f") 'helm-recentf)
 (global-set-key (kbd "C-x s-f") 'helm-projectile-find-file)
 
 ;; https://github.com/emacs-helm/helm/wiki/Fuzzy-matching

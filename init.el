@@ -47,16 +47,44 @@ values."
      ;; ----------------------------------------------------------------
      helm
      (lsp :variables      ;; language server protocol
-          ;; lsp-print-io t
+          ;; https://emacs-lsp.github.io/lsp-mode/page/settings/
           lsp-auto-execute-action nil
-          lsp-auto-guess-root t
-          ;; lsp-client-packages '(ccls lsp-clients)
+          ;; lsp-auto-guess-root t
+
+          ;; no real time syntax check
           lsp-diagnostics-package 'flycheck
+
           lsp-enable-file-watchers nil
-          lsp-semantic-highlighting 'immediate
+          ;; lsp-client-packages '(ccls lsp-clients)
+
+          ;; use `evil-matchit' instead
+          ;; lsp-enable-folding nil
+
+          ;; handle yasnippet by myself
+          lsp-enable-snippet nil
+          ;; use `company-ctags' only.
+          ;; Please note `company-lsp' is automatically enabled if installed
+          ;; lsp-enable-completion-at-point t
+
+          ;; turn off for better performance
+          lsp-enable-symbol-highlighting nil
+
+          ;; use ffip instead
+          lsp-enable-links nil
+
           lsp-idle-delay 0.500
+
+          ;; lsp-print-io t
+          ;; enable log only for debug
+          lsp-log-io nil
           lsp-navigation 'peek
+
           lsp-remap-xref-keybindings t
+          ;; auto restart lsp
+          lsp-restart 'auto-restart
+
+          lsp-semantic-highlighting 'immediate
+
           lsp-ui-peek-fontify 'always
           lsp-ui-peek-always-show t
           lsp-ui-doc-position 'top)
@@ -340,7 +368,7 @@ values."
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically addd closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
@@ -353,7 +381,7 @@ values."
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)

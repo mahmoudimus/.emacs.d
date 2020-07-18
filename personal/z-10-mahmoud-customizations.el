@@ -13,6 +13,7 @@
 (mahmoud-load-customization "core-el-get.el.inc")
 ;;(mahmoud-load-customization "config-path.el.inc")
 ;;(mahmoud-load-customization "use-config.el.inc")
+(mahmoud-load-customization "core-lsp.el.inc")
 
 ;; editor & ui
 (mahmoud-load-customization "core-editor.el.inc")

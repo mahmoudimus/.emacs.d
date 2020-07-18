@@ -28,7 +28,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-modecompany-go browse-kill-ring anzu ack-and-a-half ace-window))
+   '(company-fuzzy electric-operator avy company dash epl go-eldoc go-mode helm ido-completing-read+ projectile scss-mode php-mode zop-to-char zenburn-theme yari yaml-mode web-mode volatile-highlights vkill virtualenvwrapper undo-tree smex smartrep smartparens smart-mode-line slime ruby-tools rainbow-mode rainbow-delimiters ov operate-on-number move-text markdown-mode magit json-mode js2-mode jedi inf-ruby ido-ubiquitous helm-projectile helm-descbinds helm-ag guru-mode grizzl gotest god-mode go-projectile gitignore-mode gitconfig-mode git-timemachine gist flycheck flx-ido expand-region exec-path-from-shell escreen elisp-slime-nav easy-kill dockerfile-mode docker-tramp discover-my-major diminish diff-hl csv-modecompany-go browse-kill-ring anzu ack-and-a-half ace-window))
  '(pdf-view-midnight-colors '("#655370" . "#fbf8ef"))
  '(safe-local-variable-values
    '((encoding . utf-8)

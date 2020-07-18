@@ -48,7 +48,7 @@
 
 ;; default font
 
-    (when (and (not (is-in-terminal))
+(when (and (not (is-in-terminal))
            (eq system-type 'darwin))
 
   ;; anti-aliasing for fonts.
@@ -100,6 +100,10 @@
                       :weight 'Light
                       :height 130)
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
+  ;; Use dark theme for title bar. This works only on Emacs 26.1 and above.
+  (when (not (version< emacs-version "26.1"))
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist '(ns-appearance . dark)))
 
   ;;(set-face-attribute 'default nil :height 130)
   (setq line-spacing nil)

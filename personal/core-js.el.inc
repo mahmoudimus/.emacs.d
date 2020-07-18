@@ -39,4 +39,13 @@
 
 (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
 
+;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
+;; Require clients could be slow.
+;; I only load `lsp-clients' because it includes the js client which I'm interested
+;; (setq lsp-client-packages '(lsp-clients))
+
+;; don't scan 3rd party javascript libraries
+;; (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
+
+
 (provide 'core-js)

@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; core-connectivity.el
 ;;
 ;; Copyright (c) 2015 -- Mahmoud Abdelkader

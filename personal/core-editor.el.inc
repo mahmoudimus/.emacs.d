@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp -*-
 ;;; core-editor.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader
@@ -46,13 +46,79 @@
 ;; (setq flymake-run-in-place nil)
 
 
-(require 'electric-operator)
+use
+(use-package 'electric-operator)
 
 ;; ------------------------------------
 ;; require browse-kill-ring
 ;; ------------------------------------
 (require 'browse-kill-ring)
 
+;; company-mode
+;;(global-company-fuzzy-mode 1)
+;;(setq company-fuzzy-sorting-backend 'alphabetic)
+;;
+(setq company-fuzzy-show-annotation t)
+
+;; helm
+
+;; https://github.com/Havner/emacs-config/blob/0cb1a1f41d4c9b06b752cda0cbcbf8706cd8504b/config.org
+(defun mahmoudimus/kill-buffers-helm ()
+  (interactive)
+  (let ((buffers (buffer-list)))
+    (while buffers
+      (let* ((buffer (car buffers))
+             (bname (buffer-name buffer)))
+        (if (and (string-prefix-p "*helm" bname t)
+                 (not (string-equal bname helm-last-buffer)))
+            (kill-buffer buffer)))
+      (setq buffers (cdr buffers)))))
+
+;; look more here:
+;; -- https://github.com/PythonNut/quark-emacs/blob/5c181c465eb6046c1d30e7b9a8626da77abcfe2d/modules/config-helm.el
+;; helm settings
+(use-package helm
+  :config
+
+  (helm-flx-mode +1)
+  ;; (helm-flx-historian-mode +1)
+
+  (set-face-attribute 'helm-selection nil :underline nil)
+
+  ;; (setq helm-always-two-windows t)
+  ;; (setq helm-split-window-default-side 'right)
+  ;; (setq helm-split-window-inside-p t)
+  ;; (setq helm-display-buffer-default-height 0.3)
+
+  ;; for the eshell-pcomplete and other using with-helm-show-completion
+  ;; (setq helm-show-completion-display-function #'helm-show-completion-default-display-function)
+  ;; (setq helm-show-completion-min-window-height 15)
+
+  (setq helm-bookmark-show-location t)
+  (setq helm-buffer-max-length 30)
+  (setq helm-candidate-number-limit 100)
+  ;; (setq helm-completion-style 'emacs)
+  (setq helm-echo-input-in-header-line t)
+  (setq helm-ff-candidate-number-limit 100)
+  (setq helm-ff-search-library-in-sexp t)
+  (setq helm-findutils-search-full-path t)
+  (setq helm-locate-fuzzy-match t)
+  (if (eq system-type 'darwin)
+      (setq helm-locate-command "/usr/local/bin/glocate %s -e -A --regex %s"
+            helm-locate-recursive-dirs-command "/usr/local/bin/glocate -i -e -A --regex '^%s' '%s.*$'"))
+
+  (setq helm-ag-insert-at-point 'symbol)
+
+  (add-hook 'helm-quit-hook #'mahmoudimus/kill-buffers-helm)
+
+  (setq helm-case-fold-search 'smart
+        helm-candidate-separator (make-string 20 ?─)
+        helm-inherit-input-method nil))
+
+;; uncomment for emacs 26.3
+;; (setq completion-styles '(helm-flex))
+;; for emacs 27+
+(setq completion-styles '(flex))
 
 ;; snippets
 ;;
@@ -168,6 +234,40 @@ original" (interactive)
   (setq deactivate-mark nil)
 )
 
+;; join paragraphs
+
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun mahmoudimus/unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
+
+(defun mahmoudimus/toggle-fill-paragraph ()
+  ;; Based on http://xahlee.org/emacs/modernization_fill-paragraph.html
+  "Fill or unfill the current paragraph, depending upon the current line length.
+When there is a text selection, act on the region.
+See `fill-paragraph' and `fill-region'."
+  (interactive)
+  ;; We set a property 'currently-filled-p on this command's symbol
+  ;; (i.e. on 'toggle-fill-paragraph), thus avoiding the need to
+  ;; create a variable for remembering the current fill state.
+  (save-excursion
+    (let* ((deactivate-mark nil)
+           (line-length (- (line-end-position) (line-beginning-position)))
+           (currently-filled (if (eq last-command this-command)
+                                 (get this-command 'currently-filled-p)
+                               (< line-length fill-column)))
+           (fill-column (if currently-filled
+                            most-positive-fixnum
+                          fill-column)))
+      (if (region-active-p)
+          (fill-region (region-beginning) (region-end))
+        (fill-paragraph))
+      (put this-command 'currently-filled-p (not currently-filled)))))
 
 (provide 'core-editor)
 

@@ -98,4 +98,68 @@
 ;;  '(("gopls.completeUnimported" t t)
 ;;    ("gopls.staticcheck" t t)))
 
+(defun go-run-tests (args)
+  (save-selected-window
+    (async-shell-command (concat "go test -v " args))))
+
+(defun go-run-package-tests ()
+  (interactive)
+  (go-run-tests ""))
+
+(defun go-run-package-tests-nested ()
+  (interactive)
+  (go-run-tests "./..."))
+
+(defun go-run-main ()
+  (interactive)
+  ;; (save-buffer)
+  (save-selected-window
+    (async-shell-command
+     (format "go run %s"
+             (shell-quote-argument (buffer-file-name))))))
+
+(defun go-rerun ()
+  (interactive)
+  (compile compile-command))
+
+;; "go build -v -o ~/.go-out; and go test -v; and go vet; and ~/.go-out"))
+(defun go-build ()
+  (interactive)
+  (compile (concat "go build " (buffer-file-name))))
+
+(defun go-test ()
+  (interactive)
+  (compile (concat "go test -v" (buffer-file-name))))
+
+(defun go-run ()
+  (interactive)
+  (compile (concat "go run " (buffer-file-name))))
+
+(defun mahmoudimus/go-mode-hook ()
+  (message "go-mode-hook")
+  ;; Use goimports instead of go-fmt
+  ;; (setq gofmt-command "goimports")
+  ;; ;; Call Gofmt before saving
+  ;; (add-hook 'before-save-hook 'gofmt-before-save)
+
+  (setq compilation-read-command nil)
+  (cond ((fboundp 'spacemacs/go-run-main)
+         (local-set-key (kbd "C-c C-r") 'spacemacs/go-run-main))
+        (t (local-set-key (kbd "C-c C-r") 'go-run-main)))
+
+  (local-set-key (kbd "s-i s-i") 'go-rerun)
+  (local-set-key (kbd "s-i C-f") 'go-run)
+  (local-set-key (kbd "s-i C-t") 'go-test)
+  (local-set-key (kbd "s-i C-b") 'go-build))
+
+(add-hook 'go-mode-hook 'mahmoudimus/go-mode-hook)
+(add-hook 'go-mode-hook 'mahmoudimus/lsp-connect)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 (provide 'core-golang)
