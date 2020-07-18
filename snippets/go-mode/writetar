@@ -1,0 +1,27 @@
+# -*- mode: snippet -*-
+# name: Write content to tar file
+# key: writetar
+# --
+${1:byte_buffer bytes.Buffer} := new(bytes.Buffer) // Optionally replace this if necessary
+${2:tar_writer tar.Writer} := tar.NewWriter($1)
+var ${3:files} = []struct {
+	Name, Body string
+}{
+	{${4:name, body string}},
+}
+for _, ${5:curFile} := range $3 {
+	${6:header tar.Header} := &tar.Header{
+		Name: file.Name,
+		Mode: ${7: permissions 0xxx},
+		Size: int64(len($6.Body)),
+	}
+	if ${7:err} := $2.WriteHeader($6); $7 != nil {
+
+	}
+	if _, $7 = $2.Write([]byte($5.Body)); $7 != nil {
+
+	}
+}
+if ${8:err} := $2.Close(); $8 != nil {
+	${9:do something, panic, log, return, handle}
+}$0 // Remember to reset the buffer (and discard it) unless replaced

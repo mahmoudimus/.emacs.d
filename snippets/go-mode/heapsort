@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# name: heap sort
+# key: heapsort
+# --
+type ${1:heap} []${2:data_type}
+
+func (h $1) Len() $2           { return len(h) }
+func (h $1) Less(i, j $2) bool { return ${3:h[i], possible type conversion} < ${3:h[j], possible type conversion of } }
+func (h $1) Swap(i, j $2)      { h[i], h[j] = h[j], h[i] }
+
+func (h *$1) Push(x interface{}) {
+    // Push and Pop use pointer receivers because they modify the slice's length,
+    // not just its contents.
+    *h = append(*h, x.($2))
+}
+
+func (h *$1) Pop() interface{} {
+    old := *h
+    n := len(old)
+    x := old[n-1]
+    *h = old[0 : n-1]
+    return x
+}
+
+// This example inserts several ints into an IntHeap, checks the minimum,
+// and removes them in order of priority.
+/* func Example_intHeap() {
+    h := &IntHeap{2, 1, 5}
+    heap.Init(h)
+    heap.Push(h, 3)
+    fmt.Printf("minimum: %d\n", (*h)[0])
+    for h.Len() > 0 {
+        fmt.Printf("%d ", heap.Pop(h))
+    }
+    // Output:
+    // minimum: 1
+    // 1 2 3 5
+} */$0

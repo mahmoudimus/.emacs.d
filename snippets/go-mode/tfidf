@@ -1,0 +1,46 @@
+# -*- mode: snippet -*-
+# name: tfidf calculation
+# key: tfidf
+# --
+/* testCorpus := []string{
+    "The quick brown fox jumped over the lazy dog",
+    "hey diddle diddle, the cat and the fiddle",
+    "the cow jumped over the moon",
+    "the little dog laughed to see such fun",
+    "and the dish ran away with the spoon",
+} */
+
+${1:query} := ${2:string}
+
+${3:vectoriser nlp.CountVectoriser} := nlp.NewCountVectoriser(${4:removeStopwords bool})
+${5:transformer nlp.TfidfTransformer} := nlp.NewTfidfTransformer()
+
+// set k (the number of dimensions following truncation) to 4
+${6:reducer *nlp.TruncatedSVD} := nlp.NewTruncatedSVD(${7:k int})
+
+// Transform the corpus into an LSI fitting the model to the documents in the process
+${8:mat mat64.Matrix}, _ := $3.FitTransform({9:testCorpus... string})
+$8, _ = $5.FitTransform($8)
+${9:lsi mat64.Matrix}, _ := $6.FitTransform($8)
+
+// run the query through the same pipeline that was fitted to the corpus and
+// to project it into the same dimensional space
+$8, _ = $3.Transform($1)
+$8, _ = transformer.Transform($8)
+${10:queryVector mat64.Matrix}, _ := $6.Transform($8)
+
+// iterate over document feature vectors (columns) in the LSI and compare with the
+// query vector for similarity.  Similarity is determined by the difference between
+// the angles of the vectors known as the cosine similarity
+${11:highestSimilarity} := -1.0
+var ${12:matched} int
+_, ${13:docs (c int)} := $9.Dims()
+for ${14:i} := 0; $14 < docs; $14++ {
+    ${15:similarity float64} := nlp.CosineSimilarity($10.(*mat64.Dense).ColView(0), $9.(*mat64.Dense).ColView(i))
+    if $15 > $11 {
+        $12 = i
+        $11 = $15
+    }
+}
+
+// fmt.Printf("Matched '%s'", testCorpus[matched])

@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: func main()
+# key: listsnippet
+# --
+// Create a new list and put some numbers in it.
+${1:list name} := list.New()
+${2:list.Element} := l.PushBack(${3:interface type})
+${4:list.Element} := l.PushFront(${5:interace type})
+l.InsertBefore(${6:offset interace type}, ${7:list.Element})
+l.InsertAfter(${6:offset interace type}, ${9:list.Element})
+
+// Iterate through list and print its contents.
+/* for e := l.Front(); e != nil; e = e.Next() {
+    fmt.Println(e.Value)
+} */

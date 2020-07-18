@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: list files from dir
+# key: readdir
+# --
+var ${1:files} []string
+${2:osFileInfo}, ${3:err} := ioutil.ReadDir(${4:directory})
+if $3 != nil {
+	${5:do something, panic, log, return, handle)
+}
+for _, ${6:file} := range $2 {
+	if !$6.IsDir() {
+		$1 = append($1, $6.Name())
+	}
+}$0

@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qq
+# key: qq
+# binding: direct-keybinding
+# --
+q.Q(${1:...}) // DEBUG

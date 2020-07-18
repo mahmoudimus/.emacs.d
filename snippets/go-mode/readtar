@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: Read tar file content
+# key: readtar
+# --
+${1:byte_buffer} := bytes.NewReader(${2:bytes from a reader})
+${3:tar_reader} := tar.NewReader($1)
+for {
+	${4:tar_header}, ${5:err} := $3.Next()
+	if $5 == nil {
+		if $5.Error() == "io.EOF" {
+			break
+		} else {
+			${6:do something, panic, log, return, handle}
+		}
+	}
+	// fmt.Printf("Contents of %s:\n", hdr.Name)
+	if _, $5 = io.Copy(os.Stdout, $3); $5 != nil {
+		${7:do something, panic, log, return, handle}
+	}
+	// fmt.Println()
+}$0

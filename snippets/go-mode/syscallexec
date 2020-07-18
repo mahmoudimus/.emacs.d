@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: execute binary
+# key: syscallexec
+# --
+// import os, os.exec and syscall
+${1:binary string} ${2:err} := exec.LookPath(${3:binary name string})
+if $2 != nil {
+	${4:do something, panic, log, return, handle}
+}
+${5:args []string} := []string{${6:args string...}}
+${7:env []string} := os.Environ()
+$2 = syscall.Exec($1, $4, $5)
+if $2 != nil {
+	${8:do something, panic, log, return, handle}
+}$0

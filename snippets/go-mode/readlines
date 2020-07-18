@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: Read os.File line by line
+# key: readlines
+# --
+${1:osFile}, ${2:err} := os.Open(${3:file})
+if $2 != nil {
+	${4:do something, panic, log, return, handle}
+}
+${5:bufioReader bufio.Reader} := bufio.NewReader($1)
+for {
+	${6:line []byte}, _, $2 := $4.ReadLine()
+	if $2 != nil {
+		if $2.Error() == "io.EOF" {
+			break
+		} else {
+			${7:do something, panic, log, return, handle}
+		}
+	}
+}
+if $2 = $1.Close(); $2 != nil {
+	${8:do something, panic, log, return, handle}
+}$0

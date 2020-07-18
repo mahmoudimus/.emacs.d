@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Read snappy content
+# key: readsnappy
+# --
+${1:snappy reader} := snappy.NewReader(${2:io.Reader, buffer})
+${3:n int}, ${4:err} := $1.Read(${5:data []byte})
+if $4 != nil {
+	${6:do something, panic, log, return, handle}
+}$0

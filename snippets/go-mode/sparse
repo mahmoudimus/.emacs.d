@@ -1,0 +1,44 @@
+# -*- mode: snippet -*-
+# name: sparse data
+# key: sparse
+# --
+// Construct a new DOK (Dictionary Of Keys) matrix
+${1:dokMatrix sparse.DOK} := sparse.NewDOK(${2:r, c int})
+
+// Populate it with some non-zero values
+$1.Set(${3:i int}, ${4:j int}, ${5:v float64})
+$1.Set(${6:i int}, ${7:j int}, ${8:v float64})
+
+// Demonstrate accessing values (could use mat.Formatted() to
+// pretty print but this demonstrates element access)
+${9:r int}, ${10:c int} := $1.Dims()
+for ${11: i} := 0; $11 < $9; $11++ {
+    for ${12:j} := 0; $12 < $10; $12++ {
+        fmt.Printf("%.0f", $1.At(i, j))
+        if $12j < $10-1 {
+            fmt.Printf(" ")
+        }
+    }
+    fmt.Printf("\n")
+}
+
+// Convert DOK matrix to mat.Dense just for fun
+// (not required for upcoming multiplication operation)
+${13:denseMatrix := $1.ToDense()
+
+// Confirm the two matrices in different formats are equal
+// Using the mat.Equal function
+if !mat.Equal($1, $13) {
+    fmt.Println("DOK and converted Dense are not equal")
+}
+
+// Create a random 2x3 CSR (Compressed Sparse Row) matrix with
+// density of 0.5 (half the elements will be non-zero)
+// ${14:csrMatrix} := sparse.Random(sparse.CSRFormat, ${15:r int}, ${16: c int}, ${17:density float32})
+
+// Create a new CSR (Compressed Sparse Row) matrix
+// ${18:csrProduct sparse.CSR} := &sparse.CSR{}
+
+// Multiply the 2 matrices together and store the result in the
+// receiver
+// $18.Mul(csrMatrix, denseMatrix)$0

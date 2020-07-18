@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Write snappy content
+# key: writesnappy
+# --
+${1:snappy writer} := snappy.NewWriter(${2:buffer input})
+${3:n int}, ${4:err} := $1.Write(${5:data []byte})
+if $4 != nil {
+	${6:do something, panic, return, handle}
+}$0

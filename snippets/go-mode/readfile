@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: read os.File
+# key: readfile
+# --
+${1:osFile}, ${2:err} := os.Open(${3:file})
+if $2 != nil {
+	${4:do something, panic, log, return, handle}
+}
+${5:content []byte}, $2 := ioutil.ReadFile($1.Name())
+if $2 = $1.Close(); $2 != nil {
+	${6:do something, panic, log, return, handle}
+}$0

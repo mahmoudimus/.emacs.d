@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: snowball stem
+# key: stem
+# --
+${1:stemmed string}, ${2:err error.Error} := snowball.Stem(${3:word string}, ${4:language string}, ${5:stemStopWords bool})
+if $2 != nil {
+	${3:do something, panic, log, return, handle}
+}$0

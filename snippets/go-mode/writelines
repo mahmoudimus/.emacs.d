@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: write to os.File line by line
+# key: writelines
+# --
+ ${1:osFile}, ${2:err} := os.Open(${3:file})
+if $2 != nil {
+	${4:do something, panic, return, handle}
+}
+for _, line := range ${5:data []string} {
+	_, $2 = $1.WriteString(line)
+	if $2 != nil {
+		${6:do something, panic, return, handle}
+	}
+}$0

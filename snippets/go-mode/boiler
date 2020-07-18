@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: boiler
+# key: boiler
+# binding: direct-keybinding
+# --
+package ${1:main}
+
+$2
+
+func ${3:main}($4) $5{
+    $0
+}

@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+# name: Append data to tar file
+# key: appendtar
+# --
+// Apend an entry to a tar archive
+${1:tar_file}, ${2:err} := os.OpenFile(${3:tar_file}, os.O_APPEND|os.O_WRONLY, 0644)
+if $2 != nil {
+    ${4:do something, panic, log, return, handle})
+}
+${5:tarWriter tar.Writer} := tar.NewWriter($1)
+${6:files struct} := []struct {
+    Name, Body string
+}{
+    {${7:name, body string}},
+}
+${8:tar_header} := &tar.Header{
+    Name: ${9:tar_file_name},
+    Mode: ${10: 0xxx permissions}
+    Size: int64(len(${11:length int})),
+}
+if $2 = $5.WriteHeader($9); $2 != nil {
+    ${12:do something, panic, return, handle}
+}
+if _, $2 = $5.Write([]byte($7)); $2 != nil {
+    ${13:do something, panic, log, return, handle}
+}
+if $2 = $5.Close(); $2 != nil {
+    ${14:do something, panic, log, return, handle}
+}
+if $2 = $1.Close(); $2 != nil {
+    ${15:do something, panic, log, return, handle}
+}
+if $2 = $4.Close(); $2 != nil {
+    ${16:do something, panic, log, return, handle}
+}$0

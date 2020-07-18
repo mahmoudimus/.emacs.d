@@ -1,0 +1,7 @@
+# -*- mode:snippet -*-
+# name: brill pos tag
+# key: brillpostag
+# --
+${1:stripped string} := fasttag.StripControlCharacters(${2:s string})
+${3:words []string} := fasttag.WordsToSlice(${4:s string})
+${5:postags []string} := fasttag.BrillTagger($3)$0

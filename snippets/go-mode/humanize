@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: humanize
+# key: humanize
+# binding: direct-keybinding
+# --
+func humanize() {
+	import ("golang.org/x/text/language"
+	        "golang.org/x/text/message")
+	p := message.NewPrinter(language.Make("en"))
+	p.Printf("%d: %d\n", i, result)
+}

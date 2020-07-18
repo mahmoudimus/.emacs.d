@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: gen2brain/go-unarr decompress entry
+# key: unarrentry
+# --
+// Ready a rar/tar/zip/7zip for reading
+${1: archive unarr.Archive}, ${2:err} := unarr.NewArchive(${3:file string})
+if $2 != nil {
+	${4:do something, panic, return, handle}
+}
+
+// Read known filename from archive
+$2 = $1.EntryFor(${5:archive entry/name string)})
+if $2 != nil {
+	${6:do something, panic, return, handle}
+}
+${7:data []byte}, $2 := $1.ReadAll()
+if $2 != nil {
+	${8:do something, panic, return, handle}
+}
+$1.Close()$0

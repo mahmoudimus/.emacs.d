@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: reverse words
+# key: reversewords
+# --
+for ${1:count}, ${2:current char} := range ${3:str string} {
+	${4:token []string} := strings.Fields($2) // tokenize
+	// reverse
+	${5:last} := len($4) - 1
+	for ${6:count}, ${7:current $4 token} := range $4[:len($4)/2] {
+		$4[$6], $4[$5-$6] = $4[$5-$6], $7
+	}
+	$3[$1] = strings.Join($4, " ")
+}
+// Optionally display result
+/* for _, t := range n {
+	fmt.Println(t)
+} */

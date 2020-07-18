@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: write os.File
+# key: writebytestofile
+# --
+${1:osFile}, ${2:err} := os.Create(${3:file})
+if $2 != nil {
+	${4:do something, panic, return, handle}
+}
+_, $2 = $1.Write(${5:data []byte})
+if $2 = $1.Close(); $2 != nil {
+	${6:do something, panic, return, handle}
+}$0

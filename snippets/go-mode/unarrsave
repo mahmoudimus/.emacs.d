@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: gen2brain/go-unarr decompress
+# key: unarrsave
+# --
+// Ready a RAR/TAR/ZIP/7ZIP for reading
+${1: archive unarr.Archive}, ${2:err} := unarr.NewArchive(${3:file string})
+if $2 != nil {
+	${4:do something, panic, return, handle}
+}
+
+// Extract contents of archive to destination path
+$2 = $1.Extract(${5:path string})
+if $2 != nil {
+	${6:do something, panic, return, handle}
+}$0
