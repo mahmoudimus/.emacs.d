@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp -*-
 ;;; patch-anaconda-mode.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader

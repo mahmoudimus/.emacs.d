@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp -*-
 ;;; core-ui.el
 ;;
 ;; Copyright (c) 2011 -- Mahmoud Abdelkader

@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp -*-
 ;;; mac-pseudo-daemon.el --- Daemon mode that plays nice with Mac OS.
 
 ;; Author: Ryan C. Thompson

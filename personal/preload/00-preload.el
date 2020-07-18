@@ -1,4 +1,4 @@
-;;; -*- mode: lisp -*-
+;;; -*- mode: emacs-lisp -*-
 ;;; preload-01.el
 ;;
 ;; Copyright (c) 2014 -- Mahmoud Abdelkader
