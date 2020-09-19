@@ -46,8 +46,21 @@
 ;; (setq flymake-run-in-place nil)
 
 
-use
-(use-package 'electric-operator)
+
+(use-package electric-operator
+  :delight
+  :config
+  ;; (add-hook 'python-mode-hook 'electric-operator-mode)
+  ;; (apply #'electric-operator-add-rules-for-mode 'python-mode
+  ;;   (electric-operator-add-rules-for-mode 'python-mode
+  ;;                                         (cons "<-" " <- ")
+  ;;                                         (cons "->" " -> ")
+  ;;                                         (cons "=>" " => ")
+  ;;                                         (cons "/*" " /* ")
+  ;;                                         (cons "//" " // ")
+  ;;                                         (cons "<<" " << ")
+  ;;                                         ))
+  )
 
 ;; ------------------------------------
 ;; require browse-kill-ring
@@ -218,8 +231,7 @@ original" (interactive)
     (setq bds (bounds-of-thing-at-point 'line))
     (setq start (car bds) end (cdr bds))))
   (python-indent-shift-left start end))
-  (setq deactivate-mark nil)
-)
+  (setq deactivate-mark nil))
 
 (defun balle-python-shift-right ()
   (interactive)
@@ -231,8 +243,7 @@ original" (interactive)
     (setq bds (bounds-of-thing-at-point 'line))
     (setq start (car bds) end (cdr bds))))
   (python-indent-shift-right start end))
-  (setq deactivate-mark nil)
-)
+  (setq deactivate-mark nil))
 
 ;; join paragraphs
 
@@ -268,6 +279,16 @@ See `fill-paragraph' and `fill-region'."
           (fill-region (region-beginning) (region-end))
         (fill-paragraph))
       (put this-command 'currently-filled-p (not currently-filled)))))
+
+;;; Open the current file with vscode
+(defun open-by-vscode ()
+  (interactive)
+  (shell-command (format "code-insiders -r -g %s:%d:%d" (buffer-file-name)
+                         (line-number-at-pos)
+                         (current-column))))
+
+(define-key global-map (kbd "C-c C-v" )  'open-by-vscode)
+
 
 (provide 'core-editor)
 

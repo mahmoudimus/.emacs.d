@@ -188,7 +188,6 @@ mac is actually just a frame)"
 (global-set-key (kbd "s-f") 'forward-word)
 (global-set-key (kbd "s-b") 'backward-word)
 
-
 ;; No tabs damnit.
 (setq-default indent-tabs-mode nil)
 

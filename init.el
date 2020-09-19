@@ -32,7 +32,7 @@ values."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(csv
      ;; auto-completion
      (auto-completion :variables
                       auto-completion-complete-with-key-sequence nil
@@ -107,6 +107,7 @@ values."
      ruby
      html
      javascript
+     groovy
      (typescript :variables
                  ;; either tide (default), prettier, typescript-formatter
                  typescript-fmt-tool 'tide

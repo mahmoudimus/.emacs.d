@@ -1,20 +1,89 @@
-;;; package --- Summary
-;; This is my MacBook Pro 17"
+;;; z-20-gauss-machine.el --- description -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
+;;
+;; Settings for macbook pro (codename: gauss)
+;;
 
 ;;; Code:
+;;; package --- Summary
 
-;; Make command Super
-(setq ns-command-modifier (quote super))
-(setq mac-command-modifier 'super)
-;; Make option Meta
-(setq ns-alternate-modifier (quote meta))
-(setq mac-option-modifier 'meta)
+;; setup key bindings to allow for both super and hyper to have useful
+;; bindings. also paper over the differences between the defaults in
+;; the stock and railway cats distributions.
+(when (eq system-type 'darwin)
+  ;; mac osx, use ns-* settings to distiguish between the flavors of emacs available.
+  ;; L-Command -> Super
+  ;; L-Option -> Meta
+  ;; R-Option -> Hyper
+  ;; Fn -> Alt  ;; \A (function = alt!)
+  ;; https://emacs.stackexchange.com/a/40533/2082
+  ;; (defvaralias 'mac-allow-anti-aliasing 'ns-antialias-text)
+  ;; (defvaralias 'mac-command-modifier 'ns-command-modifier)
+  ;; (defvaralias 'mac-right-command-modifier 'ns-right-command-modifier)
+  ;; (defvaralias 'mac-control-modifier 'ns-control-modifier)
+  ;; (defvaralias 'mac-right-control-modifier 'ns-right-control-modifier)
+  ;; (defvaralias 'mac-option-modifier 'ns-option-modifier)
+  ;; (defvaralias 'mac-right-option-modifier 'ns-right-option-modifier)
+  ;; (defvaralias 'mac-function-modifier 'ns-function-modifier)
+  ;; (defvaralias 'ns-option-modifier 'ns-alternate-modifier)
+  ;; (defvaralias 'ns-right-option-modifier 'ns-right-alternate-modifier)
 
-;; Make the function key Alt
-(setq ns-function-modifier (quote alt))
-(setq mac-function-modifier 'alt) ;; \A (function = alt!)
+  ;; on Mac OS X, use Option keys as Meta and file polling for auto-revert
+  (setq auto-revert-use-notify nil ;; OS X does not support file notifications
+        mac-option-modifier 'meta ;; use Option key as Meta
+        mac-right-option-modifier 'none ;; right Option uses left's mapping
+        mac-right-command-modifier 'hyper
+        mac-function-modifier 'alt
+        mac-command-modifier 'super)) ;; keep Super key as is
+
+(when (eq window-system 'ns)
+  (setq mac-option-modifier 'meta ;; use Option key as Meta
+        mac-right-option-modifier 'none ; right Option uses left's mapping
+        mac-command-modifier 'super
+        ns-option-modifier 'meta
+        ns-right-command-modifier 'hyper
+        ns-right-option-modifier 'none  ; Keep right option for accented input
+        ns-function-modifier 'alt
+        ns-command-modifier 'super)) ;; keep Super key as is
+
+;; revert Command keys in Emacs Mac Port to match Emacs for Mac OS X bindings
+(when (eq window-system 'mac)
+  (setq mac-option-modifier 'meta
+        mac-right-option-modifier 'none
+        mac-right-command-modifier 'hyper
+        mac-function-modifier 'alt
+        mac-command-modifier 'super)
+
+  (if (boundp 'ns-use-native-fullscreen)
+      (progn
+        (setq ns-use-native-fullscreen t)))
+
+  (global-set-key (kbd "s-'") 'next-multiframe-window)
+  (global-set-key (kbd "s-,") 'customize)
+  (global-set-key (kbd "s-`") 'other-frame)
+  (global-set-key (kbd "s-a") 'mark-whole-buffer)
+  (global-set-key (kbd "s-c") 'kill-ring-save) ;; ns-copy-including-secondary
+  (global-set-key (kbd "s-d") 'isearch-repeat-backward)
+  (global-set-key (kbd "s-f") 'isearch-forward)
+  (global-set-key (kbd "s-g") 'isearch-repeat-forward)
+  (global-set-key (kbd "s-h") 'ns-do-hide-emacs) ;; done by default
+  (global-set-key (kbd "s-j") 'exchange-point-and-mark)
+  (global-set-key (kbd "s-k") 'kill-this-buffer)
+  (global-set-key (kbd "s-l") 'goto-line)
+  (global-set-key (kbd "s-m") 'iconify-frame)
+  (global-set-key (kbd "s-n") 'make-frame)
+  ;; (global-set-key (kbd "s-o") 'ns-open-file-using-panel) ;; no equivalent
+  ;; (global-set-key (kbd "s-p") 'ns-print-buffer) ;; no equivalent
+  (global-set-key (kbd "s-q") 'save-buffers-kill-emacs)
+  (global-set-key (kbd "s-s") 'save-buffer)
+  (global-set-key (kbd "s-u") 'revert-buffer)
+  (global-set-key (kbd "s-v") 'yank)
+  (global-set-key (kbd "s-w") 'delete-frame)
+  (global-set-key (kbd "s-x") 'kill-region)
+  (global-set-key (kbd "s-y") 'yank) ;; ns-paste-secondary
+  (global-set-key (kbd "s-z") 'undo))
+
 
 ;; for terminal use case use the function key as a super
 ;; mac switch meta key
@@ -35,7 +104,6 @@
 (global-set-key [?\A-l] 'goto-line)
 (global-set-key [?\A-m] 'iconify-frame)
 (global-set-key [?\A-n] 'new-frame)
-
 ;; The value is in 1/10pt, so 100 gives us 10pt
 ;; see: http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
 ;; Pretty / larger font
