@@ -47,6 +47,7 @@
         ns-function-modifier 'alt
         ns-command-modifier 'super)) ;; keep Super key as is
 
+
 ;; revert Command keys in Emacs Mac Port to match Emacs for Mac OS X bindings
 (when (eq window-system 'mac)
   (setq mac-option-modifier 'meta
