@@ -46,8 +46,21 @@
 ;; (setq flymake-run-in-place nil)
 
 
-use
-(use-package 'electric-operator)
+
+(use-package electric-operator
+  :delight
+  :config
+  ;; (add-hook 'python-mode-hook 'electric-operator-mode)
+  ;; (apply #'electric-operator-add-rules-for-mode 'python-mode
+  ;;   (electric-operator-add-rules-for-mode 'python-mode
+  ;;                                         (cons "<-" " <- ")
+  ;;                                         (cons "->" " -> ")
+  ;;                                         (cons "=>" " => ")
+  ;;                                         (cons "/*" " /* ")
+  ;;                                         (cons "//" " // ")
+  ;;                                         (cons "<<" " << ")
+  ;;                                         ))
+  )
 
 ;; ------------------------------------
 ;; require browse-kill-ring
@@ -218,8 +231,7 @@ original" (interactive)
     (setq bds (bounds-of-thing-at-point 'line))
     (setq start (car bds) end (cdr bds))))
   (python-indent-shift-left start end))
-  (setq deactivate-mark nil)
-)
+  (setq deactivate-mark nil))
 
 (defun balle-python-shift-right ()
   (interactive)
@@ -231,8 +243,7 @@ original" (interactive)
     (setq bds (bounds-of-thing-at-point 'line))
     (setq start (car bds) end (cdr bds))))
   (python-indent-shift-right start end))
-  (setq deactivate-mark nil)
-)
+  (setq deactivate-mark nil))
 
 ;; join paragraphs
 
@@ -268,6 +279,50 @@ See `fill-paragraph' and `fill-region'."
           (fill-region (region-beginning) (region-end))
         (fill-paragraph))
       (put this-command 'currently-filled-p (not currently-filled)))))
+
+;;; Open the current file with vscode
+(defun open-by-vscode ()
+  (interactive)
+  (shell-command (format "code-insiders -r -g %s:%d:%d" (buffer-file-name)
+                         (line-number-at-pos)
+                         (current-column))))
+
+(define-key global-map (kbd "C-c C-v" )  'open-by-vscode)
+
+;; Display all the monospace fonts available to Emacs in a dedicated buffer
+
+(defun font-is-mono-p (font-family)
+  ;; with-selected-window
+  (let ((wind (selected-window))
+        m-width l-width)
+   (with-current-buffer "*Monospace Fonts*"
+     (set-window-buffer (selected-window) (current-buffer))
+     (text-scale-set 2)
+     (insert (propertize "l l l l l" 'face `((:family ,font-family))))
+     (goto-char (line-end-position))
+     (setq l-width (car (posn-x-y (posn-at-point))))
+     (newline)
+     (forward-line)
+     (insert (propertize "m m m m m" 'face `((:family ,font-family) italic)))
+     (goto-char (line-end-position))
+     (setq m-width (car (posn-x-y (posn-at-point))))
+     (eq l-width m-width))))
+
+(defun compare-monospace-fonts ()
+  "Display a list of all monospace font faces."
+  (interactive)
+  (pop-to-buffer "*Monospace Fonts*")
+
+  (erase-buffer)
+  (dolist (font-family (font-family-list))
+    (when (font-is-mono-p font-family)
+      (let ((str font-family))
+        (newline)
+        (insert
+         (propertize (concat "The quick brown fox jumps over the lazy dog 1 l; 0 O o ("
+                             font-family ")\n") 'face `((:family ,font-family)))
+         (propertize (concat "The quick brown fox jumps over the lazy dog 1 l; 0 O o ("
+                             font-family ")\n") 'face `((:family ,font-family) italic)))))))
 
 (provide 'core-editor)
 

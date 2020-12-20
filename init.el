@@ -32,7 +32,7 @@ values."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(csv
      ;; auto-completion
      (auto-completion :variables
                       auto-completion-complete-with-key-sequence nil
@@ -81,12 +81,13 @@ values."
 
           lsp-remap-xref-keybindings t
           ;; auto restart lsp
-          lsp-restart 'auto-restart
+          ;; lsp-restart 'auto-restart
+          lsp-restart 'ignore
 
-          lsp-semantic-highlighting 'immediate
+          ;;lsp-semantic-highlighting 'immediate
 
-          lsp-ui-peek-fontify 'always
-          lsp-ui-peek-always-show t
+          ;;lsp-ui-peek-fontify 'always
+          ;;lsp-ui-peek-always-show t
           lsp-ui-doc-position 'top)
      better-defaults
      org
@@ -107,6 +108,7 @@ values."
      ruby
      html
      javascript
+     groovy
      (typescript :variables
                  ;; either tide (default), prettier, typescript-formatter
                  typescript-fmt-tool 'tide
@@ -141,7 +143,7 @@ values."
      syntax-checking
      dap ;; new debugger for python layer
      (python :variables
-             python-backend 'lsp
+             ;;python-backend 'lsp
              python-tab-width 4
              python-fill-column 99
              python-formatter 'black
@@ -204,7 +206,7 @@ values."
    ;; (default 'vim)
    dotspacemacs-editing-style 'emacs
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -233,7 +235,12 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("OperatorMono Nerd Font"
+   dotspacemacs-default-font '("Rec Mono Linear"
+                               :size 13
+                               :weight normal
+                               :width: normal
+                               :powerline-scale 1.0
+                               "OperatorMono Nerd Font"
                                :size 16
                                :weight normal
                                :width normal

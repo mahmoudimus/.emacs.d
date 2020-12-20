@@ -34,8 +34,11 @@
 
 ;;; Code:
 
-(require 's)
-(require 'dash)
+(use-package s
+  :ensure t)
+
+(use-package dash
+  :ensure t)
 
 (defcustom docker-command "docker"
   "The command for \\[docker] package."

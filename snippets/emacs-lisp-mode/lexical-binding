@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: lexical-binding
+# key: lb
+# expand-env: ((yas-indent-line 'fixed))
+# --
+;;; -*- mode: emacs-lisp; lexical-binding: t; -*-
+$0

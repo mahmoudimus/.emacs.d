@@ -65,7 +65,8 @@
      exec-path-from-shell
      ;; elisp-format
      elisp-format
-     ;;
+     ;; emacs regex
+     pcre2el
      ;; neotree
      ;; treemacs: https://github.com/Alexander-Miller/treemacs
      treemacs

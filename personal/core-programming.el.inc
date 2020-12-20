@@ -117,20 +117,26 @@
     (let ((current (point)))
       (goto-char (point-max))
       (delete-blank-lines)
-      (goto-char current)
-      ))
-  )
+      (goto-char current))))
 
 ;; if using prelude
 (setq prelude-clean-whitespace-on-save nil)
+
+
+;;; DASH
+(if (eq system-type 'darwin)
+    (use-package dash-at-point
+      :ensure t
+      :bind (([?\A-d] . dash-at-point)
+             ([?\A-e] . 'dash-at-point-with-docset))
+      :init (autoload 'dash-at-point "dash-at-point" t nil)))
 
 (defun core-prog-mode-hook ()
   "Default coding hook, useful with any programming language."
   ;; (flyspell-prog-mode)
   ;; keep the whitespace decent all the time
   (add-hook 'before-save-hook 'remove-tabs-trspaces-empltylines)
-  (setq column-number-mode t)
-  )
+  (setq column-number-mode t))
 
 ;; in Emacs 24 programming major modes generally derive
 ;; from a common mode named prog-mode

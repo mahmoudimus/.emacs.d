@@ -62,6 +62,18 @@
                   (with-current-buffer buffer
                     (setq lexical-binding t)))))))
 
+
+;; (let ((gls "/usr/local/bin/gls"))
+;;   (if (file-exists-p gls)
+;;       (setq insert-directory-program gls)))
+
+(when (executable-find "gls")
+  ;; Use GNU ls as 'gls' from 'coreutils' if available.
+  (setq insert-directory-program "gls"))
+
+;; (when (file-exists-p "/usr/local/bin/gls")
+;;   (setq insert-directory-program "/usr/local/bin/gls"))
+
 (provide 'preload-01)
 
 ;;; preload-01.el ends here
