@@ -168,7 +168,7 @@
   (setq m-font-face '"OperatorMono Nerd Font")
   (setq m-font-face '"NanumGothicCoding")
   (setq m-font-face '"JetBrainsMono Nerd Font")
-  (setq m-font-face '"Rec Mono Linear")
+  ;; (setq m-font-face '"RecMono Linear")
 
   (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
   (set-face-attribute 'default nil

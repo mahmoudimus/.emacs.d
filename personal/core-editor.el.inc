@@ -283,7 +283,7 @@ See `fill-paragraph' and `fill-region'."
 ;;; Open the current file with vscode
 (defun open-by-vscode ()
   (interactive)
-  (shell-command (format "code-insiders -r -g %s:%d:%d" (buffer-file-name)
+  (shell-command (format "codex -r -g %s:%d:%d" (buffer-file-name)
                          (line-number-at-pos)
                          (current-column))))
 
@@ -323,6 +323,15 @@ See `fill-paragraph' and `fill-region'."
                              font-family ")\n") 'face `((:family ,font-family)))
          (propertize (concat "The quick brown fox jumps over the lazy dog 1 l; 0 O o ("
                              font-family ")\n") 'face `((:family ,font-family) italic)))))))
+
+
+(defun concat-lines ()
+  (interactive)
+  (save-excursion
+    ;; move about and modify the buffer
+    (next-line)
+    (join-line)
+    (delete-horizontal-space)))
 
 (provide 'core-editor)
 

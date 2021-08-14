@@ -135,6 +135,7 @@ mac is actually just a frame)"
 ;; yes i know..inverse of vi but i'm so used to it.
 (global-set-key (kbd "C-o") 'evil-open-above)
 (global-set-key (kbd "C-S-o") 'evil-open-below)
+(global-set-key (kbd "M-j") 'concat-lines)
 
 ;; browse-kill-ring
 (browse-kill-ring-default-keybindings)
