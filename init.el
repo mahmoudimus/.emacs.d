@@ -32,7 +32,8 @@ values."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(csv
+   '(rust
+     csv
      ;; auto-completion
      (auto-completion :variables
                       auto-completion-complete-with-key-sequence nil
@@ -63,8 +64,10 @@ values."
           ;; handle yasnippet by myself
           lsp-enable-snippet nil
           ;; use `company-ctags' only.
-          ;; Please note `company-lsp' is automatically enabled if installed
-          ;; lsp-enable-completion-at-point t
+          ;; lsp-completion-enable t
+          ;; this is deprecated I think? lsp-enable-completion-at-point t
+          ;; see https://emacs-lsp.github.io/lsp-mode/page/settings/completion/
+
 
           ;; turn off for better performance
           lsp-enable-symbol-highlighting nil
