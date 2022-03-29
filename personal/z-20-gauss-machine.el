@@ -229,12 +229,12 @@
 
   ;; Nerd
   (setq m-font-face-nerd '"TamzenForPowerline")
-  (setq m-font-face-nerd '"Envoy Code R for Powerline")
   (setq m-font-face-nerd '"TerminessTTF Nerd Font")
   (setq m-font-face-nerd '"MonoLisa Nerd Font Mono")
   (setq m-font-face-nerd '"BlexMono Nerd Font Mono")
   (setq m-font-face-nerd '"JetBrainsMono Nerd Font Mono")
   (setq m-font-face-nerd '"CaskaydiaCove Nerd Font Mono")
+  (setq m-font-face-nerd '"Envy Code R for Powerline")
 
   ;; serif-mono
   (setq m-font-face-serif-mono '"Courier New") ;; does not diff between O and 0
