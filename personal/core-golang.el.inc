@@ -83,11 +83,6 @@
 (use-package flycheck
   :ensure t)
 
-;; if you use company-mode for completion (otherwise, complete-at-point works out of the box):
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
 ;; Optional - provides snippet support.
 (use-package yasnippet
   :ensure t

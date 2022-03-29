@@ -120,8 +120,7 @@
 (when (and (not (is-in-terminal))
            (eq system-type 'darwin))
 
-  ;; anti-aliasing for fonts.
-  (setq ns-antialias-text t)
+
   ;; font setting
   ;;(create-fontset-from-ascii-font "M+ 1mn:pixelsize=14:weight=normal:slant=normal:spacing=m" nil "mplus1mn")
   ;;(set-fontset-font "fontset-mplus1mn" 'unicode
@@ -150,39 +149,149 @@
   ;; -OperatorMono Nerd Font-normal-normal-norma
   ;; M-x describe-font
   ;; (setq m-font-face '"CozetteVector")
+  ;; (setq m-font-face '"Operator SSm")
   (text-scale-set 0)
-  (setq m-font-face '"Akkurat Mono")
-  (setq m-font-face '"Operator SSm")
-  (setq m-font-face '"Overpass Mono")
-  (setq m-font-face '"CaskaydiaCove Nerd Font Mono")
-  (setq m-font-face '"VT323")
-  (setq m-font-face '"Unifont")
-  (setq m-font-face '"Dank Mono")
-  (setq m-font-face '"Dm Mono")
+
+  ;; (setq m-font-face '"Unifont")
+  ;; (setq m-font-face '"Relative") ;; does not do what you think it does!
+
+  ;; anti-aliasing for fonts.
+  (setq ns-antialias-text t)
+
+  ;; if you set anti-aliasing, remember that bitmap fonts won't look good
+  ;; bitmap fonts!
+  (setq m-font-face-bitmap '"Unifont") ;; or Unifont-JP
+  (setq m-font-face-bitmap '"VT323")
+  (setq m-font-face-bitmap '"Fixedsys Excelsior")
+  (setq m-font-face-bitmap '"FixedSCDZ")
+  (setq m-font-face-bitmap '"fixed-7x14")
+  (setq m-font-face-bitmap '"fixed-9x15")
+  (setq m-font-face-bitmap '"SMILEBASIC")
+  (setq m-font-face-bitmap '"SMILEBASIC_B")
+  (setq m-font-face-bitmap '"Spleen 8x16")
+  (setq m-font-face-bitmap '"Spleen 12x24")
+  (setq m-font-face-bitmap '"Spleen 16x32")
+  (setq m-font-face-bitmap '"Spleen 32x64")
+  (setq m-font-face-bitmap '"Aux Mono")
+  (setq m-font-face-bitmap '"Envoy Code B 10pt")
+  (setq m-font-face-bitmap '"IBM 3270")
+  (setq m-font-face-bitmap '"IBM 3270 Condensed")
+  (setq m-font-face-bitmap '"IBM 3270 Semi-Condensed")
+  (setq m-font-face-bitmap '"DSE Typewriter Bitmap")
+  (setq m-font-face-bitmap '"fn0t")
+  (setq m-font-face-bitmap '"Mx437 Cordata PPC-400") ;; no smart quotes
+  (setq m-font-face-bitmap '"MxPlus ToshibaSat 8x14")
+  (setq m-font-face-bitmap '"MxPlus ToshibaSat 8x16")
+  (setq m-font-face-bitmap '"MxPlus ToshibaSat 9x14")
+  (setq m-font-face-bitmap '"MxPlus ToshibaSat 9x16")
+  (setq m-font-face-bitmap '"MxPlus ToshibaTxL1 8x16") ;; bold
+  (setq m-font-face-bitmap '"MxPlus ToshibaTxL2 8x16") ;; regular
+  (setq m-font-face-bitmap '"Sweet16")
+  (setq m-font-face-bitmap '"Tamzen")
+  (setq m-font-face-bitmap '"Terminus (TTF)")
+  (setq m-font-face-bitmap '"CodingFontTobi")
+
+
+  (setq m-font-face '"Consola Mono")
   (setq m-font-face '"Fira Code")
   (setq m-font-face '"Lekton")
   (setq m-font-face '"Luculent")
   (setq m-font-face '"Fantasque Sans Mono")
   (setq m-font-face '"Space Mono")
-  (setq m-font-face '"Cousine")
-  (setq m-font-face '"OperatorMono Nerd Font")
-  (setq m-font-face '"NanumGothicCoding")
-  (setq m-font-face '"JetBrainsMono Nerd Font")
-  ;; (setq m-font-face '"RecMono Linear")
+  (setq m-font-face '"Lilex")
+
+  ;;menlo
+
+
+  ;; trusty
+  (setq m-font-face '"Overpass Mono")
+  (setq m-font-face '"Consolas ligaturized v3 Regular")
+  (setq m-font-face '"PT Mono")
+  (setq m-font-face '"Input Mono")
+  (setq m-font-face '"Iosevka")
+  (setq m-font-face '"Rec Mono Linear")
+  (setq m-font-face '"Bmono")
+  (setq m-font-face '"Maison Neue Mono")
+  (setq m-font-face '"Panic Sans")
+  (setq m-font-face '"Pitch Sans")
+
+
+  ;; thin
+  (setq m-font-face-thin '"Anonymous Pro")
+  (setq m-font-face-thin '"Share Tech Mono")
+  (setq m-font-face-thin '"Pragmata Pro Mono")
+  (setq m-font-face-thin '"Input Mono Compressed") ;; thinnest
+  (setq m-font-face-thin '"Input Mono Condensed")
+  (setq m-font-face-thin '"Input Mono Narrow")
+  (setq m-font-face-thin '"mplus 1m Nerd Font")
+  (setq m-font-face-thin '"NanumGothicCoding")
+  (setq m-font-face-thin '"Sudo Variable")
+
+  ;; Nerd
+  (setq m-font-face-nerd '"TamzenForPowerline")
+  (setq m-font-face-nerd '"Envoy Code R for Powerline")
+  (setq m-font-face-nerd '"TerminessTTF Nerd Font")
+  (setq m-font-face-nerd '"MonoLisa Nerd Font Mono")
+  (setq m-font-face-nerd '"BlexMono Nerd Font Mono")
+  (setq m-font-face-nerd '"JetBrainsMono Nerd Font Mono")
+  (setq m-font-face-nerd '"CaskaydiaCove Nerd Font Mono")
+
+  ;; serif-mono
+  (setq m-font-face-serif-mono '"Courier New") ;; does not diff between O and 0
+  (setq m-font-face-serif-mono '"Courier Prime") ;; does not diff between O and 0
+  (setq m-font-face-serif-mono '"Go Mono")
+  (setq m-font-face-serif-mono '"Verify Serif Mono")
+  (setq m-font-face-serif-mono '"Courier Prime Code")
+  (setq m-font-face-serif-mono '"DSE Typewriter AH")
+  (setq m-font-face-serif-mono '"DSE Typewriter LH")
+  (setq m-font-face-serif-mono '"DSE Typewriter NH")
+  (setq m-font-face-serif-mono '"Triplicate T4c")
+  (setq m-font-face-serif-mono '"Pitch")
+  (setq m-font-face-serif-mono '"Terminal Land Mono")
+
+  ;; Fun
+  (setq m-font-face '"Code New Roman")
+  (setq m-font-face '"MonacoB")
+  (setq m-font-face '"Azeret Mono")
+  (setq m-font-face '"Söhne Mono")
+  (setq m-font-face '"Gintronic")
+  (setq m-font-face '"Spot Mono")
+  (setq m-font-face '"Gopher Mono")
+  (setq m-font-face '"B612 Mono") ;; B612 with slashed 0!
+  (setq m-font-face '"Besixdouze Code") ;; B612 with slashed 0!
+  (setq m-font-face '"Calling Code")
+  (setq m-font-face '"Monoflow")
+  (setq m-font-face '"Monoid")
+  (setq m-font-face '"DM Mono")
+  (setq m-font-face '"Dank Mono")
+  (setq m-font-face '"iA Writer Duospace")
+  (setq m-font-face '"Operator Mono SSm Lig")
+  (setq m-font-face '"Drafting Mono")
+  (setq m-font-face '"Aardvark Fixed")
+  (setq m-font-face '"Terminal Land Mono Sans")
+  (setq m-font-face '"Cascadia Code PL")
+  (setq m-font-face '"Victor Mono")
+  (setq m-font-face '"IBM Plex Mono")
+  (setq m-font-face '"Native")
+  (setq m-font-face '"Terminex")
+  (setq m-font-face '"JuliaMono")
+  (setq m-font-face '"MonoLisa")
+  (setq m-font-face '"Berkeley Mono Variable")
+  (setq m-font-face '"Mahmoudimus Iosevka v2")
 
   (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
   (set-face-attribute 'default nil
-                      :family m-font-face
+                      ;; :family m-font-face
                       :weight 'normal
                       :height 150)
-  (set-face-font 'mode-line m-font-face)
+  (set-face-font 'mode-line m-font-face-nerd)
   (set-face-attribute 'mode-line nil
-                      :family m-font-face
+                      ;; :family m-font-face
                       :weight 'normal
                       :height 130)
-  (set-face-font 'mode-line-inactive m-font-face)
+  (set-face-font 'mode-line-inactive m-font-face-nerd)
   (set-face-attribute 'mode-line-inactive nil
-                      :family m-font-face
+                      ;; :family m-font-face
                       :weight 'Light
                       :height 130)
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
