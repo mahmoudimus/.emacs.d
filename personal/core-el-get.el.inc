@@ -33,7 +33,6 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-
 (add-to-list 'load-path (concat user-emacs-directory "el-get/el-get"))
 
 (unless (require 'el-get nil 'noerror)
@@ -51,10 +50,10 @@
 (setq el-get-sources
       '(escreen))
 
-;; el-patch
-(el-get-bundle el-patch
-  :type git
-  :url "https://github.com/raxod502/el-patch.git")
+;; ;; el-patch
+;; (el-get-bundle el-patch
+;;   :type git
+;;   :url "https://github.com/raxod502/el-patch.git")
 
 ;; ;; python-mode
 ;; (el-get-bundle python-mode

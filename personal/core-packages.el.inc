@@ -81,6 +81,8 @@
      ;; Emacs "pseudo-daemon" for Mac OS
      ;; https://github.com/DarwinAwardWinner/mac-pseudo-daemon.git
      mac-pseudo-daemon
+     ;; el-patch
+     el-patch
      )
    '()
    ;; helm
@@ -104,6 +106,7 @@
 (dolist (p mahmoud-required-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
 
 (provide 'core-packages)
 
