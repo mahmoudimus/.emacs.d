@@ -97,7 +97,7 @@
 (defun clean-mode-line ()
   "Replace modeline lighters with new ones."
   (interactive)
-  (loop for cleaner in mode-line-cleaner-alist
+  (cl-loop for cleaner in mode-line-cleaner-alist
         do (let ((mode (car cleaner))
                  (mode-str (cdr cleaner)))
              (when (assq mode minor-mode-alist)
