@@ -1,12 +1,38 @@
-;;; z-20-gauss-machine.el --- description -*- mode: emacs-lisp; lexical-binding: t; -*-
+;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
+;;; z-20-euler-machine.el
+;;
+;; Copyright (c) 2022 -- Mahmoud Abdelkader
+;;
+;; Author: Mahmoud Abdelkader <mahmoud@linux.com>
+;; URL: http://github.com/mahmoudimus/emacs.d/
+;; Version: 1.0.0
+;; Keywords: convenience, themes, euler, macosx
+
+;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
+
+;; This file simply sets up the settings for iMacPro (Hackintosh) named
+;; after Leonhard Euler.
+
+;;; License:
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License
+;; as published by the Free Software Foundation; either version 3
+;; of the License, or (at your option) any later version.
 ;;
-;; Settings for macbook pro (codename: gauss)
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 ;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-;;; package --- Summary
 
 ;; setup key bindings to allow for both super and hyper to have useful
 ;; bindings. also paper over the differences between the defaults in
@@ -215,7 +241,6 @@
   (setq m-font-face '"Panic Sans")
   (setq m-font-face '"Pitch Sans")
 
-
   ;; thin
   (setq m-font-face-thin '"Anonymous Pro")
   (setq m-font-face-thin '"Share Tech Mono")
@@ -223,17 +248,18 @@
   (setq m-font-face-thin '"Input Mono Compressed") ;; thinnest
   (setq m-font-face-thin '"Input Mono Condensed")
   (setq m-font-face-thin '"Input Mono Narrow")
-  (setq m-font-face-thin '"mplus 1m Nerd Font")
   (setq m-font-face-thin '"NanumGothicCoding")
   (setq m-font-face-thin '"Sudo Variable")
 
   ;; Nerd
+  (setq m-font-face-thin '"mplus 1m Nerd Font")
   (setq m-font-face-nerd '"TamzenForPowerline")
   (setq m-font-face-nerd '"TerminessTTF Nerd Font")
   (setq m-font-face-nerd '"MonoLisa Nerd Font Mono")
   (setq m-font-face-nerd '"BlexMono Nerd Font Mono")
   (setq m-font-face-nerd '"JetBrainsMono Nerd Font Mono")
   (setq m-font-face-nerd '"CaskaydiaCove Nerd Font Mono")
+  (setq m-font-face-nerd '"OperatorMono Nerd Font")
   (setq m-font-face-nerd '"Envy Code R for Powerline")
 
   ;; serif-mono
@@ -271,29 +297,43 @@
   (setq m-font-face '"Terminal Land Mono Sans")
   (setq m-font-face '"Cascadia Code PL")
   (setq m-font-face '"Victor Mono")
-  (setq m-font-face '"IBM Plex Mono")
+
   (setq m-font-face '"Native")
   (setq m-font-face '"Terminex")
+  (setq m-font-face '"Rec Mono Linear")
   (setq m-font-face '"JuliaMono")
   (setq m-font-face '"MonoLisa")
+  (setq m-font-face '"IBM Plex Mono")
   (setq m-font-face '"Berkeley Mono Variable")
+  ;; legitness
   (setq m-font-face '"Mahmoudimus Iosevka v2")
 
-  (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
-  (set-face-attribute 'default nil
-                      ;; :family m-font-face
-                      :weight 'normal
-                      :height 150)
+  ;; (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
+  ;; (set-face-attribute 'default nil
+  ;;                     ;; :family m-font-face
+  ;;                     :weight 'normal
+  ;;                     :height 160
+  ;;                     )
   (set-face-font 'mode-line m-font-face-nerd)
   (set-face-attribute 'mode-line nil
                       ;; :family m-font-face
                       :weight 'normal
-                      :height 130)
+                      :height 130
+                      :width 'normal
+                      )
   (set-face-font 'mode-line-inactive m-font-face-nerd)
   (set-face-attribute 'mode-line-inactive nil
                       ;; :family m-font-face
-                      :weight 'Light
-                      :height 130)
+                      :weight 'light
+                      :height 130
+                      :width 'normal
+                      )
+
+  ;; if we are using spacemacs though...
+  ;; (spacemacs//set-monospaced-font "Source Code Pro" "Noto Sans Mono CJK TC Regular" 14 14)
+  ;; (spacemacs//set-monospaced-font)
+  ;; (set dotspacemacs-mode-line-unicode-symbols to nil).
+
   ;; (set-face-font 'mode-line-inactive "SFMono Nerd Font 10")
   ;; Use dark theme for title bar. This works only on Emacs 26.1 and above.
   (when (not (version< emacs-version "26.1"))
@@ -380,6 +420,15 @@
 (when (file-exists-p "/usr/local/bin/gls")
   (setq insert-directory-program "/usr/local/bin/gls"))
 
-(provide 'gauss-machine)
 
-;;; gauss-machine.el ends here
+(defun markdown-preview-file ()
+  "use Marked 2 to preview the current file"
+  (interactive)
+  (shell-command
+   (format "open -a 'Marked.app' %s"
+           (shell-quote-argument (buffer-file-name))))
+  )
+(global-set-key "\C-cm" 'markdown-preview-file)
+
+;;; euler-machine.el ends here
+(provide 'euler-machine)
