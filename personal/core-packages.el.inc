@@ -34,7 +34,7 @@
 
 ;;; Code:
 
-;;; the melpa package is alredy added
+;;; the melpa package is already added
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
@@ -49,65 +49,127 @@
 (defvar mahmoud-required-packages
   (append
    ;; general
-   '(browse-kill-ring
-     ;; yasnippet (i'm going to get this from el-get)
-     ;; https://github.com/Bruce-Connor/smart-mode-line
-     ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
-     smart-mode-line
-     ;; https://github.com/Bruce-Connor/rich-minority
-     rich-minority
-     electric-operator
-     ;; deadgrep (https://github.com/Wilfred/deadgrep)
-     deadgrep
-     ;; rg.el (https://github.com/dajva/rg.el)
-     rg
-     ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
-     exec-path-from-shell
-     ;; elisp-format
-     elisp-format
-     ;; emacs regex
-     pcre2el
-     ;; neotree
-     ;; treemacs: https://github.com/Alexander-Miller/treemacs
-     treemacs
-     ;; https://github.com/millejoh/emacs-ipython-notebook
-     ein
-     ;; direnv
-     ;; https://github.com/wbolster/emacs-direnv
-     direnv
-     ;; use-package
-     ;; https://github.com/jwiegley/use-package
+   '(
      use-package
-     ;; Emacs "pseudo-daemon" for Mac OS
-     ;; https://github.com/DarwinAwardWinner/mac-pseudo-daemon.git
-     mac-pseudo-daemon
-     ;; el-patch
-     el-patch
-     )
-   '()
-   ;; helm
-   '(helm-ag)
-   ;; company-mode
-   '(company-fuzzy)
-   '()
-   ;; python
-   '(python-environment
-     jedi
-     ;; https://github.com/porterjamesj/virtualenvwrapper.el
-     virtualenvwrapper
-     ;; importmagic
-     importmagic
-     ;; pyvenv
-     pyvenv
+
+   ;;   browse-kill-ring
+   ;;   ;; yasnippet (i'm going to get this from el-get)
+   ;;   ;; https://github.com/Bruce-Connor/smart-mode-line
+   ;;   ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
+   ;;   smart-mode-line
+   ;;   ;; https://github.com/Bruce-Connor/rich-minority
+   ;;   rich-minority
+   ;;   electric-operator
+   ;;   ;; deadgrep (https://github.com/Wilfred/deadgrep)
+   ;;   deadgrep
+   ;;   ;; rg.el (https://github.com/dajva/rg.el)
+   ;;   rg
+   ;;   ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
+   ;;   exec-path-from-shell
+   ;;   ;; elisp-format
+   ;;   elisp-format
+   ;;   ;; emacs regex
+   ;;   pcre2el
+   ;;   ;; neotree
+   ;;   ;; treemacs: https://github.com/Alexander-Miller/treemacs
+   ;;   treemacs
+   ;;   ;; https://github.com/millejoh/emacs-ipython-notebook
+   ;;   ein
+   ;;   ;; direnv
+   ;;   ;; https://github.com/wbolster/emacs-direnv
+   ;;   direnv
+   ;;   ;; use-package
+   ;;   ;; https://github.com/jwiegley/use-package
+   ;;   use-package
+   ;;   ;; Emacs "pseudo-daemon" for Mac OS
+   ;;   ;; https://github.com/DarwinAwardWinner/mac-pseudo-daemon.git
+   ;;   mac-pseudo-daemon
+   ;;   ;; el-patch
+   ;;   el-patch
+   ;;   )
+   ;; '()
+   ;; ;; helm
+   ;; '(helm-rg)
+   ;; ;; company-mode
+   ;; '(company-fuzzy)
+   ;; '()
+   ;; ;; python
+   ;; '(python-environment
+   ;;   jedi
+   ;;   ;; https://github.com/porterjamesj/virtualenvwrapper.el
+   ;;   virtualenvwrapper
+   ;;   ;; importmagic
+   ;;   importmagic
+   ;;   ;; pyvenv
+   ;;   pyvenv
      )
    )
   "A list of packages to ensure are installed at launch.")
+
+
 
 (dolist (p mahmoud-required-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+;; Load essential ELisp libraries like `s-mode', `dash' and `f-mode'.
+(use-package dash)    ;; “A modern list library for Emacs”
+(use-package s)    ;; “The long lost Emacs string manipulation library”.
+(use-package f)    ;;
+(use-package pkg-info)    ;;
+(use-package epl)    ;;
+(use-package browse-kill-ring)    ;;
+(use-package smart-mode-line)    ;;
+(use-package rich-minority)    ;;
+(use-package electric-operator)    ;;
+(use-package rg)    ;;
+(use-package deadgrep)    ;;
+(use-package exec-path-from-shell)  ;;
+(use-package elisp-format)  ;;
+(use-package pcre2el)  ;;
+(use-package treemacs)  ;;
+(use-package ein)  ;;
+(use-package direnv)  ;;
+(use-package mac-pseudo-daemon)  ;;
+(use-package el-patch)  ;;
+(use-package helm-ag)  ;;
+(use-package helm-flx)  ;;
+(use-package company-fuzzy)  ;;
+(use-package python-environment)  ;;
+(use-package jedi)  ;;
+(use-package virtualenvwrapper)  ;;
+(use-package importmagic)  ;;
+(use-package pyvenv)  ;;
+
+(setq use-package-always-ensure nil)
+
+     ;; ;; (f :location (recipe :fetcher github :repo "rejeep/f.el"))
+     ;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/12
+     ;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/13
+     ;; f
+     ;; dash
+     ;; pkg-info
+     ;; epl
+     ;; ;; use-package
+     ;; ;; https://github.com/jwiegley/use-package
+     ;; use-package
+     ;; browse-kill-ring
+     ;; ;; https://github.com/Bruce-Connor/smart-mode-line
+     ;; ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
+     ;; smart-mode-line
+     ;; ;; https://github.com/Bruce-Connor/rich-minority
+     ;; rich-minority
+     ;; electric-operator
+     ;; ;; deadgrep (https://github.com/Wilfred/deadgrep)
+     ;; deadgrep
+     ;; ;; rg.el (https://github.com/dajva/rg.el)
+     ;; rg
+     ;; ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
 
 (provide 'core-packages)
+
 
 ;;; core-packages.el ends here

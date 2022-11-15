@@ -2,187 +2,15 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
-(defun dotspacemacs/layers ()
-  "Layer configuration:
-This function should only modify configuration layer settings."
-  (setq-default
-   ;; Base distribution to use. This is a layer contained in the directory
-   ;; `+distribution'. For now available distributions are `spacemacs-base'
-   ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs
+(defvar spacemacs-dir (file-name-directory load-file-name)
+  "The root dir of the Emacs spacemacs distribution.")
 
-   ;; Lazy installation of layers (i.e. layers are installed only when a file
-   ;; with a supported type is opened). Possible values are `all', `unused'
-   ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
-   ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
-   ;; lazy install any layer that support lazy installation even the layers
-   ;; listed in `dotspacemacs-configuration-layers'. `nil' disable the lazy
-   ;; installation feature and you have to explicitly list a layer in the
-   ;; variable `dotspacemacs-configuration-layers' to install it.
-   ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+(defvar spacemacs-personal-dir (expand-file-name "personal" spacemacs-dir)
+  "This directory is for your personal configuration.")
 
-   ;; If non-nil then Spacemacs will ask for confirmation before installing
-   ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+(defvar spacemacs-personal-preload-dir (expand-file-name "preload" spacemacs-personal-dir)
+  "This directory is for your personal configuration, that you want loaded before Spacemacs.")
 
-   ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
-
-   ;; List of configuration layers to load.
-   dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     (auto-completion :variables
-                      auto-completion-complete-with-key-sequence nil
-                      auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-enable-snippets-in-popup nil
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
-     better-defaults
-     emacs-lisp
-     git
-     helm
-     (lsp :variables      ;; language server protocol
-          ;; https://emacs-lsp.github.io/lsp-mode/page/settings/
-          lsp-auto-execute-action nil
-          ;; lsp-auto-guess-root t
-
-          ;; no real time syntax check
-          lsp-diagnostics-package 'flycheck
-
-          lsp-enable-file-watchers nil
-          ;; lsp-client-packages '(ccls lsp-clients)
-
-          ;; use `evil-matchit' instead
-          ;; lsp-enable-folding nil
-
-          ;; handle yasnippet by myself
-          lsp-enable-snippet nil
-          ;; use `company-ctags' only.
-          ;; lsp-completion-enable t
-          ;; this is deprecated I think? lsp-enable-completion-at-point t
-          ;; see https://emacs-lsp.github.io/lsp-mode/page/settings/completion/
-
-
-          ;; turn off for better performance
-          lsp-enable-symbol-highlighting nil
-
-          ;; use ffip instead
-          lsp-enable-links nil
-
-          lsp-idle-delay 0.500
-
-          ;; lsp-print-io t
-          ;; enable log only for debug
-          lsp-log-io nil
-          lsp-navigation 'peek
-
-          lsp-remap-xref-keybindings t
-          ;; auto restart lsp
-          ;; lsp-restart 'auto-restart
-          lsp-restart 'ignore
-
-          ;;lsp-semantic-highlighting 'immediate
-
-          ;;lsp-ui-peek-fontify 'always
-          ;;lsp-ui-peek-always-show t
-          lsp-ui-doc-position 'top)
-     markdown
-     multiple-cursors
-     org
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
-     ;; spell-checking
-     syntax-checking
-     version-control
-     ;; only in spacemacs devel
-     treemacs
-     ;; added by mahmoudimus 👇
-     docker
-     ruby
-     html
-     javascript
-     groovy
-     (typescript :variables
-                 ;; either tide (default), prettier, typescript-formatter
-                 typescript-fmt-tool 'tide
-                 ;; either tslint (default) or eslint
-                 typescript-linter 'tslint
-                 typescript-fmt-on-save t)
-     (go :variables
-         ;; run gofmt before save
-         go-format-before-save t
-         gofmt-command "goimports"
-         ;; A more modern auto-complete is provided by gogetdoc, which
-         ;; is able to precisely detect all documentations in your go projects
-         ;; independently from where they have been added. This is also the
-         ;; recommended choice from go-mode.el.
-         godoc-at-point-function 'godoc-gogetdoc
-         ;; LSP backend
-         ;; ;; -> backend can be chosen per project directory local variables
-         ;; ;; -> e.g.: ((go-mode (go-backend . go-mode)))
-         ;; ;; -> Note: easily add a directory local variable with SPC f v d.
-         ;; go-backend 'lsp
-         ;; TODO: add linting?
-         ;; see: ${GITHUB_SPACEMACS_DEVELOP}/layers/%2Blang/go#linting
-         )
-     yaml
-     dap ;; new debugger for python layer
-     rust
-     csv
-     (python :variables
-             ;;python-backend 'lsp
-             python-tab-width 4
-             python-fill-column 99
-             python-formatter 'black
-             python-format-on-save t
-             python-sort-imports-on-save t)
-     ;; do not enable -- slows down emacs when opening files
-     ;; python-extras
-     ;; cmake
-     cmake
-     (dash :variables
-           ;; learn to use this: https://github.com/stanaka/dash-at-point#Usage
-           ;; opt-in to specific docsets for specific buffers
-           dash-autoload-common-docsets nil
-           ;; change the location of the installed docsets
-           dash-docs-docset-newpath (concat
-                                     (expand-file-name "stores" spacemacs-personal-dir)
-                                     "/"
-                                     "dash-docsets"))
-     )
-
-   ;; List of additional packages that will be installed without being wrapped
-   ;; in a layer (generally the packages are installed only and should still be
-   ;; loaded using load/require/use-package in the user-config section below in
-   ;; this file). If you need some configuration for these packages, then
-   ;; consider creating a layer. You can also put the configuration in
-   ;; `dotspacemacs/user-config'. To use a local version of a package, use the
-   ;; `:location' property: '(your-package :location "~/path/to/your-package/")
-   ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
-
-   ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '()
-
-   ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
-
-   ;; Defines the behaviour of Spacemacs when installing packages.
-   ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
-   ;; `used-only' installs only explicitly used packages and deletes any unused
-   ;; packages as well as their unused dependencies. `used-but-keep-unused'
-   ;; installs only the used packages but won't delete unused ones. `all'
-   ;; installs *all* packages supported by Spacemacs and never uninstalls them.
-   ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -488,6 +316,11 @@ It should only modify the values of Spacemacs settings."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
 
+   ;; A value from the range (0..100), in increasing opacity, which describes the
+   ;; transparency level of a frame background when it's active or selected. Transparency
+   ;; can be toggled through `toggle-background-transparency'. (default 90)
+   dotspacemacs-background-transparency 90
+
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
 
@@ -654,25 +487,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-helm-use-fuzzy 'always   ;; If non-nil activate `clean-aindent-mode' which tries to correct
 
    ;; If non-nil then byte-compile some of Spacemacs files.
-   dotspacemacs-byte-compile nil))
-
-(defun dotspacemacs/user-env ()
-  "Environment variables setup.
-This function defines the environment variables for your Emacs session. By
-default it calls `spacemacs/load-spacemacs-env' which loads the environment
-variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
-See the header of this file for more information."
-  (spacemacs/load-spacemacs-env)
-)
-
-(defvar spacemacs-dir (file-name-directory load-file-name)
-  "The root dir of the Emacs spacemacs distribution.")
-
-(defvar spacemacs-personal-dir (expand-file-name "personal" spacemacs-dir)
-  "This directory is for your personal configuration.")
-
-(defvar spacemacs-personal-preload-dir (expand-file-name "preload" spacemacs-personal-dir)
-  "This directory is for your personal configuration, that you want loaded before Spacemacs.")
+   dotspacemacs-byte-compile t))
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -680,6 +495,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; since emacs 24.4, new option `load-prefer-newer' has been
+  ;; introduce, which make me never accidentally using outdated compiled files.
+  (setq load-prefer-newer t)
+
   ;; preload the personal settings from `spacemacs-personal-preload-dir`
   (when (file-exists-p spacemacs-personal-preload-dir)
     (message "Loading personal configuration files in %s..." spacemacs-personal-preload-dir)
@@ -691,13 +510,215 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
          (expand-file-name "00-custom.el" spacemacs-personal-dir)))
 )
 
-(defun dotspacemacs/user-load ()
-  "Library to load while dumping.
-This function is called only while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included in the
-dump."
-)
+(defun dotspacemacs/user-env ()
+  "Environment variables setup.
+This function defines the environment variables for your Emacs session. By
+default it calls `spacemacs/load-spacemacs-env' which loads the environment
+variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
+See the header of this file for more information."
+  (spacemacs/load-spacemacs-env)
+  )
 
+
+(defun dotspacemacs/layers ()
+  "Layer configuration:
+This function should only modify configuration layer settings."
+  (setq-default
+   ;; Base distribution to use. This is a layer contained in the directory
+   ;; `+distribution'. For now available distributions are `spacemacs-base'
+   ;; or `spacemacs'. (default 'spacemacs)
+   dotspacemacs-distribution 'spacemacs
+
+   ;; Lazy installation of layers (i.e. layers are installed only when a file
+   ;; with a supported type is opened). Possible values are `all', `unused'
+   ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
+   ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
+   ;; lazy install any layer that support lazy installation even the layers
+   ;; listed in `dotspacemacs-configuration-layers'. `nil' disable the lazy
+   ;; installation feature and you have to explicitly list a layer in the
+   ;; variable `dotspacemacs-configuration-layers' to install it.
+   ;; (default 'unused)
+   dotspacemacs-enable-lazy-installation 'unused
+
+   ;; If non-nil then Spacemacs will ask for confirmation before installing
+   ;; a layer lazily. (default t)
+   dotspacemacs-ask-for-lazy-installation t
+
+   ;; List of additional paths where to look for configuration layers.
+   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   dotspacemacs-configuration-layer-path '()
+
+   ;; List of configuration layers to load.
+   dotspacemacs-configuration-layers
+   '(
+     ;; ----------------------------------------------------------------
+     ;; Example of useful layers you may want to use right away.
+     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+     ;; `M-m f e R' (Emacs style) to install them.
+     ;; ----------------------------------------------------------------
+     (auto-completion :variables
+                      auto-completion-complete-with-key-sequence nil
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-enable-snippets-in-popup nil
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t)
+     better-defaults
+     emacs-lisp
+     git
+     (helm :variables
+           ;; ripgrep the default value for --max-columns is 512
+           spacemacs-helm-rg-max-column-number 1024
+           )
+     (lsp :variables      ;; language server protocol
+          ;; https://emacs-lsp.github.io/lsp-mode/page/settings/
+          lsp-auto-execute-action nil
+          ;; lsp-auto-guess-root t
+
+          ;; no real time syntax check
+          lsp-diagnostics-package 'flycheck
+
+          lsp-enable-file-watchers nil
+          ;; lsp-client-packages '(ccls lsp-clients)
+
+          ;; use `evil-matchit' instead
+          ;; lsp-enable-folding nil
+
+          ;; handle yasnippet by myself
+          lsp-enable-snippet nil
+          ;; use `company-ctags' only.
+          ;; lsp-completion-enable t
+          ;; this is deprecated I think? lsp-enable-completion-at-point t
+          ;; see https://emacs-lsp.github.io/lsp-mode/page/settings/completion/
+
+
+          ;; turn off for better performance
+          lsp-enable-symbol-highlighting nil
+
+          ;; use ffip instead
+          lsp-enable-links nil
+
+          lsp-idle-delay 0.500
+
+          ;; lsp-print-io t
+          ;; enable log only for debug
+          lsp-log-io nil
+          lsp-navigation 'peek
+
+          lsp-remap-xref-keybindings t
+          ;; auto restart lsp
+          ;; lsp-restart 'auto-restart
+          lsp-restart 'ignore
+
+          ;;lsp-semantic-highlighting 'immediate
+
+          ;;lsp-ui-peek-fontify 'always
+          ;;lsp-ui-peek-always-show t
+          lsp-ui-doc-position 'top)
+     markdown
+     multiple-cursors
+     org
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+     ;; spell-checking
+     syntax-checking
+     version-control
+     ;; only in spacemacs devel
+     treemacs
+     ruby
+     html
+     javascript
+     groovy
+     (typescript :variables
+                 ;; either tide (default), prettier, typescript-formatter
+                 typescript-fmt-tool 'tide
+                 ;; either tslint (default) or eslint
+                 typescript-linter 'tslint
+                 typescript-fmt-on-save t)
+     (go :variables
+         ;; run gofmt before save
+         go-format-before-save t
+         gofmt-command "goimports"
+         ;; A more modern auto-complete is provided by gogetdoc, which
+         ;; is able to precisely detect all documentations in your go projects
+         ;; independently from where they have been added. This is also the
+         ;; recommended choice from go-mode.el.
+         godoc-at-point-function 'godoc-gogetdoc
+         ;; LSP backend
+         ;; ;; -> backend can be chosen per project directory local variables
+         ;; ;; -> e.g.: ((go-mode (go-backend . go-mode)))
+         ;; ;; -> Note: easily add a directory local variable with SPC f v d.
+         ;; go-backend 'lsp
+         ;; TODO: add linting?
+         ;; see: ${GITHUB_SPACEMACS_DEVELOP}/layers/%2Blang/go#linting
+         )
+     yaml
+     dap ;; new debugger for python layer
+     rust
+     csv
+     (python :variables
+             ;;python-backend 'lsp
+             python-tab-width 4
+             python-fill-column 99
+             python-formatter 'black
+             python-format-on-save t
+             python-sort-imports-on-save t)
+     ;; do not enable -- slows down emacs when opening files
+     ;; python-extras
+     ;; cmake
+     cmake
+     (dash :variables
+           ;; learn to use this: https://github.com/stanaka/dash-at-point#Usage
+           ;; opt-in to specific docsets for specific buffers
+           dash-autoload-common-docsets nil
+           ;; change the location of the installed docsets
+           dash-docs-docset-newpath (concat
+                                     (expand-file-name "stores" spacemacs-personal-dir)
+                                     "/"
+                                     "dash-docsets"))
+     )
+
+   ;; List of additional packages that will be installed without being wrapped
+   ;; in a layer (generally the packages are installed only and should still be
+   ;; loaded using load/require/use-package in the user-config section below in
+   ;; this file). If you need some configuration for these packages, then
+   ;; consider creating a layer. You can also put the configuration in
+   ;; `dotspacemacs/user-config'. To use a local version of a package, use the
+   ;; `:location' property: '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
+   dotspacemacs-additional-packages '()
+
+   ;; A list of packages that cannot be updated.
+   dotspacemacs-frozen-packages '()
+
+   ;; A list of packages that will not be installed and loaded.
+   dotspacemacs-excluded-packages
+   '(;; Must Exclude (for styling, functionality, bug-fixing reasons)
+     )
+
+   ;; Defines the behaviour of Spacemacs when installing packages.
+   ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
+   ;; `used-only' installs only explicitly used packages and deletes any unused
+   ;; packages as well as their unused dependencies. `used-but-keep-unused'
+   ;; installs only the used packages but won't delete unused ones. `all'
+   ;; installs *all* packages supported by Spacemacs and never uninstalls them.
+   ;; (default is `used-only')
+   dotspacemacs-install-packages 'used-but-keep-unused)
+
+  ;;
+  ;; Conditional layer loading
+  ;;
+  ;;; docker layer uses docker-tramp, not tramp-container and
+  ;;; this causes issues with emacs29 / tramp etc.
+  (when (< emacs-major-version 29)
+    ;; (append dotspacemacs-configuration-layers)
+    ;; '(
+    ;;   ;; spell-checking
+    ;;   ;; (mu4e :variables
+    ;;   ;;         mu4e-installation-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+    ;;   ))
+    (add-to-list 'dotspacemacs-configuration-layers 'docker))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -705,6 +726,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
   ;; load the personal settings (this includes `custom-file')
   (when (file-exists-p spacemacs-personal-dir)
     (message "Loading personal configuration files in %s..." spacemacs-personal-dir)
@@ -712,6 +734,7 @@ before packages are loaded."
 
   (add-to-list 'dotspacemacs-configuration-layer-path
                (concat (expand-file-name "layers" spacemacs-dir) "/")))
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

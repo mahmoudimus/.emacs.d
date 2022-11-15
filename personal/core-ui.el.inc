@@ -44,24 +44,50 @@
   (menu-bar-mode t))
 
 ;; nice scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+(setq scroll-margin 0)
+(when (boundp 'mac-carbon-version-string)
+  ;; we're using emacs-mac, so we shoud set the scroll stuff
+  (setq scroll-conservatively 100000
+        scroll-preserve-screen-position 1))
 
 ;; Scroll down with the cursor,move down the buffer one
 ;; line at a time, instead of in larger amounts.
 ;; god this is fucking annoying!!
 (setq scroll-step 1)
 
+;; install all-the-icons!
+(defun is-in-terminal()
+  (not (display-graphic-p)))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 ;; add the theme path for theme lookup
-(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
-;; I want to customize my theme.
-;; it's safe, so use the NO-CONFIRM flag
-;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
-;; (load-theme 'zenburn t)
-;; (load-theme 'tomorrow-night-bright t)
-;; get rid of "Loading a theme can run Lisp code. Really load? (y or n) " message
-(load-theme 'spacemacs-light t)
+(add-to-list 'custom-theme-load-path (concat spacemacs-dir "themes/"))
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  ;; I want to customize my theme.
+  ;; it's safe, so use the NO-CONFIRM flag
+  ;; http://stackoverflow.com/questions/8545756/how-to-treat-solarized-as-a-safe-theme
+  ;; (load-theme 'zenburn t)
+  ;; (load-theme 'tomorrow-night-bright t)
+  ;; get rid of "Loading a theme can run Lisp code. Really load? (y or n) " message
+  ;; (load-theme 'spacemacs-light t)
+  (load-theme 'doom-snazzy t))
+
 ;; global hl mode
 (global-hl-line-mode 1)
 
@@ -69,9 +95,6 @@
 (defface highlight-regexp-face
   '((t (:foreground "#B28BD6")))
   "face for highlight-regexp")
-
-(defun is-in-terminal()
-  (not (display-graphic-p)))
 
 ;; http://stackoverflow.com/a/268205/133514
 (defun server-remove-kill-buffer-hook ()

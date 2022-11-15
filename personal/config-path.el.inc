@@ -77,7 +77,6 @@
   :type 'directory
   :group 'config-path)
 
-
 ;; * Load path
 
 (defcustom config-path-system-type-site-lisp
@@ -103,7 +102,7 @@
   (dolist (path config-path-system-type-site-lisp)
     (config-path-add-to-load-path path)))
 
-
+
 ;; * Entrypoint
 
 ;;;###autoload

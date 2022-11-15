@@ -91,10 +91,8 @@
 ;; -- https://github.com/PythonNut/quark-emacs/blob/5c181c465eb6046c1d30e7b9a8626da77abcfe2d/modules/config-helm.el
 ;; helm settings
 (use-package helm
+  :defer t
   :config
-
-  (helm-flx-mode +1)
-  ;; (helm-flx-historian-mode +1)
 
   (set-face-attribute 'helm-selection nil :underline nil)
 
@@ -127,6 +125,18 @@
   (setq helm-case-fold-search 'smart
         helm-candidate-separator (make-string 20 ?─)
         helm-inherit-input-method nil))
+
+(use-package helm-ag
+  :after helm
+  :config
+  ;; Prepopulate search with the symbol under point
+  (setq helm-ag-insert-at-point 'symbol)
+  (setq helm-ag-base-command "rg -S --no-heading")
+  )
+
+(use-package helm-flx
+  :after helm
+  :init (helm-flx-mode 1))
 
 ;; uncomment for emacs 26.3
 ;; (setq completion-styles '(helm-flex))

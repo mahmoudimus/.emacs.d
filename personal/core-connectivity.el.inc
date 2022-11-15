@@ -50,13 +50,20 @@
   :type 'string
   :group 'docker)
 
-
-;; docker-tramp -- only if docker is installed
-(if (executable-find "docker")
-    (require 'docker-tramp)
-    (setq docker-tramp-docker-executable (executable-find "docker"))
-    (exec-path-from-shell-copy-env "DOCKER_HOST"))
-
+;; ;;`tramp-container' is builtin since 29
+;; ;; (eval-and-compile
+;; ;;   (if (>= emacs-major-version 29)
+;; ;;       (require 'tramp-container)
+;; ;;     (require 'docker-tramp)))
+;; (if (setq tmp--docker-path (executable-find "docker"))
+;;     (if (>= emacs-major-version 29)
+;;         (use-package tramp-container :ensure nil)
+;;       (use-package docker-tramp
+;;         :ensure t
+;;         :config
+;;         ;; docker-tramp -- only if docker is installed
+;;         ;; takes forever... (exec-path-from-shell-copy-env "DOCKER_HOST")
+;;         (setq docker-tramp-docker-executable tmp--docker-path))))
 
 (defun docker-flow-select-container-name (name)
   (interactive (list (docker-flow-read-container-name "Select container: "))))

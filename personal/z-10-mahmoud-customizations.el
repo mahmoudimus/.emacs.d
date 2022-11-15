@@ -4,17 +4,6 @@
 
 ;;; Code:
 
-;; from https://emacs.stackexchange.com/a/33731/2082
-(defun mahmoud-get-hostname ()
-  "Reliable way to get current hostname.
-`(getenv \"HOSTNAME\")' won't work because $HOSTNAME is NOT an
- environment variable.
-`system-name' won't work because /etc/hosts could be modified"
-  (with-temp-buffer
-    (shell-command "hostname" t)
-    (goto-char (point-max))
-    (delete-char -1)
-    (buffer-string)))
 
 (defun mahmoud-load-customization (target)
   "Load a file, TARGET, in the current directory by absolute pathifying it."
@@ -53,9 +42,7 @@
 ;; load the customization based on the machine name that i am joining
 
 (setq mahmoud-local-machine-name
-      (concat "z-20-"
-              (car (split-string (system-name) "\\."))
-              "-machine.el.inc"))
+      (concat "z-20-" mahmoudimus-current-hostname "-machine.el.inc"))
 (mahmoud-load-customization mahmoud-local-machine-name)
 
 ;;; mahmoud-customizations.el ends here
