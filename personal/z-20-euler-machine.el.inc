@@ -216,7 +216,7 @@
   (setq m-font-face-bitmap '"Tamzen")
   (setq m-font-face-bitmap '"Terminus (TTF)")
   (setq m-font-face-bitmap '"CodingFontTobi")
-
+  (setq m-font-face-bitmap '"Greybeard 13px")
 
   (setq m-font-face '"Consola Mono")
   (setq m-font-face '"Fira Code")
@@ -261,6 +261,7 @@
   (setq m-font-face-nerd '"CaskaydiaCove Nerd Font Mono")
   (setq m-font-face-nerd '"OperatorMono Nerd Font")
   (setq m-font-face-nerd '"Envy Code R for Powerline")
+  (setq m-font-face-nerd '"Greybeard 13px")
 
   ;; serif-mono
   (setq m-font-face-serif-mono '"Courier New") ;; does not diff between O and 0
@@ -308,12 +309,12 @@
   ;; legitness
   (setq m-font-face '"Mahmoudimus Iosevka v2")
 
-  ;; (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
-  ;; (set-face-attribute 'default nil
-  ;;                     ;; :family m-font-face
-  ;;                     :weight 'normal
-  ;;                     :height 160
-  ;;                     )
+  (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
+  (set-face-attribute 'default nil
+                      ;; :family m-font-face
+                      :weight 'normal
+                      :height 130
+                      )
   (set-face-font 'mode-line m-font-face-nerd)
   (set-face-attribute 'mode-line nil
                       ;; :family m-font-face
