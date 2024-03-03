@@ -11,7 +11,6 @@
   (load-file (concat spacemacs-personal-dir "/" target)))
 
 ;; packages
-(mahmoud-load-customization "core-packages.el.inc")
 (mahmoud-load-customization "core-el-get.el.inc")
 ;;(mahmoud-load-customization "config-path.el.inc")
 ;;(mahmoud-load-customization "use-config.el.inc")

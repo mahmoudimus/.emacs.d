@@ -22,8 +22,8 @@
       (concat (concat (or dotspacemacs-directory user-home-directory)
                       ".spacemacs.env.")
               mahmoudimus-current-hostname))
-              
-              
+
+
 ;; disable prelude-flyspell (it is very slow)
 (setq prelude-flyspell nil)
 

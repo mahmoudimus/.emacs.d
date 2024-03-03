@@ -1,0 +1,1 @@
+(helm-rcirc :type nil :local-repo "/home/mahmoud/.spacemacs/layers/+chat/rcirc/local/helm-rcirc")

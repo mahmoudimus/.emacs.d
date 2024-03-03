@@ -1,5 +1,5 @@
 ;;; -*- mode: emacs-lisp; lexical-binding: t;  -*-
-;;; 01-preloads.el 
+;;; 01-preloads.el
 ;
 
 ;; from https://github.com/doomemacs/doomemacs/blob/master/lisp/doom-lib.el

@@ -34,7 +34,7 @@
 
 ;;; Code:
 (use-package lsp-mode
-  :ensure t
+  ;; :ensure t
   ;; uncomment to enable gopls http debug server
   ;; :custom (lsp-gopls-server-args '("-debug" "127.0.0.1:0"))
   :commands (lsp lsp-deferred)
@@ -53,7 +53,7 @@
 
 ;; optional - provides fancy overlay information
 (use-package lsp-ui
-  :ensure t
+  ;; :ensure t
   :commands lsp-ui-mode
   :config (progn
             ;; ;; disable inline documentation
@@ -65,7 +65,7 @@
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
-  :ensure t
+  ;; :ensure t
   ;; Optionally enable completion-as-you-type behavior.
   :config (progn
             ;; ;; don't add any dely before trying to complete thing being typed
@@ -81,11 +81,12 @@
 
 ;; optional package to get the error squiggles as you edit
 (use-package flycheck
-  :ensure t)
+  ;; :ensure t
+  )
 
 ;; Optional - provides snippet support.
 (use-package yasnippet
-  :ensure t
+  ;; :ensure t
   :commands yas-minor-mode
   :hook (go-mode . yas-minor-mode))
 

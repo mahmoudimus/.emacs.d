@@ -35,12 +35,19 @@
 ;;; Code:
 (add-to-list 'load-path (concat user-emacs-directory "el-get/el-get"))
 
+;; workaround for emacs29..
+;; workaround https://github.com/dimitri/el-get/issues/2912
+(setq el-get-install-branch "emacs-29-patch"
+      el-get-git-install-url "https://github.com/nevsan/el-get.git"
+      )
+
+;; Install el-get if it isn't already present
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+      (url-retrieve-synchronously "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max)) (eval-print-last-sexp)))
+
+
 
 ;; todo: configure this for non-spacemacs
 ;; (add-to-list 'el-get-recipe-path "~/.spacemacs.d/el-get-user/recipes")

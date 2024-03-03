@@ -35,10 +35,12 @@
 ;;; Code:
 
 (use-package s
-  :ensure t)
+  ;; :ensure t
+  )
 
 (use-package dash
-  :ensure t)
+  ;; :ensure t
+  )
 
 (defcustom docker-command "docker"
   "The command for \\[docker] package."

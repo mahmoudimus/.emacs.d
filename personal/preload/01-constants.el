@@ -31,5 +31,5 @@
     (delete-char -1)
     (buffer-string)))
 
-(setq mahmoudimus-current-hostname 
+(setq mahmoudimus-current-hostname
   (car (split-string (system-name) "\\.")))

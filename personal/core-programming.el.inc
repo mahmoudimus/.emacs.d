@@ -126,7 +126,7 @@
 ;;; DASH
 (if (eq system-type 'darwin)
     (use-package dash-at-point
-      :ensure t
+      ; :ensure t
       :bind (([?\A-d] . dash-at-point)
              ([?\A-e] . 'dash-at-point-with-docset))
       :init (autoload 'dash-at-point "dash-at-point" t nil)))

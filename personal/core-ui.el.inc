@@ -65,7 +65,7 @@
 ;; add the theme path for theme lookup
 (add-to-list 'custom-theme-load-path (concat spacemacs-dir "themes/"))
 (use-package doom-themes
-  :ensure t
+  ;; :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -120,7 +120,7 @@
 
 ;; treemacs
 (use-package treemacs
-  :ensure t
+  ;; :ensure t
   :defer t
   :init
   (with-eval-after-load 'winum
@@ -195,16 +195,18 @@
 
 (use-package treemacs-projectile
   :after treemacs projectile
-  :ensure t)
+  ;; :ensure t
+  )
 
 (use-package treemacs-icons-dired
   :after treemacs dired
-  :ensure t
+  ;; :ensure t
   :config (treemacs-icons-dired-mode))
 
 (use-package treemacs-magit
   :after treemacs magit
-  :ensure t)
+  ;; :ensure t
+  )
 
 ;; (use-package treemacs-persp ;;treemacs-persective if you use perspective.el vs. persp-mode
 ;;   :after treemacs persp-mode ;;or perspective vs. persp-mode
