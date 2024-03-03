@@ -54,6 +54,8 @@
 ;;   (straight-use-package 'use-package))
 
 (setq straight-use-package-by-default t)
+(setq straight-vc-git-default-clone-depth 1)
+(setq straight-vc-git-auto-fast-forward t)
 
 (defconst mahmoudimus-recipes-directory (expand-file-name "straight/recipes" spacemacs-dir)
   "Emacs config recipes directory.")
