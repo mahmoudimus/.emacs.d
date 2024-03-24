@@ -2,16 +2,6 @@
 (setq el-get-notify-type 'message)
 ;; don't put any requires from marmalade as they haven't been
 ;; added to the load-path yet.
-(setq show-trailing-whitespace t)
-(setq-default show-trailing-whitespace t)
-
-;; untabify when you whitespace-cleanup
-;; http://lists.gnu.org/archive/html/help-gnu-emacs/2008-06/msg00434.html
-(defadvice whitespace-cleanup (after whitespace-untabify activate compile)
-  (save-restriction
-    (widen)
-    (untabify (point-min) (point-max))))
-
 
 ;; Start the emacsclient server
 (require 'server)

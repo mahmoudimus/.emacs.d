@@ -96,14 +96,26 @@
        result))
 
 
+;;; DASH
+(if (eq system-type 'darwin)
+    (use-package dash-at-point
+      ; :ensure t
+      :bind (([?\A-d] . dash-at-point)
+             ([?\A-e] . 'dash-at-point-with-docset))
+      :init (autoload 'dash-at-point "dash-at-point" t nil)))
+
+;; WHITESPACE CLEAN UP ROUTINES
+
+
 (defvar remove-tabs-inhibit-for-modes '()
   "Mode to not untabify")
 
 (add-to-list 'remove-tabs-inhibit-for-modes 'makefile-mode)
 (add-to-list 'remove-tabs-inhibit-for-modes 'BSDmakefile)
 (add-to-list 'remove-tabs-inhibit-for-modes 'indent-tabs-mode)
+(add-to-list 'remove-tabs-inhibit-for-modes 'fundamental-mode)
 
-(defun remove-tabs-trspaces-empltylines()
+(defun remove-tabs-trspaces-emptylines()
   "Clean the current buffer from trailing spaces and empty lines at the end of the file.
    Also untabify the buffer in major-mode not in list remove-tabs-inhibit-for-modes"
   (interactive)
@@ -121,22 +133,24 @@
 
 ;; if using prelude
 (setq prelude-clean-whitespace-on-save nil)
+(setq show-trailing-whitespace t)
+(setq-default show-trailing-whitespace t)
 
-
-;;; DASH
-(if (eq system-type 'darwin)
-    (use-package dash-at-point
-      ; :ensure t
-      :bind (([?\A-d] . dash-at-point)
-             ([?\A-e] . 'dash-at-point-with-docset))
-      :init (autoload 'dash-at-point "dash-at-point" t nil)))
 
 (defun core-prog-mode-hook ()
   "Default coding hook, useful with any programming language."
   ;; (flyspell-prog-mode)
   ;; keep the whitespace decent all the time
-  (add-hook 'before-save-hook 'remove-tabs-trspaces-empltylines)
+  (add-hook 'before-save-hook 'remove-tabs-trspaces-emptylines)
   (setq column-number-mode t))
+
+;; untabify when you whitespace-cleanup
+;; http://lists.gnu.org/archive/html/help-gnu-emacs/2008-06/msg00434.html
+(defadvice whitespace-cleanup (after whitespace-untabify activate compile)
+  (save-restriction
+    (widen)
+    (untabify (point-min) (point-max))))
+
 
 ;; in Emacs 24 programming major modes generally derive
 ;; from a common mode named prog-mode
