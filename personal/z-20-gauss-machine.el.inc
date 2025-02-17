@@ -124,8 +124,8 @@
   ;; font setting
   ;;(create-fontset-from-ascii-font "M+ 1mn:pixelsize=14:weight=normal:slant=normal:spacing=m" nil "mplus1mn")
   ;;(set-fontset-font "fontset-mplus1mn" 'unicode
-                    ;;(font-spec :family "M+ 1mn" :spacing 'm :size 14)
-                    ;;nil 'prepend)
+  ;;(font-spec :family "M+ 1mn" :spacing 'm :size 14)
+  ;;nil 'prepend)
   ;; (add-to-list 'default-frame-alist '(font . "fontset-mplus1mn"))
 
   ;; default Latin font (e.g. Consolas)
@@ -190,6 +190,7 @@
   (setq m-font-face-bitmap '"Tamzen")
   (setq m-font-face-bitmap '"Terminus (TTF)")
   (setq m-font-face-bitmap '"CodingFontTobi")
+  (setq m-font-face-bitmap '"Departure Mono")
 
 
   (setq m-font-face '"Consola Mono")
@@ -233,8 +234,10 @@
   (setq m-font-face-nerd '"MonoLisa Nerd Font Mono")
   (setq m-font-face-nerd '"BlexMono Nerd Font Mono")
   (setq m-font-face-nerd '"JetBrainsMono Nerd Font Mono")
-  (setq m-font-face-nerd '"CaskaydiaCove Nerd Font Mono")
   (setq m-font-face-nerd '"Envy Code R for Powerline")
+  (setq m-font-face-nerd '"Cascadia Mono NF")
+  (setq m-font-face-nerd '"Cascadia Code NF")
+
 
   ;; serif-mono
   (setq m-font-face-serif-mono '"Courier New") ;; does not diff between O and 0
@@ -269,7 +272,6 @@
   (setq m-font-face '"Drafting Mono")
   (setq m-font-face '"Aardvark Fixed")
   (setq m-font-face '"Terminal Land Mono Sans")
-  (setq m-font-face '"Cascadia Code PL")
   (setq m-font-face '"Victor Mono")
   (setq m-font-face '"IBM Plex Mono")
   (setq m-font-face '"Native")
@@ -277,13 +279,21 @@
   (setq m-font-face '"JuliaMono")
   (setq m-font-face '"MonoLisa")
   (setq m-font-face '"Berkeley Mono Variable")
+  (setq m-font-face '"gg sans mono Freeze")
+
+  (setq m-font-face '"Cascadia Mono PL")
+  ;; good
   (setq m-font-face '"Mahmoudimus Iosevka v2")
+  (setq m-font-face "PragmataPro Mono Liga")
+  (setq m-font-face "Pragmata Pro Mono")
+  (setq m-font-face "Pragmata Pro")
+  (setq m-font-face '"Cascadia Code PL")
 
   (set-face-font 'default m-font-face) ;; can be light as well instead of XLight
   (set-face-attribute 'default nil
                       ;; :family m-font-face
                       :weight 'normal
-                      :height 150)
+                      :height 130)
   (set-face-font 'mode-line m-font-face-nerd)
   (set-face-attribute 'mode-line nil
                       ;; :family m-font-face
@@ -325,24 +335,24 @@
                                       :weight light
                                       :height 120
                                       :font "SF Mono"))))
-                                      ;;:font "IBM Plex Mono Medium"))))
+   ;;:font "IBM Plex Mono Medium"))))
    '(neo-file-link-face ((t
                           (:foreground "slate gray"
                                        :weight medium
                                        :height 110
                                        :font "Source Code Pro"))))
-                                       ;;:font "Menlo"))))
-                                       ;;:font "Bront"))))
-                                       ;;:font "PragmataPro Mono Liga"))))
-                                       ;;:font "IBM Plex Mono ExtraLight"))))
+   ;;:font "Menlo"))))
+   ;;:font "Bront"))))
+   ;;:font "PragmataPro Mono Liga"))))
+   ;;:font "IBM Plex Mono ExtraLight"))))
    '(neo-root-dir-face ((t
                          (:foreground "deep sky blue"
                                       :weight medium
                                       :height 120
                                       :font "SF Mono")))))
-                                      ;;:weight bold)))))
+  ;;:weight bold)))))
 
-)
+  )
 
 
 ;; font-face for the mode-line

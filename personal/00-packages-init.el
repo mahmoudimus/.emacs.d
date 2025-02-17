@@ -35,7 +35,7 @@
 ;; (setq debug-on-error t)
 (defvar bootstrap-version)
 (let ((bootstrap-file
-        (expand-file-name
+       (expand-file-name
         "straight/repos/straight.el/bootstrap.el"
         (or (bound-and-true-p straight-base-dir)
             user-emacs-directory)))
@@ -43,8 +43,8 @@
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-          'silent 'inhibit-cookies)
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -168,10 +168,16 @@
 ;; (use-package pyvenv)  ;;
 (use-package pyenv-mode
   :straight (pyenv-mode
-    :type git
-    :host github
-    :repo "pythonic-emacs/pyenv-mode"
-  ))
+             :type git
+             :host github
+             :repo "pythonic-emacs/pyenv-mode"
+             ))
+(use-package gptel
+  :straight t
+  :init ;;defaults
+  (setq gptel-model 'o3-mini)
+  (put 'o3-mini :request-params '(:reasoning_effort "medium" :stream :json-false))
+  )
 
 
 
@@ -252,28 +258,28 @@
 ;;     (package-install p)))
 ;;
 
-     ;; ;; (f :location (recipe :fetcher github :repo "rejeep/f.el"))
-     ;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/12
-     ;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/13
-     ;; f
-     ;; dash
-     ;; pkg-info
-     ;; epl
-     ;; ;; use-package
-     ;; ;; https://github.com/jwiegley/use-package
-     ;; use-package
-     ;; browse-kill-ring
-     ;; ;; https://github.com/Bruce-Connor/smart-mode-line
-     ;; ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
-     ;; smart-mode-line
-     ;; ;; https://github.com/Bruce-Connor/rich-minority
-     ;; rich-minority
-     ;; electric-operator
-     ;; ;; deadgrep (https://github.com/Wilfred/deadgrep)
-     ;; deadgrep
-     ;; ;; rg.el (https://github.com/dajva/rg.el)
-     ;; rg
-     ;; ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
+;; ;; (f :location (recipe :fetcher github :repo "rejeep/f.el"))
+;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/12
+;; ;; https://discourse.doomemacs.org/t/doom-cli-fails-with-file-missing-cannot-open-load-file-no-such-file-or-directory-pkg-info/3149/13
+;; f
+;; dash
+;; pkg-info
+;; epl
+;; ;; use-package
+;; ;; https://github.com/jwiegley/use-package
+;; use-package
+;; browse-kill-ring
+;; ;; https://github.com/Bruce-Connor/smart-mode-line
+;; ;; http://www.masteringemacs.org/articles/2012/09/10/hiding-replacing-modeline-strings/
+;; smart-mode-line
+;; ;; https://github.com/Bruce-Connor/rich-minority
+;; rich-minority
+;; electric-operator
+;; ;; deadgrep (https://github.com/Wilfred/deadgrep)
+;; deadgrep
+;; ;; rg.el (https://github.com/dajva/rg.el)
+;; rg
+;; ;; exec-path-from-shell.el (https://github.com/purcell/exec-path-from-shell)
 ;; (require 'use-package)
 ;; (setq use-package-always-ensure t)
 
